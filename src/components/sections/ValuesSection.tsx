@@ -1,3 +1,4 @@
+import React from "react";
 import { Heart, Globe, Users, Lightbulb } from "lucide-react";
 import Card from "@/components/ui/Card";
 
@@ -30,17 +31,18 @@ const values = [
 
 export default function ValuesSection() {
   return (
-    <section className="w-full py-20 px-6" style={{ backgroundColor: "#F5F5F5" }}>
-      <div className="max-w-7xl mx-auto">
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+    <section className="w-full h-[440px] flex items-center px-6" style={{ backgroundColor: "#F5F5F5" }}>
+      <div className="max-w-7xl mx-auto w-full">
+        <div className="flex gap-5 overflow-x-auto pb-4 no-scrollbar" style={{ scrollbarWidth: "none", msOverflowStyle: "none" } as React.CSSProperties}>
           {values.map((v) => (
-            <Card
-              key={v.title}
-              icon={v.icon}
-              title={v.title}
-              description={v.description}
-              variant="default"
-            />
+            <div key={v.title} className="flex-shrink-0">
+              <Card
+                icon={v.icon}
+                title={v.title}
+                description={v.description}
+                variant="default"
+              />
+            </div>
           ))}
         </div>
       </div>

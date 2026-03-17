@@ -51,41 +51,31 @@ export default function EmpoweringYouthSection() {
 
         {/* Right: text */}
         <div>
-          <p className="text-xs font-bold tracking-[0.25em] text-gray-500 uppercase mb-1">
-            EMPOWERING YOUTH,
-          </p>
-          <h2
-            className="text-4xl md:text-5xl font-bold mb-6"
-            style={{ color: "#1565C0" }}
-          >
-            SHAPING AFRICA
+          <h2 className="text-[#0769B9] uppercase font-['Proxima_Nova',sans-serif] text-[48px] leading-[100%] tracking-[0%] flex flex-col mb-6">
+            <span className="font-[250]">EMPOWERING YOUTH,</span>
+            <span className="font-semibold">SHAPING AFRICA</span>
           </h2>
-          <p className="text-gray-600 text-base leading-relaxed mb-8">
+          
+          <p className="text-[#616161] font-['Proxima_Nova',sans-serif] font-normal text-[18px] leading-[160%] tracking-[0%] mb-8">
             We are a 100% volunteer platform dedicated to empowering Cape Verdean youth to lead
             the future through training, civic engagement, and global connection.
           </p>
 
           <div className="mb-6">
-            <p
-              className="text-xs font-bold tracking-[0.2em] uppercase mb-2"
-              style={{ color: "#1565C0" }}
-            >
-              OUR MISSION
+            <p className="text-[#0769B9] font-['Proxima_Nova',sans-serif] text-[24px] leading-[110%] uppercase mb-2 font-[250]">
+              OUR <span className="font-semibold">MISSION</span>
             </p>
-            <p className="text-gray-600 text-sm leading-relaxed">
+            <p className="text-[#616161] font-['Proxima_Nova',sans-serif] font-normal text-[16px] leading-[160%] tracking-[0%]">
               To value young people: enhance their capabilities, and improve their role as
               protagonists of sustainable development in Cape Verde and Africa.
             </p>
           </div>
 
           <div>
-            <p
-              className="text-xs font-bold tracking-[0.2em] uppercase mb-2"
-              style={{ color: "#1565C0" }}
-            >
-              OUR VISION
+            <p className="text-[#0769B9] font-['Proxima_Nova',sans-serif] text-[24px] leading-[110%] uppercase mb-2 font-[250]">
+              OUR <span className="font-semibold">VISION</span>
             </p>
-            <p className="text-gray-600 text-sm leading-relaxed">
+            <p className="text-[#616161] font-['Proxima_Nova',sans-serif] font-normal text-[16px] leading-[160%] tracking-[0%]">
               An empowered youth, acting as the creative and resilient driving force of progress
               in Cape Verde and across the African continent.
             </p>

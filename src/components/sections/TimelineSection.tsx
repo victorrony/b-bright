@@ -34,8 +34,8 @@ export default function TimelineSection() {
         {/* Header */}
         <div className="mb-16">
           <SectionHeader
-            label="A DECADE OF"
-            title={["", "TRANSFORMATION"]}
+            label=""
+            title={["A Decade of", "Transformation"]}
             subtitle={`"B-Bright" comes from "Be Bright" — the potential of every Cape Verdean youth to illuminate Africa's future.`}
             centered
           />
@@ -52,20 +52,25 @@ export default function TimelineSection() {
           <div className="grid grid-cols-1 lg:grid-cols-4 gap-8 relative z-10">
             {milestones.map((m) => (
               <div key={m.year} className="flex flex-col items-start lg:items-center">
-                {/* Year badge pill */}
-                <div className="mb-5">
+                {/* Year badge pill + vertical line */}
+                <div className="flex flex-col items-center mb-0">
                   <span
-                    className="inline-block px-4 py-1 rounded-full border-2 text-sm font-bold bg-white"
-                    style={{ borderColor: "#1565C0", color: "#1565C0" }}
+                    className="inline-block px-4 py-2 rounded-full text-sm font-bold bg-[#F0ECF5]"
+                    style={{ color: "#1565C0" }}
                   >
                     {m.year}
                   </span>
+                  <div className="w-px h-6 bg-gray-300" />
                 </div>
-                <div className="lg:text-center">
-                  <p className="text-xs font-bold tracking-wider text-gray-700 mb-3 uppercase">
+                <div 
+                  className="bg-[#F0ECF5] w-[262px] h-[236px] p-[30px] rounded-[4px] flex flex-col gap-[20px]"
+                >
+                  <p className="font-['Proxima_Nova',sans-serif] font-semibold text-[16px] leading-[160%] text-[#003755] uppercase">
                     {m.title}
                   </p>
-                  <p className="text-gray-500 text-sm leading-relaxed">{m.description}</p>
+                  <p className="font-['Proxima_Nova',sans-serif] font-normal text-[16px] leading-[160%] text-[#003755]">
+                    {m.description}
+                  </p>
                 </div>
               </div>
             ))}

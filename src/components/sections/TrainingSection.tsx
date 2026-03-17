@@ -1,3 +1,4 @@
+import React from "react";
 import { Languages, MessageCircle, Monitor, Star, Rocket } from "lucide-react";
 import Card from "@/components/ui/Card";
 import SectionHeader from "@/components/ui/SectionHeader";
@@ -8,30 +9,35 @@ const trainings = [
     title: "ENGLISH & FOREIGN LANGUAGES",
     description:
       "Strengthening multilingual communication skills for global participation and professional growth.",
+    backgroundImage: "https://picsum.photos/seed/languages/400/320",
   },
   {
     icon: <MessageCircle size={22} />,
     title: "INTERPERSONAL COMMUNICATION",
     description:
       "Building confidence, public speaking, and effective dialogue for leadership and collaboration.",
+    backgroundImage: "https://picsum.photos/seed/communication/400/320",
   },
   {
     icon: <Monitor size={22} />,
     title: "DIGITAL & ICT SKILLS",
     description:
       "Equipping youth with essential digital literacy and technology competencies for the modern economy.",
+    backgroundImage: "https://picsum.photos/seed/digital/400/320",
   },
   {
     icon: <Star size={22} />,
     title: "SOFT SKILLS & LEADERSHIP",
     description:
       "Developing emotional intelligence, team dynamics, and leadership capacities for civic roles.",
+    backgroundImage: "https://picsum.photos/seed/leadership/400/320",
   },
   {
     icon: <Rocket size={22} />,
     title: "ENTREPRENEURSHIP INNOVATION",
     description:
       "Inspiring entrepreneurial thinking and innovation to create economic opportunities locally.",
+    backgroundImage: "https://picsum.photos/seed/innovation/400/320",
   },
 ];
 
@@ -49,15 +55,17 @@ export default function TrainingSection() {
         </div>
 
         {/* Cards */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-5">
+        <div className="flex gap-5 overflow-x-auto pb-4 no-scrollbar" style={{ scrollbarWidth: "none", msOverflowStyle: "none" } as React.CSSProperties}>
           {trainings.map((t) => (
-            <Card
-              key={t.title}
-              icon={t.icon}
-              title={t.title}
-              description={t.description}
-              variant="default"
-            />
+            <div key={t.title} className="flex-shrink-0">
+              <Card
+                icon={t.icon}
+                title={t.title}
+                description={t.description}
+                variant="default"
+                backgroundImage={t.backgroundImage}
+              />
+            </div>
           ))}
         </div>
       </div>

@@ -1,12 +1,12 @@
 import SectionHeader from "@/components/ui/SectionHeader";
 import StatCard from "@/components/ui/StatCard";
-import Card from "@/components/ui/Card";
+import ResultCard from "@/components/ui/ResultCard";
 
 const stats = [
-  { value: "10+", label: "Years of Impact" },
-  { value: "500+", label: "Young Leaders Trained" },
-  { value: "5+", label: "International Missions" },
-  { value: "15+", label: "Strategic Partners" },
+  { value: "10+", label: "Years of", labelHighlight: "Impact" },
+  { value: "500+", label: "Young Leaders", labelHighlight: "Trained" },
+  { value: "5+", label: "International", labelHighlight: "Missions" },
+  { value: "15+", label: "Strategic", labelHighlight: "Partners" },
 ];
 
 const results = [
@@ -32,38 +32,41 @@ const results = [
 
 export default function ResultsSection() {
   return (
-    <section id="impact" className="w-full py-24 px-6" style={{ backgroundColor: "#0D1B2A" }}>
-      <div className="max-w-7xl mx-auto">
+    <section
+      id="impact"
+      className="w-full py-24 px-6 relative"
+      style={{
+        backgroundImage: "url('/images/8799984a562d2c1a6ddc4cce6078b87f79e7ece9.jpg')",
+        backgroundSize: "cover",
+        backgroundPosition: "center",
+      }}
+    >
+      {/* Dark overlay */}
+      <div className="absolute inset-0 bg-black/80" />
+      <div className="max-w-7xl mx-auto relative z-10">
         {/* Header */}
         <div className="mb-14">
           <SectionHeader
             title={["CONCRETE", "RESULTS"]}
+            subtitle="Here are some of our most significant achievements to date:"
             centered
             dark
           />
         </div>
 
         {/* Stats */}
-        <div className="grid grid-cols-2 lg:grid-cols-4 gap-6 mb-16">
+        <div className=" flex flex-row flex-wrap items-center justify-between gap-6 mb-12">
           {stats.map((s) => (
-            <StatCard key={s.label} value={s.value} label={s.label} dark />
+            <StatCard className="" key={s.label} value={s.value} label={s.label} labelHighlight={s.labelHighlight} dark />
           ))}
         </div>
+
+        <hr className="border-gray-700 mb-1" />
 
         {/* Result cards */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
           {results.map((r) => (
-            <Card key={r.title} variant="dark" className="p-0 overflow-hidden">
-              <img
-                src={r.image}
-                alt={r.title}
-                className="w-full h-48 object-cover rounded-t-xl"
-              />
-              <div className="p-6">
-                <h3 className="text-white font-bold text-base mb-3">{r.title}</h3>
-                <p className="text-gray-400 text-sm leading-relaxed">{r.description}</p>
-              </div>
-            </Card>
+            <ResultCard key={r.title} title={r.title} description={r.description} />
           ))}
         </div>
       </div>

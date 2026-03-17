@@ -1,5 +1,5 @@
 import CTASection from "@/components/sections/CTASection";
-import Button from "@/components/ui/Button";
+import CourseCard from "@/components/ui/CourseCard";
 
 const courses = [
   {
@@ -55,18 +55,14 @@ export default function CursosPage() {
         />
         <div
           className="absolute inset-0"
-          style={{
-            background:
-              "linear-gradient(135deg, rgba(13,71,161,0.88) 0%, rgba(0,77,100,0.75) 100%)",
-          }}
+          style={{ background: "linear-gradient(180deg, #007599 0%, #00C4FF 192.93%)", opacity: 0.4 }}
         />
         <div className="relative z-10 max-w-7xl mx-auto px-6 pb-16 pt-24 w-full">
-          <p className="text-blue-200 text-xs font-bold tracking-[0.25em] uppercase mb-3">
+          <p className="text-white font-['Proxima_Nova',sans-serif] font-normal text-[32px] leading-[100%] uppercase mb-3">
             GERAÇÃO B-BRIGHT
           </p>
           <h1
-            className="text-white font-bold leading-none"
-            style={{ fontSize: "clamp(3.5rem, 10vw, 7rem)" }}
+            className="text-white font-['Proxima_Nova',sans-serif] font-normal text-[36px] leading-[100%] uppercase"
           >
             COURSES
           </h1>
@@ -77,64 +73,11 @@ export default function CursosPage() {
       <section className="w-full bg-white py-20 px-6">
         <div className="max-w-7xl mx-auto flex flex-col gap-20">
           {courses.map((course, idx) => (
-            <div
+            <CourseCard
               key={course.slug}
-              className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center"
-            >
-              {/* Image — alternates side on desktop */}
-              <div className={idx % 2 === 1 ? "lg:order-2" : ""}>
-                <img
-                  src={course.image}
-                  alt={course.title}
-                  className="w-full object-cover rounded-xl shadow-md"
-                  style={{ aspectRatio: "4/3" }}
-                />
-              </div>
-
-              {/* Content */}
-              <div className={idx % 2 === 1 ? "lg:order-1" : ""}>
-                <h2
-                  className="text-xl font-bold mb-4 leading-snug"
-                  style={{ color: "#1565C0" }}
-                >
-                  {course.title}
-                </h2>
-                <p className="text-gray-600 text-sm mb-1">
-                  <span className="font-semibold">Organizado por:</span> {course.organizer}
-                </p>
-                <p className="text-gray-600 text-sm mb-3">
-                  <span className="font-semibold">Formador:</span> {course.trainer}
-                </p>
-                {course.credentials.length > 0 && (
-                  <ul className="mb-4 flex flex-col gap-1">
-                    {course.credentials.map((c) => (
-                      <li key={c} className="text-gray-500 text-sm flex items-start gap-2">
-                        <span className="mt-1">•</span>
-                        <span>{c}</span>
-                      </li>
-                    ))}
-                  </ul>
-                )}
-                <p className="text-gray-600 text-sm italic leading-relaxed mb-4">
-                  {course.description}
-                </p>
-                {course.extraText && (
-                  <p className="text-gray-600 text-sm leading-relaxed mb-4">
-                    {course.extraText}
-                  </p>
-                )}
-                <div className="flex flex-col gap-1 mb-6">
-                  {course.details.map((d) => (
-                    <p key={d.label} className="text-gray-600 text-sm">
-                      <span className="font-semibold">{d.label}:</span> {d.value}
-                    </p>
-                  ))}
-                </div>
-                <Button variant="primary" href={`/cursos/${course.slug}`} arrow>
-                  INSCREVER
-                </Button>
-              </div>
-            </div>
+              {...course}
+              reverse={idx % 2 === 1}
+            />
           ))}
         </div>
       </section>

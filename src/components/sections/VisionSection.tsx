@@ -1,4 +1,5 @@
 import SectionHeader from "@/components/ui/SectionHeader";
+import InitiativeCard from "@/components/ui/InitiativeCard";
 
 const initiatives = [
   {
@@ -47,27 +48,13 @@ export default function VisionSection() {
         </div>
 
         {/* Grid of initiative cards */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-0">
-          {initiatives.map((item, i) => (
-            <div
+        <div className="flex flex-row flex-wrap items-center justify-center gap-4 ">
+          {initiatives.map((item) => (
+            <InitiativeCard
               key={item.title}
-              className="p-8 border-b border-gray-100"
-              style={{
-                borderRight:
-                  (i + 1) % 3 !== 0 ? "1px solid #f0f0f0" : undefined,
-              }}
-            >
-              <div
-                className="text-xs font-bold tracking-[0.15em] mb-1 uppercase"
-                style={{ color: "#1565C0" }}
-              >
-                0{i + 1}
-              </div>
-              <h3 className="font-bold text-gray-800 text-base mb-3 tracking-wide">
-                {item.title}
-              </h3>
-              <p className="text-gray-500 text-sm leading-relaxed">{item.description}</p>
-            </div>
+              title={item.title}
+              description={item.description}
+            />
           ))}
         </div>
       </div>

@@ -14,11 +14,10 @@ export default function HeroSection() {
 
       {/* Content — positioned bottom-left */}
       <div className="relative z-10 max-w-7xl mx-auto px-6 pb-20 pt-32 w-full">
-        <div className="max-w-3.5xl">
-          <h1 className="text-white mb-8 uppercase font-['Proxima_Nova',sans-serif] h-[200px] font-[250] text-[76px] leading-[100%] tracking-[0%]">
-            B-BRIGHT, GIVE A GIFT
-            <br />
-            TO YOUR FUTURE.
+        <div className="max-w-4xl">
+          <h1 className="text-white mb-8 uppercase font-['Proxima_Nova',sans-serif] min-h-[200px] font-[250] text-[76px] leading-[100%] tracking-[0%] flex flex-col gap-6">
+            <span>B-BRIGHT, GIVE A GIFT</span>
+            <span>TO YOUR FUTURE.</span>
           </h1>
           <div className="flex flex-col sm:flex-row gap-8">
             <Button variant="primary" href="/#join" arrow className="rounded-full">

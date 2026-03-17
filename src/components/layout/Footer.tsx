@@ -33,7 +33,7 @@ const footerColumns = [
 
 export default function Footer() {
   return (
-    <footer className="w-full" style={{ backgroundColor: "#0D1B2A" }}>
+    <footer className="w-full bg-[#000E17]">
       <div className="max-w-7xl mx-auto px-6 py-16">
         <div className="grid grid-cols-1 md:grid-cols-4 gap-10">
           {/* Brand column */}
@@ -50,7 +50,7 @@ export default function Footer() {
             <p className="text-gray-400 text-sm leading-relaxed mb-6">
               Establishing B-Bright chapters across all islands and in the diaspora.
             </p>
-            <div className="flex items-center gap-2 text-gray-400 text-sm">
+            <div className="flex items-center gap-2 text-sm" style={{ color: "rgba(0, 196, 255, 1)" }}>
               <Phone size={14} />
               <span>+238 000 00 00</span>
             </div>
@@ -59,13 +59,15 @@ export default function Footer() {
           {/* Link columns */}
           {footerColumns.map((col, idx) => (
             <div key={idx}>
-              <h4 className="text-white font-bold text-sm tracking-widest mb-5">{col.title}</h4>
+              <h4 className="text-white font-['Proxima_Nova',sans-serif] font-semibold text-[16px] leading-[140%] uppercase mb-5">
+                {col.title}
+              </h4>
               <ul className="flex flex-col gap-3">
                 {col.links.map((link) => (
                   <li key={link}>
                     <Link
                       href="#"
-                      className="text-gray-400 text-sm hover:text-white transition-colors"
+                      className="text-[#D8D4DE] font-['Proxima_Nova',sans-serif] font-normal text-[14px] leading-[160%] hover:text-white transition-colors"
                     >
                       {link}
                     </Link>

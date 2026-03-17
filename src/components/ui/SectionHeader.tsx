@@ -18,22 +18,25 @@ export default function SectionHeader({
   className,
 }: SectionHeaderProps) {
   const labelColor = dark ? "text-blue-300" : "text-gray-500";
-  const titleBaseColor = dark ? "text-white" : "text-gray-800";
-  const subtitleColor = dark ? "text-gray-400" : "text-gray-500";
+  const titleBaseColor = dark ? "text-white" : "text-[#0769B9]";
   const alignClass = centered ? "text-center" : "text-left";
 
   const renderTitle = () => {
     if (Array.isArray(title)) {
       const [normalPart, boldBluePart] = title;
       return (
-        <h2 className={cn("text-4xl md:text-5xl font-bold leading-tight", titleBaseColor)}>
-          {normalPart}{" "}
-          <span style={{ color: "#1565C0" }}>{boldBluePart}</span>
-        </h2>
+        <div className="flex items-center justify-center gap-3 flex-wrap uppercase font-['Proxima_Nova',sans-serif] text-[48px] leading-[100%] tracking-[0%]">
+          <p className={cn(titleBaseColor, "")}>
+            {normalPart}
+          </p>
+          <p className="text-[#0769B9] font-bold">
+            {boldBluePart}
+          </p>
+        </div>
       );
     }
     return (
-      <h2 className={cn("text-4xl md:text-5xl font-bold leading-tight", titleBaseColor)}>
+      <h2 className={cn("uppercase font-['Proxima_Nova',sans-serif] text-[48px] leading-[100%] tracking-[0%] font-bold", titleBaseColor)}>
         {title}
       </h2>
     );
@@ -53,7 +56,13 @@ export default function SectionHeader({
       )}
       {renderTitle()}
       {subtitle && (
-        <p className={cn("mt-4 text-base leading-relaxed max-w-2xl", subtitleColor, centered && "mx-auto")}>
+        <p
+          className={cn(
+            "mt-4 font-['Proxima_Nova',sans-serif] font-normal text-[18px] leading-[160%] tracking-[0%] max-w-2.5xl",
+            dark ? "text-gray-400" : "text-[#003755]",
+            centered && "mx-auto text-center"
+          )}
+        >
           {subtitle}
         </p>
       )}

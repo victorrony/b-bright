@@ -5,6 +5,7 @@ interface CardProps {
   title?: string;
   description?: string;
   variant?: "default" | "dark";
+  backgroundImage?: string;
   className?: string;
   children?: React.ReactNode;
 }
@@ -14,6 +15,7 @@ export default function Card({
   title,
   description,
   variant = "default",
+  backgroundImage,
   className,
   children,
 }: CardProps) {
@@ -22,39 +24,64 @@ export default function Card({
   return (
     <div
       className={cn(
-        "rounded-xl p-8 flex flex-col",
-        isDark
-          ? "border border-white/10"
-          : "bg-white border border-gray-100 shadow-sm",
+        "rounded-[4px] flex flex-col w-[353px] h-[320px] shadow-[0px_4px_20px_0px_rgba(0,55,85,0.1)] overflow-hidden relative",
+        isDark ? "border border-white/10" : "border border-gray-100",
         className
       )}
-      style={isDark ? { backgroundColor: "#162032" } : undefined}
+      style={
+        backgroundImage
+          ? {
+              backgroundImage: `url(${backgroundImage})`,
+              backgroundSize: "cover",
+              backgroundPosition: "center",
+            }
+          : isDark
+          ? { backgroundColor: "#162032" }
+          : { backgroundColor: "#fff" }
+      }
     >
-      {icon && (
-        <div
-          className="w-12 h-12 rounded-full flex items-center justify-center mb-5 flex-shrink-0"
-          style={{ backgroundColor: isDark ? "rgba(21,101,192,0.25)" : "#EEF4FF" }}
-        >
-          <span style={{ color: "#1565C0" }}>{icon}</span>
-        </div>
+      {/* overlay when backgroundImage is set */}
+      {backgroundImage && (
+        <div className="absolute inset-0 bg-[#003755]/60" />
       )}
-      {title && (
-        <h3
-          className={cn(
-            "text-sm font-bold tracking-wider mb-3 uppercase",
-            isDark ? "text-white" : ""
-          )}
-          style={!isDark ? { color: "#1565C0" } : undefined}
-        >
-          {title}
-        </h3>
-      )}
-      {description && (
-        <p className={cn("text-sm leading-relaxed", isDark ? "text-gray-400" : "text-gray-500")}>
-          {description}
-        </p>
-      )}
-      {children}
+
+      <div className="relative z-10 p-8 flex flex-col h-full">
+        {icon && (
+          <div
+            className="w-14 h-14 rounded-full flex items-center justify-center mb-5 flex-shrink-0"
+            style={{
+              backgroundColor: backgroundImage
+                ? "rgba(255,255,255,0.15)"
+                : isDark
+                ? "rgba(7,105,185,0.25)"
+                : "#EEF4FF",
+            }}
+          >
+            <span className={backgroundImage ? "text-white" : "text-[#0769B9]"}>{icon}</span>
+          </div>
+        )}
+        {title && (
+          <h3
+            className={cn(
+              "font-['Proxima_Nova',sans-serif] font-bold text-[18px] leading-[160%] mt-10 uppercase",
+              backgroundImage || isDark ? "text-white" : "text-[#003755]"
+            )}
+          >
+            {title}
+          </h3>
+        )}
+        {description && (
+          <p
+            className={cn(
+              "font-['Proxima_Nova',sans-serif] font-normal mt-3 text-[16px] leading-[160%] tracking-[0%]",
+              backgroundImage || isDark ? "text-gray-200" : "text-[#003755]"
+            )}
+          >
+            {description}
+          </p>
+        )}
+        {children}
+      </div>
     </div>
   );
 }

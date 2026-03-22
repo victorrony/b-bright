@@ -3,8 +3,6 @@
 :root {
   --background: #ffffff;
   --foreground: #171717;
-  --color-primary: #1565C0;
-  --color-primary-dark: #0D47A1;
   --color-footer-bg: #0D1B2A;
 }
 
@@ -13,6 +11,10 @@
   --color-foreground: var(--foreground);
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
+  --font-proxima: "Proxima Nova";
+  --color-primary: #0769B9;
+  --color-primary-dark: #1565C0;
+  --color-navy: #003755;
 }
 
 body {

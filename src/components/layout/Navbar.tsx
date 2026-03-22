@@ -3,18 +3,16 @@
 import Link from "next/link";
 import { useState } from "react";
 import { Menu, X } from "lucide-react";
+import type { NavLink } from "@/lib/strapi";
 
-export default function Navbar() {
+interface NavbarProps {
+  navLinks: NavLink[];
+  ctaLabel: string;
+  ctaHref: string;
+}
+
+export default function Navbar({ navLinks, ctaLabel, ctaHref }: NavbarProps) {
   const [mobileOpen, setMobileOpen] = useState(false);
-
-  const navLinks = [
-    { label: "ABOUT", href: "/#about" },
-    { label: "JOURNEY", href: "/#journey" },
-    { label: "TRAINING", href: "/#training" },
-    { label: "IMPACT GLOBAL", href: "/#impact" },
-    { label: "VISION", href: "/#vision" },
-    { label: "CURSOS", href: "/cursos" },
-  ];
 
   return (
     <header className="w-full bg-white border-b border-gray-200 sticky top-0 z-50">
@@ -23,11 +21,11 @@ export default function Navbar() {
         <Link href="/" className="flex items-center gap-2 flex-shrink-0">
           <div
             className="w-9 h-9 rounded-full flex items-center justify-center text-white font-bold text-lg"
-            style={{ backgroundColor: "#1565C0" }}
+            style={{ backgroundColor: "var(--color-primary-dark)" }}
           >
             B
           </div>
-          <span className="font-bold text-base tracking-widest" style={{ color: "#1565C0" }}>
+          <span className="font-bold text-base tracking-widest text-primary-dark">
             B-BRIGHT
           </span>
         </Link>
@@ -35,7 +33,7 @@ export default function Navbar() {
         {/* Desktop nav links */}
         <ul className="hidden lg:flex items-center gap-6">
           {navLinks.map((link) => (
-            <li key={link.label}>
+            <li key={link.href}>
               <Link
                 href={link.href}
                 className="text-xs font-semibold tracking-wider text-gray-700 hover:text-blue-700 transition-colors"
@@ -46,14 +44,14 @@ export default function Navbar() {
           ))}
         </ul>
 
-        {/* JOIN US button */}
+        {/* CTA button */}
         <div className="hidden lg:flex">
           <Link
-            href="/#join"
+            href={ctaHref}
             className="px-5 py-2 rounded-full text-xs font-bold tracking-wider text-white transition-colors"
-            style={{ backgroundColor: "#1565C0" }}
+            style={{ backgroundColor: "var(--color-primary-dark)" }}
           >
-            JOIN US
+            {ctaLabel}
           </Link>
         </div>
 
@@ -72,7 +70,7 @@ export default function Navbar() {
         <div className="lg:hidden bg-white border-t border-gray-100 px-6 py-4">
           <ul className="flex flex-col gap-4">
             {navLinks.map((link) => (
-              <li key={link.label}>
+              <li key={link.href}>
                 <Link
                   href={link.href}
                   className="text-sm font-semibold tracking-wider text-gray-700 hover:text-blue-700"
@@ -84,12 +82,12 @@ export default function Navbar() {
             ))}
             <li>
               <Link
-                href="/#join"
+                href={ctaHref}
                 className="inline-block px-5 py-2 rounded-full text-xs font-bold tracking-wider text-white mt-2"
-                style={{ backgroundColor: "#1565C0" }}
+                style={{ backgroundColor: "var(--color-primary-dark)" }}
                 onClick={() => setMobileOpen(false)}
               >
-                JOIN US
+                {ctaLabel}
               </Link>
             </li>
           </ul>

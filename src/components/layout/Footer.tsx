@@ -1,37 +1,21 @@
 import Link from "next/link";
-import { Phone } from "lucide-react";
+import { Phone, Mail } from "lucide-react";
+import type { FooterColumn, SocialLink } from "@/lib/strapi";
 
-const footerColumns = [
-  {
-    title: "LOREM",
-    links: [
-      "Lorem ipsum convallis magna",
-      "Ipsum convallis magna urna",
-      "Convallis magna urna lorem",
-      "Magna urna lorem",
-    ],
-  },
-  {
-    title: "LOREM",
-    links: [
-      "Lorem ipsum convallis magna",
-      "Ipsum convallis magna urna",
-      "Convallis magna urna lorem",
-      "Magna urna lorem",
-    ],
-  },
-  {
-    title: "LOREM",
-    links: [
-      "Lorem ipsum convallis magna",
-      "Ipsum convallis magna urna",
-      "Convallis magna urna lorem",
-      "Magna urna lorem",
-    ],
-  },
-];
+interface FooterProps {
+  description: string | null;
+  phone: string | null;
+  email: string | null;
+  footerColumns: FooterColumn[];
+  socialLinks: SocialLink[];
+}
 
-export default function Footer() {
+export default function Footer({
+  description,
+  phone,
+  email,
+  footerColumns,
+}: FooterProps) {
   return (
     <footer className="w-full bg-[#000E17]">
       <div className="max-w-7xl mx-auto px-6 py-16">
@@ -41,35 +25,45 @@ export default function Footer() {
             <div className="flex items-center gap-2 mb-4">
               <div
                 className="w-9 h-9 rounded-full flex items-center justify-center text-white font-bold text-lg"
-                style={{ backgroundColor: "#1565C0" }}
+                style={{ backgroundColor: "var(--color-primary-dark)" }}
               >
                 B
               </div>
               <span className="font-bold text-base tracking-widest text-white">B-BRIGHT</span>
             </div>
-            <p className="text-gray-400 text-sm leading-relaxed mb-6">
-              Establishing B-Bright chapters across all islands and in the diaspora.
-            </p>
-            <div className="flex items-center gap-2 text-sm" style={{ color: "rgba(0, 196, 255, 1)" }}>
-              <Phone size={14} />
-              <span>+238 000 00 00</span>
+            {description && (
+              <p className="text-gray-400 text-sm leading-relaxed mb-6">{description}</p>
+            )}
+            <div className="flex flex-col gap-2">
+              {phone && (
+                <div className="flex items-center gap-2 text-sm" style={{ color: "rgba(0, 196, 255, 1)" }}>
+                  <Phone size={14} />
+                  <span>{phone}</span>
+                </div>
+              )}
+              {email && (
+                <div className="flex items-center gap-2 text-sm" style={{ color: "rgba(0, 196, 255, 1)" }}>
+                  <Mail size={14} />
+                  <span>{email}</span>
+                </div>
+              )}
             </div>
           </div>
 
           {/* Link columns */}
           {footerColumns.map((col, idx) => (
             <div key={idx}>
-              <h4 className="text-white font-['Proxima_Nova',sans-serif] font-semibold text-[16px] leading-[140%] uppercase mb-5">
+              <h4 className="text-white font-proxima font-semibold text-[16px] leading-[140%] uppercase mb-5">
                 {col.title}
               </h4>
               <ul className="flex flex-col gap-3">
                 {col.links.map((link) => (
-                  <li key={link}>
+                  <li key={link.label}>
                     <Link
-                      href="#"
-                      className="text-[#D8D4DE] font-['Proxima_Nova',sans-serif] font-normal text-[14px] leading-[160%] hover:text-white transition-colors"
+                      href={link.href}
+                      className="text-[#D8D4DE] font-proxima font-normal text-[14px] leading-[160%] hover:text-white transition-colors"
                     >
-                      {link}
+                      {link.label}
                     </Link>
                   </li>
                 ))}

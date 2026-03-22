@@ -1,3 +1,4 @@
+import Image from "next/image";
 import Link from "next/link";
 import { ArrowRight } from "lucide-react";
 
@@ -11,17 +12,17 @@ interface CoursePreviewCardProps {
 export default function CoursePreviewCard({ slug, image, title, details }: CoursePreviewCardProps) {
   return (
     <div className="flex flex-row rounded-xl overflow-hidden border border-gray-100 shadow-sm">
-      <img
+      <Image
         src={image}
         alt={title}
-        className="flex-shrink-0 object-cover"
-        style={{ width: "180px", height: "100%" }}
+        className="shrink-0 object-cover"
+        width={180}
+        height={240}
       />
       <div className="p-6 flex flex-col justify-between flex-1">
         <div>
           <h3
-            className="font-['Proxima_Nova',sans-serif] font-[250] text-[32px] leading-[100%] uppercase mb-3"
-            style={{ color: "#0769B9" }}
+            className="font-proxima font-[250] text-[32px] leading-[100%] uppercase mb-3 text-primary"
           >
             {title}
           </h3>
@@ -35,8 +36,7 @@ export default function CoursePreviewCard({ slug, image, title, details }: Cours
         </div>
         <Link
           href={`/cursos/${slug}`}
-          className="inline-flex items-center gap-1 text-xs font-bold tracking-wider"
-          style={{ color: "#0769B9" }}
+          className="inline-flex items-center gap-1 text-xs font-bold tracking-wider text-primary"
         >
           INSCREVER <ArrowRight size={12} />
         </Link>

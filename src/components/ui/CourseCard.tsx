@@ -1,3 +1,4 @@
+import Image from "next/image";
 import Button from "@/components/ui/Button";
 import { cn } from "@/lib/utils";
 
@@ -17,6 +18,9 @@ interface CourseCardProps {
   extraText?: string;
   details: CourseDetail[];
   reverse?: boolean;
+  labelOrganizer?: string;
+  labelTrainer?: string;
+  labelEnroll?: string;
 }
 
 export default function CourseCard({
@@ -30,30 +34,34 @@ export default function CourseCard({
   extraText,
   details,
   reverse = false,
+  labelOrganizer = 'Organizado por',
+  labelTrainer = 'Formador',
+  labelEnroll = 'INSCREVER',
 }: CourseCardProps) {
   return (
-    <div className="flex flex-row lg:w-[1080px] gap-6 m-auto items-center">
+    <div className="flex flex-col lg:flex-row w-full max-w-[1080px] gap-8 mx-auto items-center">
       {/* Image */}
-      <div className={cn(reverse ? "lg:order-2" : "", "flex justify-center w-full")}>
-        <img
+      <div className={cn(reverse ? "lg:order-2" : "", "flex justify-center w-full lg:w-auto shrink-0")}>
+        <Image
           src={image}
           alt={title}
-          className="w-[407px] h-[487px] object-cover rounded-[4px] shadow-lg"
+          className="object-cover rounded-[4px] shadow-lg w-full lg:w-101.75 h-150"
+          width={407}
+          height={600}
+          sizes="(max-width: 1024px) 100vw, 407px"
         />
       </div>
 
       {/* Content */}
-      <div className={reverse ? "lg:order-1 " : ""}>
-        <h2
-          className="font-['Proxima_Nova',sans-serif] font-[250] text-[44px] leading-[100%] text-[#0769B9] uppercase mb-4"
-        >
+      <div className={cn(reverse ? "lg:order-1" : "", "flex-1 w-full")}>
+        <h2 className="font-proxima font-[250] text-[32px] lg:text-[44px] leading-[100%] text-primary uppercase mb-4">
           {title}
         </h2>
-        <p className="font-['Proxima_Nova',sans-serif] font-normal text-[18px] leading-[160%] text-[#003755] mb-1">
-          <span className="font-semibold">Organizado por:</span> {organizer}
+        <p className="font-proxima font-normal text-base lg:text-[18px] leading-[160%] text-navy mb-1">
+          <span className="font-semibold">{labelOrganizer}:</span> {organizer}
         </p>
-        <p className="font-['Proxima_Nova',sans-serif] font-normal text-[18px] leading-[160%] text-[#003755] mb-3">
-          <span className="font-semibold">Formador:</span> {trainer}
+        <p className="font-proxima font-normal text-base lg:text-[18px] leading-[160%] text-navy mb-3">
+          <span className="font-semibold">{labelTrainer}:</span> {trainer}
         </p>
         {credentials.length > 0 && (
           <ul className="mb-4 flex flex-col gap-1">
@@ -65,21 +73,21 @@ export default function CourseCard({
             ))}
           </ul>
         )}
-        <p className="font-['Proxima_Nova',sans-serif] font-[250] italic text-[18px] leading-[160%] text-[#003755] mb-4">
+        <p className="font-proxima font-[250] italic text-base lg:text-[18px] leading-[160%] text-navy mb-4">
           {description}
         </p>
         {extraText && (
-          <p className="font-['Proxima_Nova',sans-serif] font-normal text-[18px] leading-[160%] text-[#003755] mb-4">{extraText}</p>
+          <p className="font-proxima font-normal text-base lg:text-[18px] leading-[160%] text-navy mb-4">{extraText}</p>
         )}
         <div className="flex flex-col gap-1 mb-6">
           {details.map((d) => (
-            <p key={d.label} className="font-['Proxima_Nova',sans-serif] font-normal text-[18px] leading-[160%] text-[#003755]">
+            <p key={d.label} className="font-proxima font-normal text-base lg:text-[18px] leading-[160%] text-navy">
               <span className="font-semibold">{d.label}:</span> {d.value}
             </p>
           ))}
         </div>
         <Button variant="primary" href={`/cursos/${slug}`} arrow>
-          INSCREVER
+          {labelEnroll}
         </Button>
       </div>
     </div>

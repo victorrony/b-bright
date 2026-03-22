@@ -25,7 +25,7 @@ export default function SectionHeader({
     if (Array.isArray(title)) {
       const [normalPart, boldBluePart] = title;
       return (
-        <div className="flex items-center justify-center gap-3 flex-wrap uppercase font-['Proxima_Nova',sans-serif] text-[48px] leading-[100%] tracking-[0%]">
+        <div className="flex items-center justify-center gap-3 flex-wrap uppercase font-proxima text-[48px] leading-[100%] tracking-[0%]">
           <p className={cn(titleBaseColor, "")}>
             {normalPart}
           </p>
@@ -36,7 +36,7 @@ export default function SectionHeader({
       );
     }
     return (
-      <h2 className={cn("uppercase font-['Proxima_Nova',sans-serif] text-[48px] leading-[100%] tracking-[0%] font-bold", titleBaseColor)}>
+      <h2 className={cn("uppercase font-proxima text-[48px] leading-[100%] tracking-[0%] font-bold", titleBaseColor)}>
         {title}
       </h2>
     );
@@ -58,7 +58,7 @@ export default function SectionHeader({
       {subtitle && (
         <p
           className={cn(
-            "mt-4 font-['Proxima_Nova',sans-serif] font-normal text-[18px] leading-[160%] tracking-[0%] max-w-2.5xl",
+            "mt-4 font-proxima font-normal text-[18px] leading-[160%] tracking-[0%] max-w-2.5xl",
             dark ? "text-gray-400" : "text-[#003755]",
             centered && "mx-auto text-center"
           )}

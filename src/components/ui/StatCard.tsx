@@ -13,7 +13,7 @@ export default function StatCard({ value, label, labelHighlight, dark = false, c
     <div className={cn("text-start", className)}>
       <h3
         className={cn(
-          "font-['Proxima_Nova',sans-serif] font-bold text-[48px] leading-[130%] mb-2",
+          "font-proxima font-bold text-[48px] leading-[130%] mb-2",
           dark ? "text-white" : "text-gray-800"
         )}
       >
@@ -21,7 +21,7 @@ export default function StatCard({ value, label, labelHighlight, dark = false, c
       </h3>
       <p
         className={cn(
-          "font-['Proxima_Nova',sans-serif] font-normal text-[20.45px] leading-[130%]",
+          "font-proxima font-normal text-[20.45px] leading-[130%]",
           dark ? "text-gray-400" : "text-gray-500"
         )}
       >

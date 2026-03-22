@@ -24,7 +24,7 @@ export default function Card({
   return (
     <div
       className={cn(
-        "rounded-[4px] flex flex-col w-[353px] h-[320px] shadow-[0px_4px_20px_0px_rgba(0,55,85,0.1)] overflow-hidden relative",
+        "rounded-[4px] flex flex-col w-full max-w-[353px] min-h-[320px] shadow-[0px_4px_20px_0px_rgba(0,55,85,0.1)] overflow-hidden relative",
         isDark ? "border border-white/10" : "border border-gray-100",
         className
       )}
@@ -42,13 +42,13 @@ export default function Card({
     >
       {/* overlay when backgroundImage is set */}
       {backgroundImage && (
-        <div className="absolute inset-0 bg-[#003755]/60" />
+        <div className="absolute inset-0 bg-navy/60" />
       )}
 
       <div className="relative z-10 p-8 flex flex-col h-full">
         {icon && (
           <div
-            className="w-14 h-14 rounded-full flex items-center justify-center mb-5 flex-shrink-0"
+            className="w-14 h-14 rounded-full flex items-center justify-center mb-5 shrink-0"
             style={{
               backgroundColor: backgroundImage
                 ? "rgba(255,255,255,0.15)"
@@ -57,14 +57,14 @@ export default function Card({
                 : "#EEF4FF",
             }}
           >
-            <span className={backgroundImage ? "text-white" : "text-[#0769B9]"}>{icon}</span>
+            <span className={backgroundImage ? "text-white" : "text-primary"}>{icon}</span>
           </div>
         )}
         {title && (
           <h3
             className={cn(
-              "font-['Proxima_Nova',sans-serif] font-bold text-[18px] leading-[160%] mt-10 uppercase",
-              backgroundImage || isDark ? "text-white" : "text-[#003755]"
+              "font-proxima font-bold text-[18px] leading-[160%] mt-10 uppercase",
+              backgroundImage || isDark ? "text-white" : "text-navy"
             )}
           >
             {title}
@@ -73,8 +73,8 @@ export default function Card({
         {description && (
           <p
             className={cn(
-              "font-['Proxima_Nova',sans-serif] font-normal mt-3 text-[16px] leading-[160%] tracking-[0%]",
-              backgroundImage || isDark ? "text-gray-200" : "text-[#003755]"
+              "font-proxima font-normal mt-3 text-[16px] leading-[160%] tracking-[0%]",
+              backgroundImage || isDark ? "text-gray-200" : "text-navy"
             )}
           >
             {description}

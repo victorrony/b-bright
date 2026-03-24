@@ -7,13 +7,17 @@ interface CourseDetail {
   value: string;
 }
 
+interface CourseCredential {
+  label: string;
+}
+
 interface CourseCardProps {
   slug: string;
   image: string;
   title: string;
   organizer: string;
   trainer: string;
-  credentials: string[];
+  credentials: CourseCredential[];
   description: string;
   extraText?: string;
   details: CourseDetail[];
@@ -66,9 +70,9 @@ export default function CourseCard({
         {credentials.length > 0 && (
           <ul className="mb-4 flex flex-col gap-1">
             {credentials.map((c) => (
-              <li key={c} className="text-gray-500 text-sm flex items-start gap-2">
+              <li key={c.label} className="text-gray-500 text-sm flex items-start gap-2">
                 <span className="mt-1">•</span>
-                <span>{c}</span>
+                <span>{c.label}</span>
               </li>
             ))}
           </ul>

@@ -1,7 +1,6 @@
 import Image from "next/image";
 import Button from "@/components/ui/Button";
 import type { HeroButton } from "@/lib/strapi";
-import { FALLBACK_IMAGE } from "@/lib/constants";
 
 interface HeroSectionProps {
   title: string;
@@ -15,14 +14,16 @@ export default function HeroSection({ title, backgroundImage, buttons }: HeroSec
 
   return (
     <section className="relative w-full h-[764px] flex items-end overflow-hidden">
-      <Image
-        src={backgroundImage ?? FALLBACK_IMAGE}
-        alt="Young people"
-        className="object-cover"
-        fill
-        sizes="(max-width: 768px) 100vw, 1440px"
-        priority
-      />
+      {backgroundImage && (
+        <Image
+          src={backgroundImage}
+          alt="Young people"
+          className="object-cover"
+          fill
+          sizes="(max-width: 768px) 100vw, 1440px"
+          priority
+        />
+      )}
       <div className="absolute inset-0" style={{ background: "linear-gradient(180deg, #007599 0%, #00C4FF 100%)", opacity: 0.4 }} />
       <div className="relative z-10 max-w-7xl mx-auto px-6 pb-20 pt-32 w-full">
         <div className="max-w-4xl">

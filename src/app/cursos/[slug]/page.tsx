@@ -4,8 +4,7 @@ import { notFound } from "next/navigation";
 import CTASection from "@/components/sections/CTASection";
 import RegistrationForm from "@/components/ui/RegistrationForm";
 import CoursePreviewCard from "@/components/ui/CoursePreviewCard";
-import { getCourses, getCourseBySlug, getCourseImageUrl, getHomepage } from "@/lib/strapi";
-import { FALLBACK_IMAGE } from "@/lib/constants";
+import { getCourses, getCourseBySlug, getCourseImageUrl, getCoursesPage, getGlobal, getHomepage } from "@/lib/strapi";
 
 export async function generateMetadata({
   params,
@@ -35,9 +34,11 @@ export default async function CourseRegistrationPage({
   params: Promise<{ slug: string }>;
 }) {
   const { slug } = await params;
-  const [course, allCourses, hp] = await Promise.all([
+  const [course, allCourses, cp, global, hp] = await Promise.all([
     getCourseBySlug(slug),
     getCourses(),
+    getCoursesPage(),
+    getGlobal(),
     getHomepage(),
   ]);
 
@@ -47,21 +48,23 @@ export default async function CourseRegistrationPage({
     .filter((c) => c.slug !== slug)
     .slice(0, 2);
 
-  const courseImage = course.image ? getCourseImageUrl(course.image) : FALLBACK_IMAGE;
+  const courseImage = getCourseImageUrl(course.image);
 
   return (
     <>
       {/* Hero split */}
       <section className="w-full" style={{ height: "816px" }}>
         <div className="relative flex flex-col justify-end p-10" style={{ minHeight: "400px" }}>
-          <Image
-            src={courseImage}
-            alt={course.title}
-            className="object-cover"
-            fill
-            sizes="(max-width: 768px) 100vw, 1440px"
-            priority
-          />
+          {courseImage && (
+            <Image
+              src={courseImage}
+              alt={course.title}
+              className="object-cover"
+              fill
+              sizes="(max-width: 768px) 100vw, 1440px"
+              priority
+            />
+          )}
           <div
             className="absolute inset-0"
             style={{
@@ -82,21 +85,21 @@ export default async function CourseRegistrationPage({
                 {course.title}
               </h1>
               <p className="text-white font-proxima font-normal text-[18px] leading-[160%] mb-2">
-                <span className="font-semibold">{hp.courseLabelOrganizer ?? 'Organizado por'}:</span> {course.organizer}
+                <span className="font-semibold">{global.courseLabelOrganizer ?? 'Organizado por'}:</span> {course.organizer}
               </p>
               <p className="text-white font-proxima font-normal text-[18px] leading-[160%] mb-4">
-                <span className="font-semibold">{hp.courseLabelTrainer ?? 'Formador'}:</span> {course.trainer}
+                <span className="font-semibold">{global.courseLabelTrainer ?? 'Formador'}:</span> {course.trainer}
               </p>
               {(course.credentials ?? []).map((c) => (
-                <p key={c} className="text-white/90 font-proxima font-normal text-[16px] leading-[160%] mb-1 flex items-start gap-2">
+                <p key={c.label} className="text-white/90 font-proxima font-normal text-[16px] leading-[160%] mb-1 flex items-start gap-2">
                   <span>•</span>
-                  <span>{c}</span>
+                  <span>{c.label}</span>
                 </p>
               ))}
             </div>
 
             <div className="relative w-[526px]">
-              <RegistrationForm courseId={course.id} />
+              <RegistrationForm courseDocumentId={course.documentId} />
             </div>
           </div>
         </div>
@@ -107,10 +110,10 @@ export default async function CourseRegistrationPage({
         <div className="max-w-5xl mx-auto">
           <div className="text-center mb-12">
             <h2 className="font-proxima font-[250] text-[48px] leading-[100%] text-primary uppercase text-center mb-6">
-              {hp.coursesOtherTitle}
+              {cp.otherTitle}
             </h2>
             <p className="mt-4 text-gray-500 text-sm max-w-xl mx-auto">
-              {hp.coursesOtherSubtitle}
+              {cp.otherSubtitle}
             </p>
           </div>
 
@@ -119,7 +122,7 @@ export default async function CourseRegistrationPage({
               <CoursePreviewCard
                 key={c.documentId}
                 slug={c.slug}
-                image={c.image ? getCourseImageUrl(c.image) : FALLBACK_IMAGE}
+                image={getCourseImageUrl(c.image)}
                 title={c.title}
                 details={c.details ?? []}
               />

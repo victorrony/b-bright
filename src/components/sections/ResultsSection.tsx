@@ -3,8 +3,6 @@ import StatCard from "@/components/ui/StatCard";
 import ResultCard from "@/components/ui/ResultCard";
 import type { StatItem, ResultCard as ResultCardType } from "@/lib/strapi";
 
-const FALLBACK_BG = "/images/8799984a562d2c1a6ddc4cce6078b87f79e7ece9.jpg";
-
 interface ResultsSectionProps {
   stats: StatItem[];
   resultCards: ResultCardType[];
@@ -18,11 +16,11 @@ export default function ResultsSection({ stats, resultCards, backgroundImage, ti
     <section
       id="impact"
       className="w-full py-24 px-6 relative"
-      style={{
-        backgroundImage: `url('${backgroundImage ?? FALLBACK_BG}')`,
+      style={backgroundImage ? {
+        backgroundImage: `url('${backgroundImage}')`,
         backgroundSize: "cover",
         backgroundPosition: "center",
-      }}
+      } : { backgroundColor: "#003755" }}
     >
       <div className="absolute inset-0 bg-black/80" />
       <div className="max-w-7xl mx-auto relative z-10">

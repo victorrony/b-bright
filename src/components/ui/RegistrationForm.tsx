@@ -6,7 +6,7 @@ import { submitRegistration, type RegistrationPayload } from "@/lib/strapi";
 import { REGISTRATION_MIN_AGE, REGISTRATION_MAX_AGE } from "@/lib/constants";
 
 interface RegistrationFormProps {
-  courseId?: number;
+  courseDocumentId?: string;
 }
 
 type Status = "idle" | "loading" | "success" | "error";
@@ -21,7 +21,7 @@ function validate(payload: RegistrationPayload): string | null {
   return null;
 }
 
-export default function RegistrationForm({ courseId }: RegistrationFormProps) {
+export default function RegistrationForm({ courseDocumentId }: RegistrationFormProps) {
   const [status, setStatus] = useState<Status>("idle");
   const [errorMsg, setErrorMsg] = useState<string>("");
   const hasError = status === "error";
@@ -40,7 +40,7 @@ export default function RegistrationForm({ courseId }: RegistrationFormProps) {
       sex: (data.get("sexo") as RegistrationPayload["sex"]) || undefined,
       occupation: (data.get("ocupacao") as RegistrationPayload["occupation"]) || undefined,
       message: (data.get("motivacao") as string).trim() || undefined,
-      course: courseId,
+      course: courseDocumentId,
     };
 
     const validationError = validate(payload);

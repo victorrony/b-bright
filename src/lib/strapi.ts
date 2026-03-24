@@ -34,6 +34,10 @@ export interface CourseDetail {
   value: string;
 }
 
+export interface CourseCredential {
+  label: string;
+}
+
 export interface StrapiCourse {
   id: number;
   documentId: string;
@@ -41,7 +45,7 @@ export interface StrapiCourse {
   title: string;
   organizer: string;
   trainer: string;
-  credentials: string[];
+  credentials: CourseCredential[];
   description: string;
   extraText?: string;
   details: CourseDetail[];
@@ -61,21 +65,25 @@ interface StrapiSingleResponse<T> {
 
 export async function getCourses(): Promise<StrapiCourse[]> {
   const res = await fetchAPI<StrapiListResponse<StrapiCourse>>(
-    '/courses?populate=image&sort=createdAt:asc'
+    '/courses?populate[0]=image&populate[1]=credentials&populate[2]=details&sort=createdAt:asc'
   );
   return res.data;
 }
 
 export async function getCourseBySlug(slug: string): Promise<StrapiCourse | null> {
-  const params = new URLSearchParams({ 'filters[slug][$eq]': slug, populate: 'image' });
+  const params = new URLSearchParams({ 'filters[slug][$eq]': slug });
+  params.append('populate[0]', 'image');
+  params.append('populate[1]', 'credentials');
+  params.append('populate[2]', 'details');
   const res = await fetchAPI<StrapiListResponse<StrapiCourse>>(`/courses?${params}`);
   return res.data[0] ?? null;
 }
 
-export function getCourseImageUrl(image?: StrapiImage): string {
-  if (!image) return '';
-  if (image.url.startsWith('http')) return image.url;
-  return `${STRAPI_URL}${image.url}`;
+export function getCourseImageUrl(image?: StrapiImage | StrapiImage[]): string {
+  const img = Array.isArray(image) ? image[0] : image;
+  if (!img?.url) return '';
+  if (img.url.startsWith('http')) return img.url;
+  return `${STRAPI_URL}${img.url}`;
 }
 
 // ─── Homepage ─────────────────────────────────────────────────────────────────
@@ -92,7 +100,7 @@ export interface CtaButton  { label: string; href: string; variant: 'cta' | 'cta
 export interface HomepageData {
   heroTitle: string;
   heroSubtitle: string;
-  heroImage?: StrapiImage;
+  heroImage?: StrapiImage | StrapiImage[];
   heroButtons: HeroButton[];
 
   aboutHeading: string;
@@ -113,7 +121,7 @@ export interface HomepageData {
 
   stats: StatItem[];
   resultCards: ResultCard[];
-  resultsBackground?: StrapiImage;
+  resultsBackground?: StrapiImage | StrapiImage[];
   resultsTitleLine1: string;
   resultsTitleLine2: string;
   resultsSubtitle: string;
@@ -126,22 +134,32 @@ export interface HomepageData {
   ctaHeading2: string;
   ctaBody: string;
   ctaButtons: CtaButton[];
-
-  coursesOtherTitle: string;
-  coursesOtherSubtitle: string;
-
-  coursesHeroLabel: string;
-  coursesHeroTitle: string;
-  coursesHeroImage?: StrapiImage;
-
-  courseLabelOrganizer: string | null;
-  courseLabelTrainer: string | null;
-  courseLabelEnroll: string | null;
 }
 
 export async function getHomepage(): Promise<HomepageData> {
-  const res = await fetchAPI<StrapiSingleResponse<HomepageData>>(
-    '/homepage?populate[0]=heroImage&populate[1]=aboutPhotos&populate[2]=resultsBackground&populate[3]=coursesHeroImage'
+  const params = [
+    'heroImage', 'aboutPhotos', 'resultsBackground',
+    'heroButtons', 'values', 'timelineMilestones', 'trainingModules',
+    'stats', 'resultCards', 'visionInitiatives', 'ctaButtons',
+  ].map((f, i) => `populate[${i}]=${f}`).join('&');
+
+  const res = await fetchAPI<StrapiSingleResponse<HomepageData>>(`/homepage?${params}`);
+  return res.data;
+}
+
+// ─── Courses Page ─────────────────────────────────────────────────────────────
+
+export interface CoursesPageData {
+  heroLabel: string;
+  heroTitle: string;
+  heroImage?: StrapiImage | StrapiImage[];
+  otherTitle: string;
+  otherSubtitle: string;
+}
+
+export async function getCoursesPage(): Promise<CoursesPageData> {
+  const res = await fetchAPI<StrapiSingleResponse<CoursesPageData>>(
+    '/courses-page?populate[0]=heroImage'
   );
   return res.data;
 }
@@ -179,38 +197,16 @@ export interface GlobalData {
   footerDescription: string | null;
   footerColumns: FooterColumn[];
   socialLinks: SocialLink[];
+  courseLabelOrganizer: string | null;
+  courseLabelTrainer: string | null;
+  courseLabelEnroll: string | null;
 }
 
-const GLOBAL_FALLBACK: GlobalData = {
-  siteName: 'B-Bright',
-  siteDescription: null,
-  phone: '+238 000 00 00',
-  email: null,
-  navLinks: [
-    { label: 'ABOUT', href: '/#about' },
-    { label: 'JOURNEY', href: '/#journey' },
-    { label: 'TRAINING', href: '/#training' },
-    { label: 'IMPACT GLOBAL', href: '/#impact' },
-    { label: 'VISION', href: '/#vision' },
-    { label: 'CURSOS', href: '/cursos' },
-  ],
-  ctaLabel: 'JOIN US',
-  ctaHref: '/#join',
-  footerDescription: 'Establishing B-Bright chapters across all islands and in the diaspora.',
-  footerColumns: [],
-  socialLinks: [],
-};
-
 export async function getGlobal(): Promise<GlobalData> {
-  try {
-    const res = await fetchAPI<StrapiSingleResponse<GlobalData>>(
-      '/global?populate[0]=navLinks&populate[1]=socialLinks&populate[2]=footerColumns&populate[3]=footerColumns.links'
-    );
-    return { ...GLOBAL_FALLBACK, ...res.data };
-  } catch (err) {
-    console.error('[strapi] getGlobal failed — using fallback:', err);
-    return GLOBAL_FALLBACK;
-  }
+  const res = await fetchAPI<StrapiSingleResponse<GlobalData>>(
+    '/global?populate[0]=navLinks&populate[1]=socialLinks&populate[2]=footerColumns&populate[3]=footerColumns.links'
+  );
+  return res.data;
 }
 
 // ─── Registrations ────────────────────────────────────────────────────────────
@@ -223,7 +219,7 @@ export interface RegistrationPayload {
   sex?: 'masculino' | 'feminino' | 'outro';
   occupation?: 'estudante' | 'empregado' | 'desempregado' | 'empreendedor' | 'outro';
   message?: string;
-  course?: number; // course documentId relation
+  course?: string; // course documentId
 }
 
 export async function submitRegistration(payload: RegistrationPayload): Promise<void> {

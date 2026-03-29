@@ -3,7 +3,7 @@ import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import Navbar from "@/components/layout/Navbar";
 import Footer from "@/components/layout/Footer";
-import { getGlobal } from "@/lib/strapi";
+import { getGlobal, getCourseImageUrl } from "@/lib/strapi";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -47,6 +47,8 @@ export default async function RootLayout({
           navLinks={global.navLinks}
           ctaLabel={global.ctaLabel}
           ctaHref={global.ctaHref}
+          logoUrl={global.logo ? getCourseImageUrl(global.logo) : undefined}
+          siteName={global.siteName}
         />
         <main>{children}</main>
         <Footer

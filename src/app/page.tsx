@@ -18,7 +18,9 @@ export default async function HomePage() {
       alt: p.alternativeText ?? "",
    }));
 
-   const heroImageUrl = hp.heroImage ? getCourseImageUrl(hp.heroImage) : undefined;
+   const heroMedia = Array.isArray(hp.heroImage) ? hp.heroImage[0] : hp.heroImage;
+   const heroImageUrl = heroMedia ? getCourseImageUrl(heroMedia) : undefined;
+   const heroIsVideo = heroMedia?.mime?.startsWith('video/') ?? false;
 
    return (
       <>
@@ -26,6 +28,7 @@ export default async function HomePage() {
             title={hp.heroTitle ?? ""}
             subtitle={hp.heroSubtitle}
             backgroundImage={heroImageUrl}
+            backgroundIsVideo={heroIsVideo}
             buttons={hp.heroButtons ?? []}
          />
          <EmpoweringYouthSection

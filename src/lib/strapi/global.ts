@@ -1,4 +1,4 @@
-import { fetchAPI, type StrapiSingleResponse } from './client';
+import { fetchAPI, type StrapiImage, type StrapiSingleResponse } from './client';
 
 export interface NavLink {
   label: string;
@@ -34,11 +34,12 @@ export interface GlobalData {
   courseLabelOrganizer: string | null;
   courseLabelTrainer: string | null;
   courseLabelEnroll: string | null;
+  logo?: StrapiImage;
 }
 
 export async function getGlobal(): Promise<GlobalData> {
   const res = await fetchAPI<StrapiSingleResponse<GlobalData>>(
-    '/global?populate[0]=navLinks&populate[1]=socialLinks&populate[2]=footerColumns&populate[3]=footerColumns.links'
+    '/global?populate[0]=navLinks&populate[1]=socialLinks&populate[2]=footerColumns&populate[3]=footerColumns.links&populate[4]=logo'
   );
   return res.data;
 }

@@ -8,6 +8,9 @@ interface FooterProps {
   email: string | null;
   footerColumns: FooterColumn[];
   socialLinks: SocialLink[];
+  logoUrl?: string;
+  siteName?: string;
+  copyrightText?: string;
 }
 
 export default function Footer({
@@ -15,34 +18,33 @@ export default function Footer({
   phone,
   email,
   footerColumns,
-}: FooterProps) {
+  logoUrl,
+  siteName,
+  copyrightText = "All rights reserved.",
+}: Readonly<FooterProps>) {
   return (
-    <footer className="w-full bg-[#000E17]">
-      <div className="max-w-7xl mx-auto px-6 py-16">
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-10">
+    <footer className="w-full lg:h-68 py-10 px-6 bg-[#000E17] text-white">
+        <div className="flex flex-row justify-evenly items-center m-auto gap-10">
           {/* Brand column */}
-          <div className="md:col-span-1">
-            <div className="flex items-center gap-2 mb-4">
-              <div
-                className="w-9 h-9 rounded-full flex items-center justify-center text-white font-bold text-lg"
-                style={{ backgroundColor: "var(--color-primary-dark)" }}
-              >
-                B
-              </div>
-              <span className="font-bold text-base tracking-widest text-white">B-BRIGHT</span>
+          <div className="w-72">
+            <div className="flex items-center ">
+              {logoUrl && (
+                // eslint-disable-next-line @next/next/no-img-element
+                <img src={logoUrl} alt={siteName ?? "B-Bright"} className="h-26 w-26 object-contain" />
+              )}
             </div>
             {description && (
               <p className="text-gray-400 text-sm leading-relaxed mb-6">{description}</p>
             )}
-            <div className="flex flex-col gap-2">
+            <div className="flex flex-row gap-8">
               {phone && (
-                <div className="flex items-center gap-2 text-sm" style={{ color: "rgba(0, 196, 255, 1)" }}>
+                <div className="flex items-center gap-2 text-sm text-accent">
                   <Phone size={14} />
                   <span>{phone}</span>
                 </div>
               )}
               {email && (
-                <div className="flex items-center gap-2 text-sm" style={{ color: "rgba(0, 196, 255, 1)" }}>
+                <div className="flex items-center gap-2 text-sm text-accent">
                   <Mail size={14} />
                   <span>{email}</span>
                 </div>
@@ -70,14 +72,7 @@ export default function Footer({
               </ul>
             </div>
           ))}
-        </div>
-
-        <div className="border-t border-gray-700 mt-12 pt-6 text-center">
-          <p className="text-gray-500 text-xs">
-            © {new Date().getFullYear()} B-Bright. All rights reserved.
-          </p>
-        </div>
-      </div>
+        </div>      
     </footer>
   );
 }

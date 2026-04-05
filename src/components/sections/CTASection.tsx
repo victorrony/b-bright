@@ -8,20 +8,10 @@ interface CTASectionProps {
   buttons?: CtaButton[];
 }
 
-const DEFAULT_BUTTONS: CtaButton[] = [
-  { label: "Become a Volunteer",   href: "/#join", variant: "cta" },
-  { label: "Partner With Us",      href: "/#join", variant: "cta-ghost" },
-  { label: "Support the Movement", href: "/#join", variant: "cta-ghost" },
-];
-
-export default function CTASection({
-  heading1 = "DON'T JUST WATCH",
-  heading2 = "BECOME A PROTAGONIST",
-  body = "Whether you want to volunteer, partner, or support — there's a place for you in the B-Bright movement.",
-  buttons = DEFAULT_BUTTONS,
-}: CTASectionProps) {
+export default function CTASection({ heading1, heading2, body, buttons = [] }: Readonly<CTASectionProps>) {
+  if (!heading1 && !heading2 && !body && buttons.length === 0) return null;
   return (
-    <section className="w-full max-w-[1090px] mx-auto mb-24 px-8 py-12 lg:px-14 rounded-sm" style={{ backgroundColor: "var(--color-primary-dark)" }}>
+    <section className="w-full max-w-[1090px] mx-auto mb-24 mt-10 px-8 py-12 lg:px-14 rounded-sm bg-primary-dark">
       <div className="flex flex-col lg:flex-row items-center justify-between gap-8">
         <div className="text-center lg:text-left lg:max-w-xl">
           <p className="text-white font-proxima font-[250] text-[28px] lg:text-[40px] leading-[100%] uppercase">

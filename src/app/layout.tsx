@@ -15,23 +15,25 @@ const geistMono = Geist_Mono({
   subsets: ["latin"],
 });
 
-export const metadata: Metadata = {
-  title: {
-    default: "B-Bright | Geração B-Bright",
-    template: "%s | B-Bright",
-  },
-  description:
-    "B-Bright — capacitando jovens cabo-verdianos com formação, liderança e oportunidades para iluminar o futuro de África.",
-  metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL ?? "http://localhost:3000"),
-  openGraph: {
-    siteName: "B-Bright",
-    locale: "pt_PT",
-    type: "website",
-  },
-  twitter: {
-    card: "summary_large_image",
-  },
-};
+export async function generateMetadata(): Promise<Metadata> {
+  const global = await getGlobal();
+  return {
+    title: {
+      default: `${global.siteName} | Geração ${global.siteName}`,
+      template: `%s | ${global.siteName}`,
+    },
+    description: global.siteDescription ?? undefined,
+    metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL ?? "http://localhost:3000"),
+    openGraph: {
+      siteName: global.siteName,
+      locale: "pt_PT",
+      type: "website",
+    },
+    twitter: {
+      card: "summary_large_image",
+    },
+  };
+}
 
 export default async function RootLayout({
   children,
@@ -42,12 +44,12 @@ export default async function RootLayout({
 
   return (
     <html lang="pt">
-      <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
+      <body className={`${geistSans.variable} ${geistMono.variable} antialiased max-w-360 m-auto bg-[##F2F5F6] `}>
         <Navbar
           navLinks={global.navLinks}
           ctaLabel={global.ctaLabel}
           ctaHref={global.ctaHref}
-          logoUrl={global.logo ? getCourseImageUrl(global.logo) : undefined}
+          logoUrl={global.logoNav ? getCourseImageUrl(global.logoNav) : undefined}
           siteName={global.siteName}
         />
         <main>{children}</main>
@@ -57,6 +59,9 @@ export default async function RootLayout({
           email={global.email}
           footerColumns={global.footerColumns}
           socialLinks={global.socialLinks}
+          logoUrl={global.logoFooter ? getCourseImageUrl(global.logoFooter) : undefined}
+          siteName={global.siteName}
+          copyrightText={global.copyrightText}
         />
       </body>
     </html>

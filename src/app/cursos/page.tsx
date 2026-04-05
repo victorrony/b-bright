@@ -29,10 +29,7 @@ export default async function CursosPage() {
             priority
           />
         )}
-        <div
-          className="absolute inset-0"
-          style={{ background: "linear-gradient(180deg, #007599 0%, #00C4FF 192.93%)", opacity: 0.4 }}
-        />
+        <div className="absolute inset-0 bg-gradient-brand opacity-40" />
         <div className="relative z-10 max-w-7xl mx-auto px-6 pb-16 pt-24 w-full">
           <p className="text-white font-proxima font-normal text-[32px] leading-[100%] uppercase mb-3">
             {cp.heroLabel}

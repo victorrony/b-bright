@@ -37,6 +37,8 @@ export default async function HomePage() {
             mission={hp.aboutMission}
             vision={hp.aboutVision}
             photos={aboutPhotoUrls}
+            missionLabel={hp.missionLabel}
+            visionLabel={hp.visionLabel}
          />
          <ValuesSection values={hp.values ?? []} />
          <TimelineSection

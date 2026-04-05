@@ -7,9 +7,10 @@ interface CoursePreviewCardProps {
   image: string;
   title: string;
   details: { label: string; value: string }[];
+  labelEnroll?: string;
 }
 
-export default function CoursePreviewCard({ slug, image, title, details }: CoursePreviewCardProps) {
+export default function CoursePreviewCard({ slug, image, title, details, labelEnroll = "INSCREVER" }: Readonly<CoursePreviewCardProps>) {
   return (
     <div className="flex flex-row rounded-xl overflow-hidden border border-gray-100 shadow-sm">
       <Image
@@ -38,7 +39,7 @@ export default function CoursePreviewCard({ slug, image, title, details }: Cours
           href={`/cursos/${slug}`}
           className="inline-flex items-center gap-1 text-xs font-bold tracking-wider text-primary"
         >
-          INSCREVER <ArrowRight size={12} />
+          {labelEnroll} <ArrowRight size={12} />
         </Link>
       </div>
     </div>

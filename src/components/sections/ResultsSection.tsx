@@ -1,4 +1,4 @@
-import SectionHeader from "@/components/ui/SectionHeader";
+import SplitTitle from "@/components/ui/SplitTitle";
 import StatCard from "@/components/ui/StatCard";
 import ResultCard from "@/components/ui/ResultCard";
 import type { StatItem, ResultCard as ResultCardType } from "@/lib/strapi";
@@ -11,7 +11,7 @@ interface ResultsSectionProps {
   subtitle?: string;
 }
 
-export default function ResultsSection({ stats, resultCards, backgroundImage, title, subtitle }: ResultsSectionProps) {
+export default function ResultsSection({ stats, resultCards, backgroundImage, title, subtitle }: Readonly<ResultsSectionProps>) {
   return (
     <section
       id="impact"
@@ -25,7 +25,7 @@ export default function ResultsSection({ stats, resultCards, backgroundImage, ti
       <div className="absolute inset-0 bg-black/80" />
       <div className="max-w-7xl mx-auto relative z-10">
         <div className="mb-14">
-          <SectionHeader title={title ?? ["CONCRETE", "RESULTS"]} subtitle={subtitle ?? "Here are some of our most significant achievements to date:"} centered dark />
+          <SplitTitle title={Array.isArray(title) ? title.join(" ") : (title ?? "")} subtitle={subtitle} direction="row" centered dark />
         </div>
         <div className="flex flex-row flex-wrap items-center justify-between gap-6 mb-12">
           {stats.map((s) => (

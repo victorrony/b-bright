@@ -10,7 +10,7 @@ interface HeroSectionProps {
    buttons: HeroButton[];
 }
 
-export default function HeroSection({ title, backgroundImage, backgroundIsVideo, buttons }: HeroSectionProps) {
+export default function HeroSection({ title, backgroundImage, backgroundIsVideo, buttons }: Readonly<HeroSectionProps>) {
    const lines = title
       .split(",")
       .map((l) => l.trim())
@@ -18,7 +18,7 @@ export default function HeroSection({ title, backgroundImage, backgroundIsVideo,
       .slice(0, 2);
 
    return (
-      <section className="relative w-full h-[764px] flex items-end overflow-hidden">
+      <section className="relative w-full h-191 flex items-end overflow-hidden">
          {backgroundImage &&
             (backgroundIsVideo ? (
                <video
@@ -39,15 +39,12 @@ export default function HeroSection({ title, backgroundImage, backgroundIsVideo,
                   priority
                />
             ))}
-         <div
-            className="absolute inset-0"
-            style={{ background: "linear-gradient(180deg, #007599 0%, #00C4FF 100%)", opacity: 0.4 }}
-         />
-         <div className="relative z-10 max-w-7xl mx-auto px-6 pb-20 pt-32 w-full">
-            <div className="max-w-4xl">
-               <h1 className="text-white mb-8 uppercase font-proxima min-h-[200px] font-[250] text-[76px] leading-[100%] tracking-[0%] flex flex-col gap-6">
+         <div className="absolute inset-0 bg-gradient-brand opacity-40" />
+         <div className="relative z-10 mx-auto ml-[15%] pb-20 pt-32 w-full">
+            <div className="max-w-4xl min-h-65.25">
+               <h1 className=" text-white mb-8 flex flex-col">
                   {lines.map((line, i) => (
-                     <span key={i}>{line}</span>
+                     <span key={i} className={i === 0 ? "text-hero" : "text-hero"}>{line}</span>
                   ))}
                </h1>
                <div className="flex flex-col sm:flex-row gap-8">

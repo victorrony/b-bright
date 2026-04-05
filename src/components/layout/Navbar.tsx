@@ -18,7 +18,7 @@ export default function Navbar({ navLinks, ctaLabel, ctaHref, logoUrl, siteName 
 
   return (
     <header className="w-full bg-white border-b border-gray-200 sticky top-0 z-50">
-      <nav className="flex items-center justify-between px-6 py-4 max-w-7xl mx-auto">
+      <nav className="flex items-center justify-between px-6 py-4 max-w-360 mx-auto">
         {/* Logo */}
         <Link href="/" className="flex items-center gap-2 test-black shrink-0">
           {logoUrl ? (
@@ -27,8 +27,7 @@ export default function Navbar({ navLinks, ctaLabel, ctaHref, logoUrl, siteName 
           ) : (
             <>
               <div
-                className="w-9 h-9 rounded-full flex items-center justify-center text-white font-bold text-lg"
-                style={{ backgroundColor: "var(--color-primary-dark)" }}
+                className="w-9 h-9 rounded-full flex items-center justify-center text-white font-bold text-lg bg-primary-dark"
               >
                 B
               </div>
@@ -40,12 +39,12 @@ export default function Navbar({ navLinks, ctaLabel, ctaHref, logoUrl, siteName 
         </Link>
 
         {/* Desktop nav links */}
-        <ul className="hidden lg:flex items-center gap-6">
+        <ul className="hidden lg:flex items-center gap-16">
           {navLinks.map((link) => (
             <li key={link.href}>
               <Link
                 href={link.href}
-                className="text-xs font-semibold tracking-wider text-gray-700 hover:text-blue-700 transition-colors"
+                className="text-sm font-semibold tracking-wider text-gray-700 hover:text-blue-700 transition-colors"
               >
                 {link.label}
               </Link>
@@ -57,8 +56,7 @@ export default function Navbar({ navLinks, ctaLabel, ctaHref, logoUrl, siteName 
         <div className="hidden lg:flex">
           <Link
             href={ctaHref}
-            className="px-5 py-2 rounded-full text-xs font-bold tracking-wider text-white transition-colors"
-            style={{ backgroundColor: "var(--color-primary-dark)" }}
+            className="px-5 py-2.5 rounded-full text-xs font-bold tracking-wider text-white transition-colors bg-primary-dark"
           >
             {ctaLabel}
           </Link>
@@ -92,8 +90,7 @@ export default function Navbar({ navLinks, ctaLabel, ctaHref, logoUrl, siteName 
             <li>
               <Link
                 href={ctaHref}
-                className="inline-block px-5 py-2 rounded-full text-xs font-bold tracking-wider text-white mt-2"
-                style={{ backgroundColor: "var(--color-primary-dark)" }}
+                className="inline-block px-5 py-2 rounded-full text-xs font-bold tracking-wider text-white mt-2 bg-primary-dark"
                 onClick={() => setMobileOpen(false)}
               >
                 {ctaLabel}

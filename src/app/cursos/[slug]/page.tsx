@@ -65,13 +65,7 @@ export default async function CourseRegistrationPage({
               priority
             />
           )}
-          <div
-            className="absolute inset-0"
-            style={{
-              background: "linear-gradient(180deg, #007599 0%, #00C4FF 100%)",
-              opacity: 0.4,
-            }}
-          />
+          <div className="absolute inset-0 bg-gradient-brand opacity-40" />
           <div
             className="absolute inset-0"
             style={{
@@ -125,6 +119,7 @@ export default async function CourseRegistrationPage({
                 image={getCourseImageUrl(c.image)}
                 title={c.title}
                 details={c.details ?? []}
+                labelEnroll={global.courseLabelEnroll ?? undefined}
               />
             ))}
           </div>

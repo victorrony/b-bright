@@ -42,7 +42,7 @@ export default function Card({
     >
       {/* overlay when backgroundImage is set */}
       {backgroundImage && (
-        <div className="absolute inset-0 bg-navy/60" />
+        <div className="absolute inset-0 bg-gradient-brand-overlay" />
       )}
 
       <div className="relative z-10 p-8 flex flex-col h-full">

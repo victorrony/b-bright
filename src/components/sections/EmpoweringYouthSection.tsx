@@ -1,4 +1,5 @@
 import Image from "next/image";
+import SplitTitle from "@/components/ui/SplitTitle";
 
 interface EmpoweringYouthSectionProps {
    heading: string;
@@ -6,6 +7,8 @@ interface EmpoweringYouthSectionProps {
    mission: string;
    vision: string;
    photos: { url: string; alt: string }[];
+   missionLabel?: string;
+   visionLabel?: string;
 }
 
 export default function EmpoweringYouthSection({
@@ -14,27 +17,28 @@ export default function EmpoweringYouthSection({
    mission,
    vision,
    photos,
+   missionLabel = "OUR MISSION",
+   visionLabel = "OUR VISION",
 }: EmpoweringYouthSectionProps) {
    const photo = photos?.[0];
-   const headingParts = heading.split(",").map((p) => p.trim());
 
    return (
-      <section id="about" className="w-full bg-white py-24 px-6">
+      <section id="about" className="w-full bg-white py-24">
          <div className="max-w-6xl mx-auto flex flex-row gap-6 items-center">
             {/* Image with B-shape clip path */}
-            <div className="flex justify-center w-111.75">
-               <div className="relative w-111.75 h-131.25">
+            <div className="flex justify-center w-101.75">
+               <div className="relative w-101.75 h-131.25">
                   <svg width="0" height="0" style={{ position: "absolute" }}>
                      <defs>
                         <clipPath id="b-shape" clipPathUnits="userSpaceOnUse">
                            {/* Left large pill */}
-                           <rect x="0" y="40" width="117" height="425" rx="58" />
+                           <rect x="0" y="80" width="117" height="370" rx="58" />
                            {/* Top right pill */}
-                           <rect x="127" y="0" width="117" height="245" rx="58" />
+                           <rect x="122" y="0" width="117" height="249" rx="58" />
                            {/* Bottom right pill */}
-                           <rect x="127" y="255" width="117" height="245" rx="58" />
+                           <rect x="122" y="255" width="117" height="255" rx="58" />
                            {/* Right large pill */}
-                           <rect x="255" y="40" width="117" height="425" rx="58" />
+                           <rect x="245" y="40" width="117" height="369" rx="58" />
                         </clipPath>
                      </defs>
                   </svg>
@@ -63,20 +67,21 @@ export default function EmpoweringYouthSection({
 
             {/* Text */}
             <div>
-               <h2 className="text-[#0769B9] uppercase font-proxima text-[48px] leading-[100%] flex flex-col mb-6">
-                  <span className="font-[250]">{headingParts[0]},</span>
-                  <span className="font-semibold">{headingParts[1] ?? ""}</span>
-               </h2>
+               <SplitTitle title={heading} className="mb-6" />
                <p className="text-[#616161] font-proxima font-normal text-[18px] leading-[160%] mb-8">{body}</p>
                <div className="mb-6">
                   <p className="text-[#0769B9] font-proxima text-[24px] leading-[110%] uppercase mb-2 font-[250]">
-                     OUR <span className="font-semibold">MISSION</span>
+                     {(missionLabel ?? "OUR MISSION").split(" ").map((word, i, arr) =>
+                       i === arr.length - 1 ? <span key={i} className="font-semibold">{word}</span> : `${word} `
+                     )}
                   </p>
                   <p className="text-[#616161] font-proxima font-normal text-[16px] leading-[160%]">{mission}</p>
                </div>
                <div>
                   <p className="text-[#0769B9] font-proxima text-[24px] leading-[110%] uppercase mb-2 font-[250]">
-                     OUR <span className="font-semibold">VISION</span>
+                     {(visionLabel ?? "OUR VISION").split(" ").map((word, i, arr) =>
+                       i === arr.length - 1 ? <span key={i} className="font-semibold">{word}</span> : `${word} `
+                     )}
                   </p>
                   <p className="text-[#616161] font-proxima font-normal text-[16px] leading-[160%]">{vision}</p>
                </div>

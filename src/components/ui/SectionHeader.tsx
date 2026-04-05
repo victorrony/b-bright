@@ -1,9 +1,9 @@
-import { cn } from "@/lib/utils";
+import { cn, splitTitle } from "@/lib/utils";
 
 interface SectionHeaderProps {
   label?: string;
-  title: string | [string, string];
-  subtitle?: string;
+  titleThin: string | [string, string];
+  titleBold?: string;
   centered?: boolean;
   dark?: boolean;
   className?: string;
@@ -11,33 +11,23 @@ interface SectionHeaderProps {
 
 export default function SectionHeader({
   label,
-  title,
-  subtitle,
+  titleThin,
+  titleBold,
   centered = false,
   dark = false,
   className,
-}: SectionHeaderProps) {
+}: Readonly<SectionHeaderProps>) {
   const labelColor = dark ? "text-blue-300" : "text-gray-500";
-  const titleBaseColor = dark ? "text-white" : "text-[#0769B9]";
   const alignClass = centered ? "text-center" : "text-left";
 
+  const titleColor = dark ? "text-white" : "text-[var(--color-primary)]";
+
   const renderTitle = () => {
-    if (Array.isArray(title)) {
-      const [normalPart, boldBluePart] = title;
-      return (
-        <div className="flex items-center justify-center gap-3 flex-wrap uppercase font-proxima text-[48px] leading-[100%] tracking-[0%]">
-          <p className={cn(titleBaseColor, "")}>
-            {normalPart}
-          </p>
-          <p className="text-[#0769B9] font-bold">
-            {boldBluePart}
-          </p>
-        </div>
-      );
-    }
+    const [line1, line2] = Array.isArray(titleThin) ? titleThin : splitTitle(titleThin);
     return (
-      <h2 className={cn("uppercase font-proxima text-[48px] leading-[100%] tracking-[0%] font-bold", titleBaseColor)}>
-        {title}
+      <h2 className={cn("flex flex-col uppercase font-proxima text-[48px] leading-[100%] tracking-[0%]", titleColor, centered && "items-center")}>
+        <span className="font-[250]">{line1}</span>
+        {line2 && <span className="font-bold">{line2}</span>}
       </h2>
     );
   };
@@ -55,7 +45,7 @@ export default function SectionHeader({
         </p>
       )}
       {renderTitle()}
-      {subtitle && (
+      {titleBold && (
         <p
           className={cn(
             "mt-4 font-proxima font-normal text-[18px] leading-[160%] tracking-[0%] max-w-2.5xl",
@@ -63,7 +53,7 @@ export default function SectionHeader({
             centered && "mx-auto text-center"
           )}
         >
-          {subtitle}
+          {titleBold}
         </p>
       )}
     </div>

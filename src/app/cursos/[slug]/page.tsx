@@ -5,6 +5,7 @@ import CTASection from "@/components/sections/CTASection";
 import RegistrationForm from "@/components/ui/RegistrationForm";
 import CoursePreviewCard from "@/components/ui/CoursePreviewCard";
 import { getCourses, getCourseBySlug, getCourseImageUrl, getCoursesPage, getGlobal, getHomepage } from "@/lib/strapi";
+import SplitTitle from "@/components/ui/SplitTitle";
 
 export async function generateMetadata({
   params,
@@ -53,8 +54,8 @@ export default async function CourseRegistrationPage({
   return (
     <>
       {/* Hero split */}
-      <section className="w-full" style={{ height: "816px" }}>
-        <div className="relative flex flex-col justify-end p-10" style={{ minHeight: "400px" }}>
+      <section className="w-full">
+        <div className="relative flex flex-col justify-end p-10" style={{ minHeight: "816px" }}>
           {courseImage && (
             <Image
               src={courseImage}
@@ -92,26 +93,28 @@ export default async function CourseRegistrationPage({
               ))}
             </div>
 
-            <div className="relative w-[526px]">
-              <RegistrationForm courseDocumentId={course.documentId} />
+            <div className="relative w-131.5">
+              <RegistrationForm courseDocumentId={course.documentId} formFields={course.formFields} />
             </div>
           </div>
         </div>
       </section>
 
       {/* Other courses */}
-      <section className="w-full bg-white py-20 px-6">
-        <div className="max-w-5xl mx-auto">
+      <section className="w-full bg-white py-20">
+        <div className="max-w-272.5 mx-auto">
           <div className="text-center mb-12">
-            <h2 className="font-proxima font-[250] text-[48px] leading-[100%] text-primary uppercase text-center mb-6">
+            {/* <h2 className="font-proxima font-[250] text-[48px] leading-[100%] text-primary uppercase text-center mb-6">
               {cp.otherTitle}
             </h2>
             <p className="mt-4 text-gray-500 text-sm max-w-xl mx-auto">
               {cp.otherSubtitle}
-            </p>
+            </p> */}
+
+            <SplitTitle title={cp.otherTitle} subtitle={cp.otherSubtitle} centered />
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div className="flex flex-row flex-wrap w-full gap- justify-between">
             {otherCourses.map((c) => (
               <CoursePreviewCard
                 key={c.documentId}

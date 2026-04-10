@@ -9,6 +9,18 @@ export interface CourseCredential {
   label: string;
 }
 
+export type FormFieldType = 'text' | 'url' | 'email' | 'number' | 'select' | 'textarea' | 'checkbox';
+
+export interface CourseFormField {
+  id: number;
+  name: string;
+  label: string;
+  type: FormFieldType;
+  placeholder?: string;
+  required?: boolean;
+  options?: string; // comma-separated string stored in Strapi
+}
+
 export interface StrapiCourse {
   id: number;
   documentId: string;
@@ -21,11 +33,12 @@ export interface StrapiCourse {
   extraText?: string;
   details: CourseDetail[];
   image?: StrapiImage | StrapiImage[];
+  formFields?: CourseFormField[];
 }
 
 export async function getCourses(): Promise<StrapiCourse[]> {
   const res = await fetchAPI<StrapiListResponse<StrapiCourse>>(
-    '/courses?populate[0]=image&populate[1]=credentials&populate[2]=details&sort=createdAt:asc'
+    '/courses?populate[0]=image&populate[1]=credentials&populate[2]=details&populate[3]=formFields&sort=createdAt:asc'
   );
   return res.data;
 }
@@ -35,6 +48,7 @@ export async function getCourseBySlug(slug: string): Promise<StrapiCourse | null
   params.append('populate[0]', 'image');
   params.append('populate[1]', 'credentials');
   params.append('populate[2]', 'details');
+  params.append('populate[3]', 'formFields');
   const res = await fetchAPI<StrapiListResponse<StrapiCourse>>(`/courses?${params}`);
   return res.data[0] ?? null;
 }

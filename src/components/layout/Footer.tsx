@@ -23,8 +23,8 @@ export default function Footer({
   copyrightText = "All rights reserved.",
 }: Readonly<FooterProps>) {
   return (
-    <footer className="w-full lg:h-68 py-10 px-6 bg-[#000E17] text-white">
-        <div className="flex flex-row justify-evenly items-center m-auto gap-10">
+    <footer className="w-full lg:h-68 py-10 px-6 bg-footer-bg text-white">
+        <div className="flex max-w-272.5 flex-row justify-between items-center m-auto">
           {/* Brand column */}
           <div className="w-72">
             <div className="flex items-center ">
@@ -63,7 +63,7 @@ export default function Footer({
                   <li key={link.label}>
                     <Link
                       href={link.href}
-                      className="text-[#D8D4DE] font-proxima font-normal text-[14px] leading-[160%] hover:text-white transition-colors"
+                      className="text-text-light font-proxima font-normal text-[14px] leading-[160%] hover:text-white transition-colors"
                     >
                       {link.label}
                     </Link>

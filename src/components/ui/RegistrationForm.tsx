@@ -2,11 +2,112 @@
 
 import { useState } from "react";
 import { ArrowRight, CheckCircle, AlertCircle, Loader2 } from "lucide-react";
-import { submitRegistration, type RegistrationPayload } from "@/lib/strapi";
+import { submitRegistration, type RegistrationPayload, CourseFormField } from "@/lib/strapi";
 import { REGISTRATION_MIN_AGE, REGISTRATION_MAX_AGE } from "@/lib/constants";
+
+type FormFieldConfig = {
+  name: string;
+  label: string;
+  type: string;
+  placeholder?: string;
+  required?: boolean;
+  options?: string[];
+};
+
+function strapiFieldToConfig(f: CourseFormField): FormFieldConfig {
+  return {
+    name: f.name,
+    label: f.label,
+    type: f.type,
+    placeholder: f.placeholder,
+    required: f.required,
+    options: f.options ? f.options.split(",").map((o) => o.trim()).filter(Boolean) : undefined,
+  };
+}
 
 interface RegistrationFormProps {
   courseDocumentId?: string;
+  formFields?: CourseFormField[];
+}
+
+function DynamicField({ field, hasError }: Readonly<{ field: FormFieldConfig; hasError: boolean }>) {
+  const baseClass = "w-full border border-gray-300 rounded px-4 h-12 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500";
+
+  if (field.type === "select") {
+    return (
+      <div>
+        <label htmlFor={field.name} className="block text-sm font-medium text-gray-700 mb-1">
+          {field.label}{field.required && <span className="text-red-500 ml-1">*</span>}
+        </label>
+        <select
+          id={field.name}
+          name={field.name}
+          required={field.required}
+          aria-invalid={hasError && field.required ? true : undefined}
+          className={`${baseClass} bg-white text-gray-600`}
+        >
+          <option value="">{field.placeholder ?? field.label}</option>
+          {(field.options ?? []).map((opt) => (
+            <option key={opt} value={opt}>{opt}</option>
+          ))}
+        </select>
+      </div>
+    );
+  }
+
+  if (field.type === "textarea") {
+    return (
+      <div>
+        <label htmlFor={field.name} className="block text-sm font-medium text-gray-700 mb-1">
+          {field.label}{field.required && <span className="text-red-500 ml-1">*</span>}
+        </label>
+        <textarea
+          id={field.name}
+          name={field.name}
+          required={field.required}
+          aria-invalid={hasError && field.required ? true : undefined}
+          placeholder={field.placeholder}
+          rows={3}
+          className="w-full border border-gray-300 rounded px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 resize-none"
+        />
+      </div>
+    );
+  }
+
+  if (field.type === "checkbox") {
+    return (
+      <div className="flex items-center gap-2">
+        <input
+          id={field.name}
+          name={field.name}
+          type="checkbox"
+          required={field.required}
+          className="w-4 h-4 border-gray-300 rounded focus:ring-blue-500"
+        />
+        <label htmlFor={field.name} className="text-sm text-gray-700">
+          {field.label}{field.required && <span className="text-red-500 ml-1">*</span>}
+        </label>
+      </div>
+    );
+  }
+
+  // text | url | email | number
+  return (
+    <div>
+      <label htmlFor={field.name} className="block text-sm font-medium text-gray-700 mb-1">
+        {field.label}{field.required && <span className="text-red-500 ml-1">*</span>}
+      </label>
+      <input
+        id={field.name}
+        name={field.name}
+        type={field.type}
+        required={field.required}
+        aria-invalid={hasError && field.required ? true : undefined}
+        placeholder={field.placeholder}
+        className={baseClass}
+      />
+    </div>
+  );
 }
 
 type Status = "idle" | "loading" | "success" | "error";
@@ -21,17 +122,37 @@ function validate(payload: RegistrationPayload): string | null {
   return null;
 }
 
-export default function RegistrationForm({ courseDocumentId }: RegistrationFormProps) {
+export default function RegistrationForm({ courseDocumentId, formFields }: Readonly<RegistrationFormProps>) {
+  const extraFields = (formFields ?? []).map(strapiFieldToConfig);
   const [status, setStatus] = useState<Status>("idle");
   const [errorMsg, setErrorMsg] = useState<string>("");
   const hasError = status === "error";
 
-  async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
+  async function handleSubmit(e: React.SubmitEvent<HTMLFormElement>) {
     e.preventDefault();
     setErrorMsg("");
 
     const form = e.currentTarget;
     const data = new FormData(form);
+
+    const motivacao = (data.get("motivacao") as string).trim();
+
+    const extraParts = extraFields
+      .filter((f) => {
+        if (f.type === "checkbox") {
+          return data.get(f.name) !== null;
+        }
+        return Boolean(data.get(f.name));
+      })
+      .map((f) => {
+        if (f.type === "checkbox") return `${f.label}: Sim`;
+        return `${f.label}: ${(data.get(f.name) as string).trim()}`;
+      });
+
+    const message = [
+      motivacao ? `Motivação: ${motivacao}` : "",
+      extraParts.length > 0 ? `\n--- Campos adicionais ---\n${extraParts.join("\n")}` : "",
+    ].filter(Boolean).join("\n") || undefined;
 
     const payload: RegistrationPayload = {
       name: (data.get("nome") as string).trim(),
@@ -39,7 +160,7 @@ export default function RegistrationForm({ courseDocumentId }: RegistrationFormP
       age: data.get("idade") ? Number(data.get("idade")) : undefined,
       sex: (data.get("sexo") as RegistrationPayload["sex"]) || undefined,
       occupation: (data.get("ocupacao") as RegistrationPayload["occupation"]) || undefined,
-      message: (data.get("motivacao") as string).trim() || undefined,
+      message,
       course: courseDocumentId,
     };
 
@@ -124,6 +245,11 @@ export default function RegistrationForm({ courseDocumentId }: RegistrationFormP
               className="w-full border border-gray-300 rounded px-4 h-12 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
             />
           </div>
+
+          {/* Campos extras dinâmicos por curso */}
+          {extraFields.map((field) => (
+            <DynamicField key={field.name} field={field} hasError={hasError} />
+          ))}
 
           {/* Three dropdowns in a row */}
           <div className="grid grid-cols-3 gap-3">

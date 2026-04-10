@@ -44,7 +44,7 @@ export default async function RootLayout({
 
   return (
     <html lang="pt">
-      <body className={`${geistSans.variable} ${geistMono.variable} antialiased max-w-360 m-auto bg-[##F2F5F6] `}>
+      <body className={`${geistSans.variable} ${geistMono.variable} antialiased max-w-360 m-auto`}>
         <Navbar
           navLinks={global.navLinks}
           ctaLabel={global.ctaLabel}

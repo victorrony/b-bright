@@ -30,11 +30,11 @@ export default async function CursosPage() {
           />
         )}
         <div className="absolute inset-0 bg-gradient-brand opacity-40" />
-        <div className="relative z-10 max-w-7xl mx-auto px-6 pb-16 pt-24 w-full">
-          <p className="text-white font-proxima font-normal text-[32px] leading-[100%] uppercase mb-3">
+        <div className="relative z-10 max-w-6xl mx-auto px-6 pb-16 pt-24 w-full">
+          <p className="text-white font-proxima font-normal text-[28px] leading-[100%] uppercase mb-3">
             {cp.heroLabel}
           </p>
-          <h1 className="text-white font-proxima font-normal text-[36px] leading-[100%] uppercase">
+          <h1 className="text-white font-proxima font-normal text-[40px] leading-[100%] uppercase">
             {cp.heroTitle}
           </h1>
         </div>
@@ -42,7 +42,7 @@ export default async function CursosPage() {
 
       {/* Course listings */}
       <section className="w-full bg-white py-20 px-6">
-        <div className="max-w-7xl mx-auto flex flex-col gap-20">
+        <div className="max-w-6xl mx-auto flex flex-col gap-20">
           {courses.map((course, idx) => (
             <CourseCard
               key={course.documentId}

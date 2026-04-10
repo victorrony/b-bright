@@ -48,12 +48,12 @@ export default function TimelineSection({ title, subtitle, milestones }: Readonl
 
         {/* Timeline line + cards */}
         <div className="relative">
-          <div className="hidden lg:block absolute h-px bg-gray-200 z-0" style={{ top: "20px", left: "0%", right: "0%" }} />
+          <div className="hidden lg:block absolute h-px bg-gray-200 z-0" style={{ top: "20px", left: "6%", right: "0%" }} />
 
           {/* Carousel track */}
           <div
             ref={trackRef}
-            className="flex flex-row gap-4 overflow-x-auto scroll-smooth no-scrollbar pb-4 relative z-10 px-6"
+            className="flex flex-row gap-4 lg:ml-[5.8%] overflow-x-auto scroll-smooth no-scrollbar pb-4 relative z-10 px-"
           >
             {milestones.map((m) => (
               <MilestoneCard key={m.year} year={m.year} title={m.title} description={m.description} />

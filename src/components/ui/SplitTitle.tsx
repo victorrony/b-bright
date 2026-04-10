@@ -4,6 +4,7 @@ interface SplitTitleProps {
   title: string;
   subtitle?: string;
   className?: string;
+  titleClassName?: string;
   dark?: boolean;
   centered?: boolean;
   size?: "sm" | "md" | "lg";
@@ -16,7 +17,7 @@ const sizeMap = {
   lg: "text-[76px]",
 };
 
-export default function SplitTitle({ title, subtitle, className, dark = false, centered = false, size = "md", direction = "col" }: Readonly<SplitTitleProps>) {
+export default function SplitTitle({ title, subtitle, className, titleClassName, dark = false, centered = false, size = "md", direction = "col" }: Readonly<SplitTitleProps>) {
   const [line1, line2] = splitTitle(title);
   const color = dark ? "text-white" : "text-(--color-primary)";
 
@@ -28,6 +29,7 @@ export default function SplitTitle({ title, subtitle, className, dark = false, c
         sizeMap[size],
         color,
         centered && "items-center",
+        titleClassName,
       )}>
         <span className="font-[250]">{line1}</span>
         {line2 && <span className="font-bold">{line2}</span>}

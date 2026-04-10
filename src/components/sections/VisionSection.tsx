@@ -10,8 +10,8 @@ interface VisionSectionProps {
 
 export default function VisionSection({ title, subtitle, initiatives }: Readonly<VisionSectionProps>) {
   return (
-    <section id="vision" className="w-full bg-white mt-24 px-">
-      <div className="max-w-272.5 mx-auto py-16">
+    <section id="vision" className="w-full max-w-272.5 mx-auto bg-white mt-24 px-">
+      <div className=" py-16">
         <div className="mb-14">
           <SplitTitle title={title} subtitle={subtitle} direction="row" centered />
         </div>

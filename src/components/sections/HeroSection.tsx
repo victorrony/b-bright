@@ -1,6 +1,7 @@
 import Image from "next/image";
 import Button from "@/components/ui/Button";
 import type { HeroButton } from "@/lib/strapi";
+import SplitTitle from "../ui/SplitTitle";
 
 interface HeroSectionProps {
    title: string;
@@ -11,12 +12,6 @@ interface HeroSectionProps {
 }
 
 export default function HeroSection({ title, backgroundImage, backgroundIsVideo, buttons }: Readonly<HeroSectionProps>) {
-   const lines = title
-      .split(",")
-      .map((l) => l.trim())
-      .filter(Boolean)
-      .slice(0, 2);
-
    return (
       <section className="relative w-full h-191 flex items-end overflow-hidden">
          {backgroundImage &&
@@ -42,12 +37,14 @@ export default function HeroSection({ title, backgroundImage, backgroundIsVideo,
          <div className="absolute inset-0 bg-gradient-brand opacity-40" />
          <div className="relative z-10 mx-auto ml-[15%] pb-20 pt-32 w-full">
             <div className="max-w-4xl min-h-65.25">
-               <h1 className=" text-white mb-8 flex flex-col">
-                  {lines.map((line, i) => (
-                     <span key={i} className={i === 0 ? "text-hero" : "text-hero"}>{line}</span>
-                  ))}
+
+               {/* <SplitTitle title={title} dark size="lg" titleClassName="mb-8" /> */}
+
+               <h1 className="text-hero text-white mb-8 flex flex-col">
+                     <span className=" ">B-Bright, give a <span className=" text-primary">gift</span>  to your future.</span>
                </h1>
-               <div className="flex flex-col sm:flex-row gap-8">
+
+               <div className="flex flex-col sm:flex-row gap-12">
                   {buttons.map((btn) => (
                      <Button
                         key={btn.href}

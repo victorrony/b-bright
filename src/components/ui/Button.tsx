@@ -41,7 +41,7 @@ export default function Button({
   const base =
     variant === "ghost"
       ? "inline-flex items-center gap-1 text-sm font-bold tracking-wider transition-colors"
-      : "inline-flex items-center gap-2 px-6 py-3.5 rounded-full text-sm font-bold tracking-wider transition-colors";
+      : "inline-flex items-center gap-2 px-6 py-5 rounded-full text-sm font-bold tracking-wider transition-colors";
 
   const classes = cn(base, variantClasses[variant], className);
 

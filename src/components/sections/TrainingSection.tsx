@@ -13,9 +13,9 @@ interface TrainingSectionProps {
   modules: TrainingModule[];
 }
 
-export default function TrainingSection({ title, subtitle, modules }: TrainingSectionProps) {
+export default function TrainingSection({ title, subtitle, modules }: Readonly<TrainingSectionProps>) {
   return (
-    <section id="training" className="w-full my-10 lg:my-24">
+    <section id="training" className="w-full my-14 lg:my-24">
       <div className="mx-4 md:mx-0">
         <div className="mb-14 ">
           <SplitTitle title={title} subtitle={subtitle} direction="row" className="col m-auto" centered />
@@ -24,7 +24,7 @@ export default function TrainingSection({ title, subtitle, modules }: TrainingSe
           {modules.map((t) => {
             const Icon = ICON_MAP[t.icon] ?? Star;
             return (
-              <div key={t.title} className="flex-shrink-0">
+              <div key={t.title} className="shrink-0">
                 <Card icon={<Icon size={22} />} title={t.title} description={t.description} variant="default" backgroundImage={t.backgroundImage ? getCourseImageUrl(t.backgroundImage) : undefined} />
               </div>
             );

@@ -1,7 +1,7 @@
 import Image from "next/image";
 import Button from "@/components/ui/Button";
 import type { HeroButton } from "@/lib/strapi";
-import SplitTitle from "../ui/SplitTitle";
+// import SplitTitle from "../ui/SplitTitle";
 
 interface HeroSectionProps {
    title: string;
@@ -11,7 +11,7 @@ interface HeroSectionProps {
    buttons: HeroButton[];
 }
 
-export default function HeroSection({ title, backgroundImage, backgroundIsVideo, buttons }: Readonly<HeroSectionProps>) {
+export default function HeroSection({ backgroundImage, backgroundIsVideo, buttons }: Readonly<HeroSectionProps>) {
    return (
       <section className="relative w-full h-191 flex items-end overflow-hidden">
          {backgroundImage &&

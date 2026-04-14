@@ -7,7 +7,7 @@ import type { ValueItem } from "@/lib/strapi";
 const ICON_MAP: Record<string, LucideIcon> = { Heart, Globe, Users, Lightbulb };
 
 interface ValuesSectionProps {
-  values: ValueItem[];
+  readonly values: readonly ValueItem[];
 }
 
 export default function ValuesSection({ values }: ValuesSectionProps) {
@@ -18,7 +18,7 @@ export default function ValuesSection({ values }: ValuesSectionProps) {
           {values.map((v) => {
             const Icon = ICON_MAP[v.icon] ?? Heart;
             return (
-              <div key={v.title} className="flex-shrink-0">
+              <div key={v.title} className="flexshrink-0">
                 <Card icon={<Icon size={22} />} title={v.title} description={v.description} variant="default" />
               </div>
             );

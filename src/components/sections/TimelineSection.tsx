@@ -42,7 +42,7 @@ export default function TimelineSection({ title, subtitle, milestones }: Readonl
   return (
     <section id="journey" className="w-full bg-white pt-24 pb-16">
       <div className="max-w-7xl mx-auto px-6">
-        <div className="mb-16">
+        <div className="mb-16 ">
           <SplitTitle title={title} subtitle={subtitle} direction="row" centered />
         </div>
 
@@ -53,7 +53,7 @@ export default function TimelineSection({ title, subtitle, milestones }: Readonl
           {/* Carousel track */}
           <div
             ref={trackRef}
-            className="flex flex-row gap-4 lg:ml-[5.8%] overflow-x-auto scroll-smooth no-scrollbar pb-4 relative z-10 px-"
+            className="flex flex-row gap-4 md:ml-14 lg:ml-[5.8%] overflow-x-auto scroll-smooth no-scrollbar pb-4 relative z-10"
           >
             {milestones.map((m) => (
               <MilestoneCard key={m.year} year={m.year} title={m.title} description={m.description} />

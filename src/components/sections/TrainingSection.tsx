@@ -16,11 +16,11 @@ interface TrainingSectionProps {
 export default function TrainingSection({ title, subtitle, modules }: TrainingSectionProps) {
   return (
     <section id="training" className="w-full my-28">
-      <div className="">
-        <div className="mb-14">
+      <div className="mx-4 md:mx-0">
+        <div className="mb-14 ">
           <SplitTitle title={title} subtitle={subtitle} direction="row" className="col m-auto" centered />
         </div>
-        <div className="flex gap-5 overflow-x-auto pb-4 lg:ml-[12.2%] no-scrollbar" style={{ scrollbarWidth: "none", msOverflowStyle: "none" } as React.CSSProperties}>
+        <div className="flex gap-5 overflow-x-auto pb-4 md:ml-20 lg:ml-[12.2%] no-scrollbar" style={{ scrollbarWidth: "none", msOverflowStyle: "none" } as React.CSSProperties}>
           {modules.map((t) => {
             const Icon = ICON_MAP[t.icon] ?? Star;
             return (

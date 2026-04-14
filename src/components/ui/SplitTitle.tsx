@@ -12,9 +12,9 @@ interface SplitTitleProps {
 }
 
 const sizeMap = {
-  sm: "text-[32px]",
-  md: "text-[48px]",
-  lg: "text-[76px]",
+  sm: "text-[20px] md:text-[32px]",
+  md: "text-[28px] md:text-[48px]",
+  lg: "text-[38px] md:text-[76px]",
 };
 
 export default function SplitTitle({ title, subtitle, className, titleClassName, dark = false, centered = false, size = "md", direction = "col" }: Readonly<SplitTitleProps>) {

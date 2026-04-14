@@ -44,7 +44,7 @@ export default function HeroSection({ title, backgroundImage, backgroundIsVideo,
                      <span className=" ">B-Bright, give a <span className=" text-primary">gift</span>  to your future.</span>
                </h1>
 
-               <div className="flex flex-col sm:flex-row gap-12">
+               <div className="flex flex-col sm:flex-row w-68 md:w-full gap-12">
                   {buttons.map((btn) => (
                      <Button
                         key={btn.href}

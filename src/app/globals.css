@@ -155,11 +155,17 @@ h1, h2, h3, h4, h5, h6 {
 /* Hero display — 76px thin */
 .text-hero {
   font-family: var(--font-proxima);
-  font-size: 76px;
+  font-size: 38px;
   font-weight: 250;
   line-height: 100%;
   letter-spacing: 0%;
   text-transform: uppercase;
+}
+
+@media (min-width: 768px) {
+  .text-hero {
+    font-size: 76px;
+  }
 }
 
 /* Section heading — 48px thin */

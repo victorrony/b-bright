@@ -5,7 +5,7 @@ interface InitiativeCardProps {
 
 export default function InitiativeCard({ title, description }: InitiativeCardProps) {
   return (
-    <div className="bg-white w-88.25 h-39.5 p-7.5 rounded-sm shadow-[0px_4px_20px_0px_rgba(0,55,85,0.1)] flex flex-col justify-between">
+    <div className="bg-white w-88.25 h-39.5 p-7.5 m-auto rounded-sm shadow-[0px_4px_20px_0px_rgba(0,55,85,0.1)] flex flex-col justify-between">
       <h3 className="font-bold text-[#003755] font-proxima text-[18px] leading-[130%] uppercase">
         {title}
       </h3>

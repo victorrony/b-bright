@@ -24,7 +24,7 @@ export default function Footer({
 }: Readonly<FooterProps>) {
   return (
     <footer className="w-full lg:h-68 py-10 px-6 bg-footer-bg text-white">
-        <div className="flex max-w-272.5 flex-row justify-between items-center m-auto">
+        <div className="flex flex-col max-w-272.5 md:flex-row md:justify-between md:items-center m-auto">
           {/* Brand column */}
           <div className="w-72">
             <div className="flex items-center ">
@@ -54,11 +54,11 @@ export default function Footer({
 
           {/* Link columns */}
           {footerColumns.map((col, idx) => (
-            <div key={idx}>
-              <h4 className="text-white font-proxima font-semibold text-[16px] leading-[140%] uppercase mb-5">
+            <div key={idx} className="flex flex-col justify-start mt-10 md:my-0">
+              <h4 className="text-white font-proxima font-semibold text-[16px] leading-[140%] uppercase">
                 {col.title}
               </h4>
-              <ul className="flex flex-col gap-3">
+              <ul className="flex flex-col mt-3 gap-3">
                 {col.links.map((link) => (
                   <li key={link.label}>
                     <Link

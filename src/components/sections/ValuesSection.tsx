@@ -12,8 +12,8 @@ interface ValuesSectionProps {
 
 export default function ValuesSection({ values }: ValuesSectionProps) {
   return (
-    <section className="w-full h-110 flex items-center " style={{ backgroundColor: "#F5F5F5" }}>
-      <div className="ml-40 mx-auto w-full">
+    <section className=" w-full h-110 flex items-center  " style={{ backgroundColor: "#F5F5F5" }}>
+      <div className="mx-4 md:ml-20 lg:ml-40 md:mx-auto w-full overflow-hidden">
         <div className="flex gap-5 overflow-x-auto pb-4 no-scrollbar" style={{ scrollbarWidth: "none", msOverflowStyle: "none" } as React.CSSProperties}>
           {values.map((v) => {
             const Icon = ICON_MAP[v.icon] ?? Heart;

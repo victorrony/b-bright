@@ -35,7 +35,7 @@ export default function HeroSection({ title, backgroundImage, backgroundIsVideo,
                />
             ))}
          <div className="absolute inset-0 bg-gradient-brand opacity-40" />
-         <div className="relative z-10 mx-auto ml-[15%] pb-20 pt-32 w-full">
+         <div className="relative z-10 mx-auto ml-[15%] mb-10 md:pb-20 pt-32 w-full">
             <div className="max-w-4xl min-h-65.25">
 
                {/* <SplitTitle title={title} dark size="lg" titleClassName="mb-8" /> */}
@@ -44,7 +44,7 @@ export default function HeroSection({ title, backgroundImage, backgroundIsVideo,
                      <span className=" ">B-Bright, give a <span className=" text-primary">gift</span>  to your future.</span>
                </h1>
 
-               <div className="flex flex-col sm:flex-row w-68 md:w-full gap-12">
+               <div className="flex flex-col items-center md:flex-row w-68 md:w-full gap-12">
                   {buttons.map((btn) => (
                      <Button
                         key={btn.href}

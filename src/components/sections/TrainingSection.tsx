@@ -15,7 +15,7 @@ interface TrainingSectionProps {
 
 export default function TrainingSection({ title, subtitle, modules }: TrainingSectionProps) {
   return (
-    <section id="training" className="w-full my-28">
+    <section id="training" className="w-full my-10 lg:my-24">
       <div className="mx-4 md:mx-0">
         <div className="mb-14 ">
           <SplitTitle title={title} subtitle={subtitle} direction="row" className="col m-auto" centered />

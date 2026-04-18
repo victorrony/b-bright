@@ -203,7 +203,7 @@ export default function RegistrationForm({ courseDocumentId, formFields }: Reado
   }
 
   return (
-    <div className="bg-white flex items-center justify-center rounded-sm" style={{ padding: "40px" }}>
+    <div className="bg-white flex items-center justify-center rounded-sm" style={{ padding: "20px" }}>
       <div className="w-full max-w-md">
         <h2
           className="font-bold uppercase mb-6"
@@ -252,7 +252,7 @@ export default function RegistrationForm({ courseDocumentId, formFields }: Reado
           ))}
 
           {/* Three dropdowns in a row */}
-          <div className="grid grid-cols-3 gap-3">
+          <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
             <div>
               <label htmlFor="idade" className="block text-sm font-medium text-gray-700 mb-1">
                 Idade
@@ -283,7 +283,7 @@ export default function RegistrationForm({ courseDocumentId, formFields }: Reado
                 <option value="outro">Outro</option>
               </select>
             </div>
-            <div>
+            <div className="w-full">
               <label htmlFor="ocupacao" className="block text-sm font-medium text-gray-700 mb-1">
                 Ocupação atual
               </label>

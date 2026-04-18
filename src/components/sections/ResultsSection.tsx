@@ -18,7 +18,7 @@ export default function ResultsSection({ stats, resultCards, backgroundImage, ti
       className="w-full py-24 px-6 relative"
       style={backgroundImage ? {
         backgroundImage: `url('${backgroundImage}')`,
-        backgroundSize: "cover",
+        backgroundSize: "130%",
         backgroundPosition: "center",
       } : { backgroundColor: "#003755" }}
     >

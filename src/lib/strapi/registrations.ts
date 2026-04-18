@@ -1,5 +1,3 @@
-import { fetchAPI, type StrapiSingleResponse } from './client';
-
 export interface RegistrationPayload {
   name: string;
   email: string;
@@ -8,13 +6,18 @@ export interface RegistrationPayload {
   sex?: 'masculino' | 'feminino' | 'outro';
   occupation?: 'estudante' | 'empregado' | 'desempregado' | 'empreendedor' | 'outro';
   message?: string;
-  course?: string; // course documentId
+  course?: string;
 }
 
 export async function submitRegistration(payload: RegistrationPayload): Promise<void> {
-  await fetchAPI<StrapiSingleResponse<unknown>>('/registrations', {
+  const res = await fetch('/api/register', {
     method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({ data: payload }),
-    next: undefined,
   });
+
+  if (!res.ok) {
+    const json = await res.json().catch(() => ({}));
+    throw new Error((json as { error?: string }).error ?? 'Erro ao enviar inscrição.');
+  }
 }

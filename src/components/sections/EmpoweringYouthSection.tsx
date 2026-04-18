@@ -54,7 +54,7 @@ export default function EmpoweringYouthSection({
                         <Image
                            src={photo.url}
                            alt={photo.alt}
-                           className="object-cover object-center "
+                           className="object-cover object-[75%_center]"
                            fill
                            sizes="207px"
                         />

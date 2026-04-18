@@ -17,8 +17,8 @@ export default function Navbar({ navLinks, ctaLabel, ctaHref, logoUrl, siteName 
   const [mobileOpen, setMobileOpen] = useState(false);
 
   return (
-    <header className="w-full bg-white border-b border-gray-200 sticky top-0 z-50">
-      <nav className="flex items-center justify-between px-6 py-4 max-w-360 mx-auto">
+    <header className="w-full bg-white border-b border-gray-200  top-0 z-50">
+      <nav className="flex items-center justify-between px-6 py-4 ">
         {/* Logo */}
         <Link href="/" className="flex items-center gap-2 test-black shrink-0">
           {logoUrl ? (

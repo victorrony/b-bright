@@ -12,7 +12,7 @@ interface CoursePreviewCardProps {
 
 export default function CoursePreviewCard({ slug, image, title, details, labelEnroll = "INSCREVER" }: Readonly<CoursePreviewCardProps>) {
   return (
-    <div className="flex flex-row rounded-xl overflow-hidden w-full max-w-134">
+    <div className="flex flex-row rounded-xl overflow-hidden w-ful max-w-134">
       <Image
         src={image}
         alt={title}
@@ -20,10 +20,10 @@ export default function CoursePreviewCard({ slug, image, title, details, labelEn
         width={180}
         height={240}
       />
-      <div className="p-4 flex flex-col justify-between flex-1">
+      <div className="p-4 flex flex-col justify-between ">
         <div>
           <h3
-            className="font-proxima font-[250] text-[32px] leading-[100%] uppercase mb-3 text-primary"
+            className="font-proxima font-[250] md:text-[20px] lg:text-[32px] leading-[100%] uppercase mb-3 text-primary"
           >
             {title}
           </h3>

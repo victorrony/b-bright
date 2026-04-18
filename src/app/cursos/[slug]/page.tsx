@@ -55,7 +55,7 @@ export default async function CourseRegistrationPage({
     <>
       {/* Hero split */}
       <section className="w-full">
-        <div className="relative flex flex-col justify-end p-10" style={{ minHeight: "816px" }}>
+        <div className="relative flex flex-col justify-end p-8 md:p-10" style={{ minHeight: "816px" }}>
           {courseImage && (
             <Image
               src={courseImage}
@@ -101,9 +101,9 @@ export default async function CourseRegistrationPage({
       </section>
 
       {/* Other courses */}
-      <section className="w-full bg-white py-20">
+      <section className="w-full bg-white py-8 lg:py-20">
         <div className="max-w-272.5 mx-auto">
-          <div className="text-center mb-12">
+          <div className="text-center mx-3.5 mb-12">
             {/* <h2 className="font-proxima font-[250] text-[48px] leading-[100%] text-primary uppercase text-center mb-6">
               {cp.otherTitle}
             </h2>
@@ -114,7 +114,7 @@ export default async function CourseRegistrationPage({
             <SplitTitle title={cp.otherTitle} subtitle={cp.otherSubtitle} centered />
           </div>
 
-          <div className="flex flex-row flex-wrap w-full gap- justify-between">
+          <div className="flex flex-row flex-wrap md:flex-nowrap w-ful mx-3.5 md:mx-4 gap-y-6 justify-between">
             {otherCourses.map((c) => (
               <CoursePreviewCard
                 key={c.documentId}

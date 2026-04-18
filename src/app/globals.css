@@ -1,5 +1,9 @@
 @import "tailwindcss";
 
+html {
+  scroll-behavior: smooth;
+}
+
 /* ============================================================
    B-BRIGHT DESIGN SYSTEM
    Brand: Youth Leadership & Entrepreneurship — Cape Verde

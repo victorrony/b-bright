@@ -1,18 +1,14 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
+import { DM_Sans } from "next/font/google";
 import "./globals.css";
 import Navbar from "@/components/layout/Navbar";
 import Footer from "@/components/layout/Footer";
 import { getGlobal, getCourseImageUrl } from "@/lib/strapi";
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
+const dmSans = DM_Sans({
+  variable: "--font-proxima",
   subsets: ["latin"],
-});
-
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
-  subsets: ["latin"],
+  weight: ["300", "400", "600", "700"],
 });
 
 export async function generateMetadata(): Promise<Metadata> {
@@ -24,13 +20,27 @@ export async function generateMetadata(): Promise<Metadata> {
     },
     description: global.siteDescription ?? undefined,
     metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL ?? "http://localhost:3000"),
+    icons: {
+      icon: "/logo.png",
+      shortcut: "/logo.png",
+      apple: "/logo.png",
+    },
     openGraph: {
       siteName: global.siteName,
       locale: "pt_PT",
       type: "website",
+      images: [
+        {
+          url: "/logo.png",
+          width: 512,
+          height: 512,
+          alt: global.siteName,
+        },
+      ],
     },
     twitter: {
       card: "summary_large_image",
+      images: ["/logo.png"],
     },
   };
 }
@@ -44,7 +54,7 @@ export default async function RootLayout({
 
   return (
     <html lang="pt">
-      <body className={`${geistSans.variable} ${geistMono.variable} antialiased max-w-360 m-auto`}>
+      <body className={`${dmSans.variable} antialiased max-w-360 m-auto`}>
         <Navbar
           navLinks={global.navLinks}
           ctaLabel={global.ctaLabel}

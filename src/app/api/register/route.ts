@@ -40,6 +40,10 @@ export async function POST(req: NextRequest) {
   const strapiUrl = process.env.STRAPI_URL ?? 'http://localhost:1337';
   const token = process.env.STRAPI_API_TOKEN;
 
+  // Transforma o campo `course` de string (documentId) para o formato de
+  // relação do Strapi v5: { connect: [{ documentId: "..." }] }
+  // O frontend envia { data: { ...payload } } já com course transformado
+  // O controller do Strapi trata a transformação — passar o body tal como vem
   const res = await fetch(`${strapiUrl}/api/registrations`, {
     method: 'POST',
     headers: {
@@ -50,8 +54,10 @@ export async function POST(req: NextRequest) {
   });
 
   if (!res.ok) {
+    const errBody = await res.text();
+    console.error('[register] Strapi error:', res.status, errBody);
     return NextResponse.json(
-      { error: 'Erro ao processar inscrição.' },
+      { error: 'Erro ao processar inscrição.', detail: errBody },
       { status: res.status }
     );
   }

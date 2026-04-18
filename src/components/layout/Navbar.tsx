@@ -5,12 +5,21 @@ import { useState } from "react";
 import { Menu, X } from "lucide-react";
 import type { NavLink } from "@/lib/strapi";
 
+function handleAnchorClick(e: React.MouseEvent<HTMLAnchorElement>, href: string) {
+  if (!href.includes("#")) return;
+  const id = href.split("#")[1];
+  const el = document.getElementById(id);
+  if (!el) return;
+  e.preventDefault();
+  el.scrollIntoView({ behavior: "smooth", block: "start" });
+}
+
 interface NavbarProps {
-  navLinks: NavLink[];
-  ctaLabel: string;
-  ctaHref: string;
-  logoUrl?: string;
-  siteName?: string;
+  readonly navLinks: NavLink[];
+  readonly ctaLabel: string;
+  readonly ctaHref: string;
+  readonly logoUrl?: string;
+  readonly siteName?: string;
 }
 
 export default function Navbar({ navLinks, ctaLabel, ctaHref, logoUrl, siteName }: NavbarProps) {
@@ -45,6 +54,7 @@ export default function Navbar({ navLinks, ctaLabel, ctaHref, logoUrl, siteName 
               <Link
                 href={link.href}
                 className="text-sm font-semibold tracking-wider text-gray-700 hover:text-blue-700 transition-colors"
+                onClick={(e) => handleAnchorClick(e, link.href)}
               >
                 {link.label}
               </Link>
@@ -81,7 +91,7 @@ export default function Navbar({ navLinks, ctaLabel, ctaHref, logoUrl, siteName 
                 <Link
                   href={link.href}
                   className="text-sm font-semibold tracking-wider text-gray-700 hover:text-blue-700"
-                  onClick={() => setMobileOpen(false)}
+                  onClick={(e) => { handleAnchorClick(e, link.href); setMobileOpen(false); }}
                 >
                   {link.label}
                 </Link>

@@ -27,7 +27,7 @@ export default function Navbar({ navLinks, ctaLabel, ctaHref, logoUrl, siteName 
 
   return (
     <header className="w-full bg-white border-b border-gray-200 max-w-360 m-auto top-0 z-50">
-      <nav className="flex items-center justify-between px-6 py-4 ">
+      <nav className="flex items-center justify-between px-6 py-2 ">
         {/* Logo */}
         <Link href="/" className="flex items-center gap-2 test-black shrink-0">
           {logoUrl ? (
@@ -66,7 +66,7 @@ export default function Navbar({ navLinks, ctaLabel, ctaHref, logoUrl, siteName 
         <div className="hidden lg:flex">
           <Link
             href={ctaHref}
-            className="px-5 py-2.5 rounded-full text-xs font-bold tracking-wider text-white transition-colors bg-primary-dark"
+            className="px-8 py-3.5 rounded-full text-sm font-bold tracking-wider text-white transition-colors bg-primary-dark"
           >
             {ctaLabel}
           </Link>

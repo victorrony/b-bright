@@ -41,7 +41,7 @@ export default function HeroSection({ backgroundImage, backgroundIsVideo, button
                {/* <SplitTitle title={title} dark size="lg" titleClassName="mb-8" /> */}
 
                <h1 className="text-hero text-white mb-8 flex flex-col">
-                     <span className=" ">B-Bright, give a <span className=" text-primary">gift</span>  to your future.</span>
+                     <span className=" ">B-Bright, give a <span className=" text-accent">gift</span>  to your future.</span>
                </h1>
 
                <div className="flex flex-col items-center md:flex-row w-68 md:w-full gap-12">

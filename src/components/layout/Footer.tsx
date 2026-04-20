@@ -36,7 +36,7 @@ export default function Footer({
             {description && (
               <p className="text-gray-400 text-sm leading-relaxed mb-6">{description}</p>
             )}
-            <div className="flex flex-row gap-8">
+            <div className="flex flex-row w-full gap-4">
               {phone && (
                 <div className="flex items-center gap-2 text-sm text-accent">
                   <Phone size={14} />

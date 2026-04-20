@@ -54,7 +54,7 @@ export default async function RootLayout({
 
   return (
     <html lang="pt">
-      <body className={`${dmSans.variable} antialiased max-w-360 m-auto`}>
+      <body className={`${dmSans.variable} antialiased  m-auto`}>
         <Navbar
           navLinks={global.navLinks}
           ctaLabel={global.ctaLabel}

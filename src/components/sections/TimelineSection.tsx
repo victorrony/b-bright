@@ -41,19 +41,19 @@ export default function TimelineSection({ title, subtitle, milestones }: Readonl
 
   return (
     <section id="journey" className="w-full bg-white pt-24 pb-16">
-      <div className="max-w-7xl mx-auto px-6">
+      <div className="lg:mx-[12.2%] mx-aut px-6 lg:px-0">
         <div className="mb-16 ">
           <SplitTitle title={title} subtitle={subtitle} direction="row" centered />
         </div>
 
         {/* Timeline line + cards */}
         <div className="relative">
-          <div className="hidden lg:block absolute h-px bg-gray-200 z-0" style={{ top: "20px", left: "6%", right: "0%" }} />
+          <div className="hidden lg:block absolute h-px bg-gray-200 z-0" style={{ top: "20px", left: "0.5%", right: "0.5%" }} />
 
           {/* Carousel track */}
           <div
             ref={trackRef}
-            className="flex flex-row gap-4 md:ml-14 lg:ml-[5.8%] overflow-x-auto scroll-smooth no-scrollbar pb-4 relative z-10"
+            className="flex flex-row gap-4 md:ml-14 lg:ml-0  overflow-x-auto scroll-smooth no-scrollbar pb-4 relative z-10"
           >
             {milestones.map((m) => (
               <MilestoneCard key={m.year} year={m.year} title={m.title} description={m.description} />

@@ -43,13 +43,13 @@ export default function CourseCard({
   labelEnroll = 'INSCREVER',
 }: CourseCardProps) {
   return (
-    <div className="flex flex-col lg:flex-row w-full max-w-[1080px] gap-8 mx-auto items-center">
+    <div className="flex flex-col lg:flex-row w-full max-w-[1080px] gap-14 mx-auto items-center">
       {/* Image */}
       <div className={cn(reverse ? "lg:order-2" : "", "flex justify-center w-full lg:w-auto shrink-0")}>
         <Image
           src={image}
           alt={title}
-          className="object-cover rounded-[4px] shadow-lg w-full lg:w-101.75 h-150"
+          className="object-cover rounded-sm w-full lg:w-101.75 h-150"
           width={407}
           height={600}
           sizes="(max-width: 1024px) 100vw, 407px"
@@ -58,7 +58,7 @@ export default function CourseCard({
 
       {/* Content */}
       <div className={cn(reverse ? "lg:order-1" : "", "flex-1 w-full")}>
-        <h2 className="font-proxima font-[250] text-[32px] lg:text-[44px] leading-[100%] text-primary uppercase mb-4">
+        <h2 className="font-proxima font-[250] text-[32px] lg:text-[48px] leading-[100%] text-primary uppercase mb-4">
           {title}
         </h2>
         <p className="font-proxima font-normal text-base lg:text-[18px] leading-[160%] text-navy mb-1">

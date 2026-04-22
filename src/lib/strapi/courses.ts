@@ -34,6 +34,11 @@ export interface StrapiCourse {
   details: CourseDetail[];
   image?: StrapiImage | StrapiImage[];
   formFields?: CourseFormField[];
+  featured?: boolean;
+  startDate?: string;
+  duration?: string;
+  spots?: number;
+  courseStatus?: 'aberto' | 'encerrado' | 'em_breve';
 }
 
 export async function getCourses(): Promise<StrapiCourse[]> {

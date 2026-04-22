@@ -24,7 +24,7 @@ export default function EmpoweringYouthSection({
 
    return (
       <section id="about" className="w-full bg-white m-auto py-20">
-         <div className="max-w-6xl flex flex-row mx-4 md:mx-auto flex-wrap md:flex-nowrap lg:gap-6 items-center justify-center">
+         <div className="max-w-7xl flex flex-row mx-4 md:mx-10 lg:mx-auto flex-wrap md:flex-nowrap lg:gap-6 items-center justify-center">
             {/* Image with B-shape clip path */}
             <div className="flex justify-center w-full md:w-1/2 mb-12 md:mb-0">
                <div className="relative w-57 h-85 md:w-101.75 md:h-131.25">

@@ -60,10 +60,32 @@ export default function Navbar({ navLinks, ctaLabel, ctaHref, logoUrl, siteName 
               </Link>
             </li>
           ))}
+          <li>
+            <Link
+              href="/galeria"
+              className="text-sm font-semibold tracking-wider text-gray-700 hover:text-blue-700 transition-colors"
+            >
+              GALERIA
+            </Link>
+          </li>
+          <li>
+            <Link
+              href="/documentos"
+              className="text-sm font-semibold tracking-wider text-gray-700 hover:text-blue-700 transition-colors"
+            >
+              DOCUMENTOS
+            </Link>
+          </li>
         </ul>
 
-        {/* CTA button */}
-        <div className="hidden lg:flex">
+        {/* CTA buttons */}
+        <div className="hidden lg:flex items-center gap-3">
+          <Link
+            href="/tornar-me-membro"
+            className="px-6 py-3 rounded-full text-sm font-bold tracking-wider border-2 transition-colors border-primary-dark text-primary-dark hover:bg-primary-dark hover:text-white"
+          >
+            Tornar-me Membro
+          </Link>
           <Link
             href={ctaHref}
             className="px-8 py-3.5 rounded-full text-sm font-bold tracking-wider text-white transition-colors bg-primary-dark"
@@ -99,8 +121,35 @@ export default function Navbar({ navLinks, ctaLabel, ctaHref, logoUrl, siteName 
             ))}
             <li>
               <Link
+                href="/galeria"
+                className="text-sm font-semibold tracking-wider text-gray-700 hover:text-blue-700"
+                onClick={() => setMobileOpen(false)}
+              >
+                GALERIA
+              </Link>
+            </li>
+            <li>
+              <Link
+                href="/documentos"
+                className="text-sm font-semibold tracking-wider text-gray-700 hover:text-blue-700"
+                onClick={() => setMobileOpen(false)}
+              >
+                DOCUMENTOS
+              </Link>
+            </li>
+            <li>
+              <Link
+                href="/tornar-me-membro"
+                className="inline-block px-5 py-2 rounded-full text-xs font-bold tracking-wider border-2 border-primary-dark text-primary-dark mt-2"
+                onClick={() => setMobileOpen(false)}
+              >
+                Tornar-me Membro
+              </Link>
+            </li>
+            <li>
+              <Link
                 href={ctaHref}
-                className="inline-block px-5 py-2 rounded-full text-xs font-bold tracking-wider text-white mt-2 bg-primary-dark"
+                className="inline-block px-5 py-2 rounded-full text-xs font-bold tracking-wider text-white mt-1 bg-primary-dark"
                 onClick={() => setMobileOpen(false)}
               >
                 {ctaLabel}

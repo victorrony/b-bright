@@ -11,6 +11,13 @@ interface SplitTitleProps {
   direction?: "col" | "row";
 }
 
+function renderWithAccent(text: string) {
+  const parts = text.split(/\*\*(.+?)\*\*/g);
+  return parts.map((part, i) =>
+    i % 2 === 1 ? <span key={i} className="text-accent">{part}</span> : part
+  );
+}
+
 const sizeMap = {
   sm: "text-[20px] md:text-[32px]",
   md: "text-[28px] md:text-[48px]",
@@ -31,8 +38,8 @@ export default function SplitTitle({ title, subtitle, className, titleClassName,
         centered && "items-center",
         titleClassName,
       )}>
-        <span className="font-[250]">{line1}</span>
-        {line2 && <span className="font-bold">{line2}</span>}
+        <span className="font-[250]">{renderWithAccent(line1)}</span>
+        {line2 && <span className="font-bold">{renderWithAccent(line2)}</span>}
       </h2>
       {subtitle && (
         <p className={cn(

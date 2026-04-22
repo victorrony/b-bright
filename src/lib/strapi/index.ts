@@ -14,3 +14,12 @@ export { getGlobal } from './global';
 
 export type { RegistrationPayload } from './registrations';
 export { submitRegistration } from './registrations';
+
+export type { MemberPayload } from './members';
+export { submitMember } from './members';
+
+export type { StrapiDocument, StrapiFile, DocumentCategory } from './documents';
+export { getDocuments, getDocumentFileUrl, CATEGORY_LABELS } from './documents';
+
+export type { StrapiAlbum, AlbumCategory } from './albums';
+export { getAlbums, getAlbumBySlug, getAlbumImageUrl, getYoutubeEmbedUrl, getVimeoEmbedUrl, ALBUM_CATEGORY_LABELS } from './albums';

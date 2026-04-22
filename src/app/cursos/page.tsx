@@ -1,6 +1,6 @@
 import Image from "next/image";
 import CTASection from "@/components/sections/CTASection";
-import CourseCard from "@/components/ui/CourseCard";
+import CoursesFilter from "@/components/sections/CoursesFilter";
 import { getCourses, getCourseImageUrl, getCoursesPage, getGlobal, getHomepage } from "@/lib/strapi";
 
 export default async function CursosPage() {
@@ -40,27 +40,15 @@ export default async function CursosPage() {
         </div>
       </section>
 
-      {/* Course listings */}
-      <section className="w-full bg-white py-20 px-6">
-        <div className="max-w-6xl mx-auto flex flex-col gap-20">
-          {courses.map((course, idx) => (
-            <CourseCard
-              key={course.documentId}
-              slug={course.slug}
-              image={getCourseImageUrl(course.image)}
-              title={course.title}
-              organizer={course.organizer}
-              trainer={course.trainer}
-              credentials={course.credentials ?? []}
-              description={course.description}
-              extraText={course.extraText}
-              details={course.details ?? []}
-              reverse={idx % 2 === 1}
-              labelOrganizer={global.courseLabelOrganizer ?? 'Organizado por'}
-              labelTrainer={global.courseLabelTrainer ?? 'Formador'}
-              labelEnroll={global.courseLabelEnroll ?? 'INSCREVER'}
-            />
-          ))}
+      {/* Listagem com filtros */}
+      <section className="w-full mx-auto bg-white py-20 px-6">
+        <div className="max-w-6xl mx-auto">
+          <CoursesFilter
+            courses={courses.map((c) => ({ ...c, imageUrl: getCourseImageUrl(c.image) }))}
+            labelOrganizer={global.courseLabelOrganizer ?? 'Organizado por'}
+            labelTrainer={global.courseLabelTrainer ?? 'Formador'}
+            labelEnroll={global.courseLabelEnroll ?? 'INSCREVER'}
+          />
         </div>
       </section>
 

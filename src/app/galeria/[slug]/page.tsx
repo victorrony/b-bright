@@ -59,7 +59,7 @@ export default async function AlbumPage({ params }: { params: Promise<{ slug: st
             sizes="100vw"
           />
         )}
-        <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent" />
+        <div className="absolute inset-0 bg-gradient-brand opacity-40" />
         <div className="absolute inset-0 flex flex-col justify-end px-6 pb-10 max-w-4xl mx-auto w-full">
           <Link
             href="/galeria"

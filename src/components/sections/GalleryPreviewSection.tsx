@@ -1,57 +1,47 @@
 import Image from "next/image";
 import Link from "next/link";
-import { ArrowRight } from "lucide-react";
 import type { StrapiAlbum } from "@/lib/strapi";
 import { getAlbumImageUrl, ALBUM_CATEGORY_LABELS } from "@/lib/strapi";
+import SplitTitle from "../ui/SplitTitle";
 
 interface GalleryPreviewSectionProps {
   albums: StrapiAlbum[];
+  label?: string;
+  title?: string;
+  linkLabel?: string;
 }
 
-export default function GalleryPreviewSection({ albums }: Readonly<GalleryPreviewSectionProps>) {
-  const recent = albums.slice(0, 3);
+export default function GalleryPreviewSection({ albums, label = "Galeria", title = "Momentos GBB", linkLabel = "Ver galeria completa" }: Readonly<GalleryPreviewSectionProps>) {
+  const recent = albums;
   if (recent.length === 0) return null;
 
   return (
     <section className="w-full py-20 px-6 bg-white">
       <div className="max-w-6xl mx-auto">
         {/* Cabeçalho */}
-        <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 mb-12">
-          <div>
-            <p className="text-sm font-semibold tracking-widest uppercase text-primary mb-2">
-              Galeria
-            </p>
-            <h2
-              className="font-proxima font-[250] text-[36px] md:text-[48px] leading-tight uppercase"
-              style={{ color: "var(--color-primary-dark)" }}
-            >
-              Momentos GBB
-            </h2>
-          </div>
-          <Link
+        <div className="flex flex-col sm:flex-row sm:items-end justify-center gap-4 mb-12">    
+          <SplitTitle title={title} subtitle={label} direction="row" centered />
+          {/* <Link
             href="/galeria"
             className="inline-flex items-center gap-2 px-6 py-3 rounded-full border-2 border-primary-dark text-primary-dark text-sm font-bold tracking-wider hover:bg-primary-dark hover:text-white transition-colors shrink-0"
           >
-            Ver galeria completa <ArrowRight size={16} />
-          </Link>
+            {linkLabel} <ArrowRight size={16} />
+          </Link> */}
         </div>
 
-        {/* Grelha de 3 álbuns */}
-        <div className="grid grid-cols-1 sm:grid-cols-3 gap-6">
-          {recent.map((album, idx) => {
+        {/* Scroll horizontal de álbuns */}
+        <div className="flex gap-5 overflow-x-auto pb-4 no-scrollbar" style={{ scrollbarWidth: "none" as const }}>
+          {recent.map((album) => {
             const coverUrl = getAlbumImageUrl(album.cover);
             const dateFormatted = new Date(album.eventDate).toLocaleDateString("pt-PT", {
               month: "long", year: "numeric",
             });
-            // Primeiro álbum maior
-            const isMain = idx === 0;
 
             return (
               <Link
                 key={album.documentId}
                 href={`/galeria/${album.slug}`}
-                className={`group relative overflow-hidden rounded-2xl bg-gray-200 ${isMain ? "sm:row-span-2" : ""}`}
-                style={{ minHeight: isMain ? "480px" : "220px" }}
+                className="group relative shrink-0 w-72 h-64 overflow-hidden rounded-2xl bg-gray-200"
               >
                 {coverUrl && (
                   <Image
@@ -59,7 +49,7 @@ export default function GalleryPreviewSection({ albums }: Readonly<GalleryPrevie
                     alt={album.title}
                     fill
                     className="object-cover group-hover:scale-105 transition-transform duration-500"
-                    sizes="(max-width: 640px) 100vw, 33vw"
+                    sizes="288px"
                   />
                 )}
                 <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent" />

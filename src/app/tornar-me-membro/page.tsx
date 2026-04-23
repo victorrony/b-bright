@@ -1,4 +1,6 @@
 import type { Metadata } from "next";
+import Image from "next/image";
+import { getMemberPage, getCourseImageUrl } from "@/lib/strapi";
 import MemberForm from "@/components/ui/MemberForm";
 
 export const metadata: Metadata = {
@@ -7,25 +9,42 @@ export const metadata: Metadata = {
     "Regista-te como membro da Geração B-Bright e faz parte da nossa comunidade.",
 };
 
-export default function TornarMeMembroPage() {
+export default async function TornarMeMembroPage() {
+  const mp = await getMemberPage().catch(() => ({
+    heroLabel: "Comunidade",
+    heroTitle: "Torna-te Membro",
+    heroImage: undefined,
+  }));
+
+  const heroImage = mp.heroImage
+    ? getCourseImageUrl(Array.isArray(mp.heroImage) ? mp.heroImage[0] : mp.heroImage)
+    : null;
+
   return (
     <main className="min-h-screen bg-gray-50">
       {/* Hero */}
       <section
-        className="py-20 px-6 text-white text-center"
-        style={{ backgroundColor: "var(--color-primary-dark)" }}
+        className="relative w-full overflow-hidden flex items-end"
+        style={{ minHeight: "400px" }}
       >
-        <div className="max-w-2xl mx-auto">
-          <p className="text-sm font-semibold tracking-widest uppercase opacity-75 mb-3">
-            Comunidade
+        {heroImage && (
+          <Image
+            src={heroImage}
+            alt="Tornar-me membro hero"
+            className="object-cover"
+            fill
+            sizes="(max-width: 768px) 100vw, 1440px"
+            priority
+          />
+        )}
+        <div className="absolute inset-0 bg-gradient-brand opacity-40" />
+        <div className="relative z-10 max-w-6xl mx-auto px-6 pb-16 pt-24 w-full">
+          <p className="text-white font-proxima font-normal text-[28px] leading-[100%] uppercase mb-3">
+            {mp.heroLabel}
           </p>
-          <h1 className="text-4xl md:text-5xl font-bold leading-tight mb-4">
-            Torna-te Membro
+          <h1 className="text-white font-proxima font-normal text-[40px] leading-[100%] uppercase">
+            {mp.heroTitle}
           </h1>
-          <p className="text-lg opacity-80 leading-relaxed">
-            Junta-te à Geração B-Bright e faz parte de uma comunidade que
-            transforma vidas através da formação, fé e propósito.
-          </p>
         </div>
       </section>
 

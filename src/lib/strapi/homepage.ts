@@ -44,6 +44,14 @@ export interface HomepageData {
   visionSubtitle: string;
   visionInitiatives: Initiative[];
 
+  coursesLabel: string;
+  coursesTitle: string;
+  coursesLinkLabel: string;
+
+  galleryLabel: string;
+  galleryTitle: string;
+  galleryLinkLabel: string;
+
   ctaHeading1: string;
   ctaHeading2: string;
   ctaBody: string;

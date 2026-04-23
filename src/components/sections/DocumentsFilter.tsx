@@ -2,6 +2,7 @@
 
 import { useState, useMemo } from "react";
 import { Search, FileText, Download, Calendar } from "lucide-react";
+import Pagination from "@/components/ui/Pagination";
 import type { StrapiDocument, DocumentCategory } from "@/lib/strapi";
 import { CATEGORY_LABELS, getDocumentFileUrl } from "@/lib/strapi";
 
@@ -11,19 +12,11 @@ interface DocumentsFilterProps {
   documents: StrapiDocument[];
 }
 
-const CATEGORY_OPTIONS: { value: CategoryFilter; label: string }[] = [
-  { value: "todas",                label: "Todas" },
-  { value: "relatorios_anuais",    label: "Relatórios Anuais" },
-  { value: "prestacoes_de_contas", label: "Prestações de Contas" },
-  { value: "atas_de_reuniao",      label: "Atas de Reunião" },
-  { value: "outros",               label: "Outros" },
-];
-
 const EXT_ICONS: Record<string, string> = {
-  ".pdf":  "PDF",
-  ".doc":  "DOC",
+  ".pdf": "PDF",
+  ".doc": "DOC",
   ".docx": "DOC",
-  ".xls":  "XLS",
+  ".xls": "XLS",
   ".xlsx": "XLS",
 };
 
@@ -89,14 +82,25 @@ function DocumentCard({ doc }: { doc: StrapiDocument }) {
   );
 }
 
+const PAGE_SIZE = 10;
+
 export default function DocumentsFilter({ documents }: Readonly<DocumentsFilterProps>) {
   const [query, setQuery] = useState("");
   const [category, setCategory] = useState<CategoryFilter>("todas");
   const [year, setYear] = useState<string>("todos");
+  const [page, setPage] = useState(1);
 
   const years = useMemo(() => {
     const ys = [...new Set(documents.map((d) => new Date(d.publishDate).getFullYear()))].sort((a, b) => b - a);
     return ys;
+  }, [documents]);
+
+  const categoryOptions = useMemo(() => {
+    const cats = [...new Set(documents.map((d) => d.category))];
+    return [
+      { value: "todas" as CategoryFilter, label: "Todas" },
+      ...cats.map((c) => ({ value: c as CategoryFilter, label: CATEGORY_LABELS[c] ?? c })),
+    ];
   }, [documents]);
 
   const filtered = useMemo(() => {
@@ -112,50 +116,37 @@ export default function DocumentsFilter({ documents }: Readonly<DocumentsFilterP
   return (
     <>
       {/* Barra de filtros */}
-      <div className="flex flex-col sm:flex-row gap-4 mb-10">
+
+      <div className="flex flex-col mx-auto sm:flex-row gap-4 mb-12">
         {/* Pesquisa */}
         <div className="relative flex-1 max-w-sm">
-          <Search size={15} className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400" />
+          <Search size={16} className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400" />
           <input
             type="search"
             placeholder="Pesquisar documentos..."
             value={query}
-            onChange={(e) => setQuery(e.target.value)}
+            onChange={(e) => { setQuery(e.target.value); setPage(1); }}
             className="w-full border border-gray-300 rounded-full pl-10 pr-4 h-11 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
           />
         </div>
 
-        {/* Filtro por ano */}
-        {years.length > 1 && (
-          <select
-            value={year}
-            onChange={(e) => setYear(e.target.value)}
-            className="border border-gray-300 rounded-full px-4 h-11 text-sm bg-white text-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500"
-          >
-            <option value="todos">Todos os anos</option>
-            {years.map((y) => (
-              <option key={y} value={y.toString()}>{y}</option>
-            ))}
-          </select>
-        )}
+        {/* Filtro de estado */}
+        <div className="flex gap-2 flex-wrap">
+          {categoryOptions.map((opt) => (
+            <button
+              key={opt.value}
+              onClick={() => { setCategory(opt.value); setPage(1); }}
+              className={`px-4 py-2 rounded-full text-xs font-bold tracking-wider border transition-colors ${category === opt.value
+                  ? "bg-primary-dark text-white border-primary-dark"
+                  : "bg-white text-gray-600 border-gray-300 hover:border-primary-dark"
+                }`}
+            >
+              {opt.label}
+            </button>
+          ))}
+        </div>
       </div>
 
-      {/* Tabs de categoria */}
-      <div className="flex gap-2 flex-wrap mb-8">
-        {CATEGORY_OPTIONS.map((opt) => (
-          <button
-            key={opt.value}
-            onClick={() => setCategory(opt.value)}
-            className={`px-4 py-2 rounded-full text-xs font-bold tracking-wider border transition-colors ${
-              category === opt.value
-                ? "bg-primary-dark text-white border-primary-dark"
-                : "bg-white text-gray-600 border-gray-300 hover:border-primary-dark"
-            }`}
-          >
-            {opt.label}
-          </button>
-        ))}
-      </div>
 
       {/* Contador */}
       {filtered.length > 0 && (
@@ -172,11 +163,18 @@ export default function DocumentsFilter({ documents }: Readonly<DocumentsFilterP
           <p className="text-sm mt-1">Tenta ajustar a pesquisa ou os filtros.</p>
         </div>
       ) : (
-        <div className="flex flex-col gap-3">
-          {filtered.map((doc) => (
-            <DocumentCard key={doc.documentId} doc={doc} />
-          ))}
-        </div>
+        <>
+          <div className="flex flex-col gap-3">
+            {filtered.slice((page - 1) * PAGE_SIZE, page * PAGE_SIZE).map((doc) => (
+              <DocumentCard key={doc.documentId} doc={doc} />
+            ))}
+          </div>
+          <Pagination
+            currentPage={page}
+            totalPages={Math.ceil(filtered.length / PAGE_SIZE)}
+            onPageChange={setPage}
+          />
+        </>
       )}
     </>
   );

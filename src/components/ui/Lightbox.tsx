@@ -63,7 +63,7 @@ export default function Lightbox({ images, currentIndex, onClose, onPrev, onNext
 
       {/* Imagem */}
       <div
-        className="relative max-w-5xl w-full mx-16 max-h-[85vh] aspect-auto"
+        className="relative max-w-5xl w-full mx-16 h-[85vh]"
         onClick={(e) => e.stopPropagation()}
       >
         <Image

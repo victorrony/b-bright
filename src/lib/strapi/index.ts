@@ -23,3 +23,12 @@ export { getDocuments, getDocumentFileUrl, CATEGORY_LABELS } from './documents';
 
 export type { StrapiAlbum, AlbumCategory } from './albums';
 export { getAlbums, getAlbumBySlug, getAlbumImageUrl, getYoutubeEmbedUrl, getVimeoEmbedUrl, ALBUM_CATEGORY_LABELS } from './albums';
+
+export type { GalleryPageData } from './gallery-page';
+export { getGalleryPage } from './gallery-page';
+
+export type { DocumentsPageData } from './documents-page';
+export { getDocumentsPage } from './documents-page';
+
+export type { MemberPageData } from './member-page';
+export { getMemberPage } from './member-page';

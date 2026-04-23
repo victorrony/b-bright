@@ -1,7 +1,9 @@
+import React from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { ArrowRight, Calendar, Clock, Users } from "lucide-react";
 import type { StrapiCourse } from "@/lib/strapi";
+import SplitTitle from "../ui/SplitTitle";
 
 export interface CourseWithImageUrl extends Omit<StrapiCourse, "image"> {
   imageUrl: string;
@@ -9,6 +11,9 @@ export interface CourseWithImageUrl extends Omit<StrapiCourse, "image"> {
 
 interface CoursesSectionProps {
   courses: CourseWithImageUrl[];
+  label?: string;
+  title?: string;
+  linkLabel?: string;
 }
 
 const STATUS_LABELS: Record<string, { label: string; color: string }> = {
@@ -74,10 +79,9 @@ function CourseHighlightCard({ course, imageUrl }: { course: StrapiCourse; image
   );
 }
 
-export default function CoursesSection({ courses }: Readonly<CoursesSectionProps>) {
-  // Mostrar só featured ou, se não houver, os primeiros 4
+export default function CoursesSection({ courses, label = "Formação", title = "Cursos da Geração", linkLabel = "Ver todos os cursos" }: Readonly<CoursesSectionProps>) {
   const featured = courses.filter((c) => c.featured);
-  const displayed = (featured.length > 0 ? featured : courses).slice(0, 4);
+  const displayed = featured.length > 0 ? featured : courses;
 
   if (displayed.length === 0) return null;
 
@@ -85,34 +89,36 @@ export default function CoursesSection({ courses }: Readonly<CoursesSectionProps
     <section id="cursos" className="w-full py-20 px-6 bg-gray-50">
       <div className="max-w-6xl mx-auto">
         {/* Cabeçalho */}
-        <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 mb-12">
-          <div>
-            <p className="text-sm font-semibold tracking-widest uppercase text-primary mb-2">
-              Formação
-            </p>
-            <h2
-              className="font-proxima font-[250] text-[36px] md:text-[48px] leading-tight uppercase"
-              style={{ color: "var(--color-primary-dark)" }}
-            >
-              Cursos da Geração
-            </h2>
-          </div>
-          <Link
+        <div className="flex flex-col sm:flex-row sm:items-end justify-center gap-4 mb-12">
+            {/* <div>
+              <p className="text-sm font-semibold tracking-widest uppercase text-primary mb-2">
+                {label}
+              </p>
+              <h2
+                className="font-proxima font-[250] text-[36px] md:text-[48px] leading-tight uppercase"
+                style={{ color: "var(--color-primary-dark)" }}
+              >
+                {title}
+              </h2>
+            </div> */}
+            <SplitTitle title={title} subtitle={label} direction="row" centered />
+          {/* <Link
             href="/cursos"
             className="inline-flex items-center gap-2 px-6 py-3 rounded-full border-2 border-primary-dark text-primary-dark text-sm font-bold tracking-wider hover:bg-primary-dark hover:text-white transition-colors shrink-0"
           >
-            Ver todos os cursos <ArrowRight size={16} />
-          </Link>
+            {linkLabel} <ArrowRight size={16} />
+          </Link> */}
         </div>
 
-        {/* Grid de cursos */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+        {/* Scroll horizontal de cursos */}
+        <div className="flex gap-5 overflow-x-auto pb-4 no-scrollbar" style={{ scrollbarWidth: "none", msOverflowStyle: "none" } as React.CSSProperties}>
           {displayed.map((course) => (
-            <CourseHighlightCard
-              key={course.documentId}
-              course={course}
-              imageUrl={course.imageUrl}
-            />
+            <div key={course.documentId} className="shrink-0 w-72">
+              <CourseHighlightCard
+                course={course}
+                imageUrl={course.imageUrl}
+              />
+            </div>
           ))}
         </div>
 

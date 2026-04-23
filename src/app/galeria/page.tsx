@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
-import { getAlbums, getAlbumImageUrl } from "@/lib/strapi";
+import Image from "next/image";
+import { getAlbums, getAlbumImageUrl, getGalleryPage, getCourseImageUrl } from "@/lib/strapi";
 import GalleryGrid from "@/components/sections/GalleryGrid";
 
 export const metadata: Metadata = {
@@ -10,7 +11,14 @@ export const metadata: Metadata = {
 export const revalidate = 300;
 
 export default async function GaleriaPage() {
-  const albums = await getAlbums().catch(() => []);
+  const [albums, gp] = await Promise.all([
+    getAlbums().catch(() => []),
+    getGalleryPage().catch(() => ({ heroLabel: "Comunidade", heroTitle: "Galeria de Eventos", heroImage: undefined })),
+  ]);
+
+  const heroImage = gp.heroImage
+    ? getCourseImageUrl(Array.isArray(gp.heroImage) ? gp.heroImage[0] : gp.heroImage)
+    : null;
 
   const albumsWithUrls = albums.map((a) => ({
     ...a,
@@ -21,19 +29,27 @@ export default async function GaleriaPage() {
     <main className="min-h-screen bg-gray-50">
       {/* Hero */}
       <section
-        className="py-20 px-6 text-white text-center"
-        style={{ backgroundColor: "var(--color-primary-dark)" }}
+        className="relative w-full overflow-hidden flex items-end"
+        style={{ minHeight: "400px" }}
       >
-        <div className="max-w-2xl mx-auto">
-          <p className="text-sm font-semibold tracking-widest uppercase opacity-75 mb-3">
-            Comunidade
+        {heroImage && (
+          <Image
+            src={heroImage}
+            alt="Galeria hero"
+            className="object-cover"
+            fill
+            sizes="(max-width: 768px) 100vw, 1440px"
+            priority
+          />
+        )}
+        <div className="absolute inset-0 bg-gradient-brand opacity-40" />
+        <div className="relative z-10 max-w-6xl mx-auto px-6 pb-16 pt-24 w-full">
+          <p className="text-white font-proxima font-normal text-[28px] leading-[100%] uppercase mb-3">
+            {gp.heroLabel}
           </p>
-          <h1 className="text-4xl md:text-5xl font-proxima font-[250] leading-tight mb-4 uppercase">
-            Galeria de Eventos
+          <h1 className="text-white font-proxima font-normal text-[40px] leading-[100%] uppercase">
+            {gp.heroTitle}
           </h1>
-          <p className="text-lg opacity-80 leading-relaxed">
-            Momentos e memórias dos cursos, retiros e eventos da Geração B-Bright.
-          </p>
         </div>
       </section>
 

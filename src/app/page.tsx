@@ -63,8 +63,16 @@ export default async function HomePage() {
          />         
          <CoursesSection
             courses={courses.map((c) => ({ ...c, imageUrl: getCourseImageUrl(c.image) }))}
+            label={hp.coursesLabel}
+            title={hp.coursesTitle}
+            linkLabel={hp.coursesLinkLabel}
          />
-         <GalleryPreviewSection albums={albums} />
+         <GalleryPreviewSection
+            albums={albums}
+            label={hp.galleryLabel}
+            title={hp.galleryTitle}
+            linkLabel={hp.galleryLinkLabel}
+         />
          <CTASection
             heading1={hp.ctaHeading1}
             heading2={hp.ctaHeading2}

@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
-import { getDocuments } from "@/lib/strapi";
+import Image from "next/image";
+import { getDocuments, getDocumentsPage, getCourseImageUrl } from "@/lib/strapi";
 import DocumentsFilter from "@/components/sections/DocumentsFilter";
 
 export const metadata: Metadata = {
@@ -11,26 +12,40 @@ export const metadata: Metadata = {
 export const revalidate = 300;
 
 export default async function DocumentosPage() {
-  let documents = await getDocuments().catch(() => []);
+  const [documents, dp] = await Promise.all([
+    getDocuments().catch(() => []),
+    getDocumentsPage().catch(() => ({ heroLabel: "Transparência", heroTitle: "Documentos", heroImage: undefined })),
+  ]);
+
+  const heroImage = dp.heroImage
+    ? getCourseImageUrl(Array.isArray(dp.heroImage) ? dp.heroImage[0] : dp.heroImage)
+    : null;
 
   return (
     <main className="min-h-screen bg-gray-50">
       {/* Hero */}
       <section
-        className="py-20 px-6 text-white text-center"
-        style={{ backgroundColor: "var(--color-primary-dark)" }}
+        className="relative w-full overflow-hidden flex items-end"
+        style={{ minHeight: "400px" }}
       >
-        <div className="max-w-2xl mx-auto">
-          <p className="text-sm font-semibold tracking-widest uppercase opacity-75 mb-3">
-            Transparência
+        {heroImage && (
+          <Image
+            src={heroImage}
+            alt="Documentos hero"
+            className="object-cover"
+            fill
+            sizes="(max-width: 768px) 100vw, 1440px"
+            priority
+          />
+        )}
+        <div className="absolute inset-0 bg-gradient-brand opacity-40" />
+        <div className="relative z-10 max-w-6xl mx-auto px-6 pb-16 pt-24 w-full">
+          <p className="text-white font-proxima font-normal text-[28px] leading-[100%] uppercase mb-3">
+            {dp.heroLabel}
           </p>
-          <h1 className="text-4xl md:text-5xl font-bold leading-tight mb-4 uppercase font-proxima font-[250]">
-            Documentos
+          <h1 className="text-white font-proxima font-normal text-[40px] leading-[100%] uppercase">
+            {dp.heroTitle}
           </h1>
-          <p className="text-lg opacity-80 leading-relaxed">
-            Relatórios, prestações de contas e documentos oficiais da Geração B-Bright,
-            disponíveis para consulta pública.
-          </p>
         </div>
       </section>
 

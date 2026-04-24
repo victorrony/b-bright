@@ -62,20 +62,7 @@ function AlbumCard({ album }: { album: AlbumWithCoverUrl }) {
       </div>
 
       {/* Conteúdo */}
-      <div className="p-4 flex flex-col gap-1">
-        <p className="text-xs text-gray-400">{dateFormatted}</p>
-        <h3 className="font-proxima font-semibold text-base text-gray-800 line-clamp-2 group-hover:text-primary transition-colors">
-          {album.title}
-        </h3>
-        {album.description && (
-          <p className="text-xs text-gray-500 line-clamp-2 mt-1">{album.description}</p>
-        )}
-        {album.photos && album.photos.length > 0 && (
-          <p className="text-xs text-gray-400 mt-1 flex items-center gap-1">
-            <Images size={11} /> {album.photos.length} foto{album.photos.length !== 1 ? "s" : ""}
-          </p>
-        )}
-      </div>
+     
     </Link>
   );
 }

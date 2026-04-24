@@ -11,6 +11,14 @@ interface CourseCredential {
   label: string;
 }
 
+type CourseStatus = 'aberto' | 'encerrado' | 'em_breve';
+
+const STATUS_CONFIG: Record<CourseStatus, { label: string; className: string }> = {
+  aberto:    { label: 'Inscrições abertas', className: 'bg-green-100 text-green-700 border-green-200' },
+  em_breve:  { label: 'Em breve',           className: 'bg-yellow-100 text-yellow-700 border-yellow-200' },
+  encerrado: { label: 'Encerrado',          className: 'bg-red-100 text-red-600 border-red-200' },
+};
+
 interface CourseCardProps {
   slug: string;
   image: string;
@@ -21,6 +29,7 @@ interface CourseCardProps {
   description: string;
   extraText?: string;
   details: CourseDetail[];
+  courseStatus?: CourseStatus;
   reverse?: boolean;
   labelOrganizer?: string;
   labelTrainer?: string;
@@ -37,11 +46,14 @@ export default function CourseCard({
   description,
   extraText,
   details,
+  courseStatus,
   reverse = false,
   labelOrganizer = 'Organizado por',
   labelTrainer = 'Formador',
   labelEnroll = 'INSCREVER',
 }: CourseCardProps) {
+  const statusConfig = courseStatus ? STATUS_CONFIG[courseStatus] : null;
+
   return (
     <div className="flex flex-col lg:flex-row w-full max-w-[1080px] gap-14 mx-auto items-center">
       {/* Image */}
@@ -60,6 +72,11 @@ export default function CourseCard({
 
       {/* Content */}
       <div className={cn(reverse ? "lg:order-1" : "", "flex-1 w-full")}>
+        {statusConfig && (
+          <span className={`inline-block mb-3 px-3 py-1 rounded-full text-xs font-bold tracking-wider border ${statusConfig.className}`}>
+            {statusConfig.label}
+          </span>
+        )}
         <h2 className="font-proxima font-[250] text-[32px] lg:text-[48px] leading-[100%] text-primary uppercase mb-4">
           {title}
         </h2>

@@ -107,6 +107,7 @@ export default function CoursesFilter({ courses, labelOrganizer, labelTrainer, l
                 description={course.description}
                 extraText={course.extraText}
                 details={course.details ?? []}
+                courseStatus={course.courseStatus}
                 reverse={idx % 2 === 1}
                 labelOrganizer={labelOrganizer}
                 labelTrainer={labelTrainer}

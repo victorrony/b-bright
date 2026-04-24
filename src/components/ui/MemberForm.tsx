@@ -1,7 +1,7 @@
 "use client";
 
-import { useState } from "react";
-import { ArrowRight, CheckCircle, AlertCircle, Loader2 } from "lucide-react";
+import { useState, useRef } from "react";
+import { ArrowRight, CheckCircle, AlertCircle, Loader2, Camera, X } from "lucide-react";
 import { submitMember, type MemberPayload } from "@/lib/strapi";
 
 type Status = "idle" | "loading" | "success" | "error";
@@ -41,6 +41,22 @@ const labelClass = "block text-sm font-medium text-gray-700 mb-1";
 export default function MemberForm() {
   const [status, setStatus] = useState<Status>("idle");
   const [errorMsg, setErrorMsg] = useState("");
+  const [photoFile, setPhotoFile] = useState<File | null>(null);
+  const [photoPreview, setPhotoPreview] = useState<string | null>(null);
+  const fileInputRef = useRef<HTMLInputElement>(null);
+
+  function handlePhotoChange(e: React.ChangeEvent<HTMLInputElement>) {
+    const file = e.target.files?.[0];
+    if (!file) return;
+    setPhotoFile(file);
+    setPhotoPreview(URL.createObjectURL(file));
+  }
+
+  function removePhoto() {
+    setPhotoFile(null);
+    setPhotoPreview(null);
+    if (fileInputRef.current) fileInputRef.current.value = "";
+  }
 
   async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
@@ -72,9 +88,24 @@ export default function MemberForm() {
 
     setStatus("loading");
     try {
+      // Upload foto se existir
+      if (photoFile) {
+        const uploadForm = new FormData();
+        uploadForm.append("files", photoFile);
+        const uploadRes = await fetch("/api/member-upload", {
+          method: "POST",
+          body: uploadForm,
+        });
+        if (uploadRes.ok) {
+          const uploaded = await uploadRes.json();
+          (payload as unknown as Record<string, unknown>).photo = uploaded[0]?.id;
+        }
+      }
+
       await submitMember(payload);
       setStatus("success");
       form.reset();
+      removePhoto();
     } catch (err) {
       setStatus("error");
       setErrorMsg(err instanceof Error ? err.message : "Erro ao enviar registo. Tente novamente.");
@@ -103,6 +134,38 @@ export default function MemberForm() {
 
   return (
     <form onSubmit={handleSubmit} className="flex flex-col gap-5" noValidate>
+      {/* Foto de perfil */}
+      <div className="flex flex-col items-center gap-3">
+        <div className="relative w-24 h-24 rounded-full overflow-hidden border-2 border-gray-200 bg-gray-100 flex items-center justify-center shrink-0">
+          {photoPreview ? (
+            <img src={photoPreview ?? ""} alt="Pré-visualização" className="w-full h-full object-cover" />
+          ) : (
+            <Camera size={28} className="text-gray-400" />
+          )}
+        </div>
+        <div className="flex items-center gap-2">
+          <button
+            type="button"
+            onClick={() => fileInputRef.current?.click()}
+            className="text-sm font-medium text-primary underline hover:opacity-70"
+          >
+            {photoPreview ? "Alterar foto" : "Adicionar foto de perfil"}
+          </button>
+          {photoPreview && (
+            <button type="button" onClick={removePhoto} className="text-gray-400 hover:text-red-500">
+              <X size={15} />
+            </button>
+          )}
+        </div>
+        <input
+          ref={fileInputRef}
+          type="file"
+          accept="image/jpeg,image/png,image/webp"
+          className="hidden"
+          onChange={handlePhotoChange}
+        />
+      </div>
+
       {/* Nome completo */}
       <div>
         <label htmlFor="fullName" className={labelClass}>

@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import Image from "next/image";
+import Link from "next/link";
 import { notFound } from "next/navigation";
 import CTASection from "@/components/sections/CTASection";
 import RegistrationForm from "@/components/ui/RegistrationForm";
@@ -104,13 +105,6 @@ export default async function CourseRegistrationPage({
       <section className="w-full bg-white py-8 lg:py-20">
         <div className="max-w-272.5 mx-auto">
           <div className="text-center mx-3.5 mb-12">
-            {/* <h2 className="font-proxima font-[250] text-[48px] leading-[100%] text-primary uppercase text-center mb-6">
-              {cp.otherTitle}
-            </h2>
-            <p className="mt-4 text-gray-500 text-sm max-w-xl mx-auto">
-              {cp.otherSubtitle}
-            </p> */}
-
             <SplitTitle title={cp.otherTitle} subtitle={cp.otherSubtitle} centered />
           </div>
 
@@ -125,6 +119,16 @@ export default async function CourseRegistrationPage({
                 labelEnroll={global.courseLabelEnroll ?? undefined}
               />
             ))}
+          </div>
+
+          <div className="text-center mt-12">
+            <Link
+              href="/cursos"
+              className="inline-flex items-center gap-2 px-8 py-3.5 rounded-full font-bold text-sm tracking-wider text-white transition-opacity hover:opacity-80"
+              style={{ backgroundColor: "var(--color-primary)" }}
+            >
+              Ver todos os cursos
+            </Link>
           </div>
         </div>
       </section>

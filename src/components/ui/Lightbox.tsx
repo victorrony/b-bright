@@ -3,13 +3,20 @@
 import { useEffect, useCallback } from "react";
 import Image from "next/image";
 import { X, ChevronLeft, ChevronRight } from "lucide-react";
+import type { GalleryItem } from "@/components/sections/AlbumGallery";
 
 interface LightboxProps {
-  images: { url: string; alt: string }[];
+  images: GalleryItem[];
   currentIndex: number;
   onClose: () => void;
   onPrev: () => void;
   onNext: () => void;
+}
+
+const VIDEO_EXTS = /\.(mp4|webm|ogg|mov)(\?.*)?$/i;
+
+function isVideo(item: GalleryItem) {
+  return item.type === "video" || VIDEO_EXTS.test(item.url);
 }
 
 export default function Lightbox({ images, currentIndex, onClose, onPrev, onNext }: Readonly<LightboxProps>) {
@@ -61,19 +68,29 @@ export default function Lightbox({ images, currentIndex, onClose, onPrev, onNext
         </button>
       )}
 
-      {/* Imagem */}
+      {/* Conteúdo */}
       <div
-        className="relative max-w-5xl w-full mx-16 h-[85vh]"
+        className="relative max-w-5xl w-full mx-16 h-[85vh] flex items-center justify-center"
         onClick={(e) => e.stopPropagation()}
       >
-        <Image
-          src={current.url}
-          alt={current.alt}
-          fill
-          className="object-contain"
-          sizes="90vw"
-          priority
-        />
+        {isVideo(current) ? (
+          <video
+            key={current.url}
+            src={current.url}
+            controls
+            autoPlay
+            className="max-h-full max-w-full rounded-lg"
+          />
+        ) : (
+          <Image
+            src={current.url}
+            alt={current.alt}
+            fill
+            className="object-contain"
+            sizes="90vw"
+            priority
+          />
+        )}
       </div>
 
       {/* Seguinte */}

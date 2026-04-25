@@ -1,5 +1,7 @@
 import Link from "next/link";
 import { getHomepage, getCourses, getCourseImageUrl, getAlbums } from "@/lib/strapi";
+
+export const revalidate = 300;
 import HeroSection from "@/components/sections/HeroSection";
 import EmpoweringYouthSection from "@/components/sections/EmpoweringYouthSection";
 import ValuesSection from "@/components/sections/ValuesSection";

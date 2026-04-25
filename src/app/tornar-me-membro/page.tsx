@@ -3,6 +3,8 @@ import Image from "next/image";
 import { getMemberPage, getCourseImageUrl } from "@/lib/strapi";
 import MemberForm from "@/components/ui/MemberForm";
 
+export const revalidate = 300;
+
 export const metadata: Metadata = {
   title: "Tornar-me Membro | Geração B-Bright",
   description:

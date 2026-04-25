@@ -11,6 +11,8 @@ import { getCourses, getCourseBySlug, getCourseImageUrl, getCoursesPage, getGlob
 import SplitTitle from "@/components/ui/SplitTitle";
 import AlbumGallery from "@/components/sections/AlbumGallery";
 
+export const revalidate = 300;
+
 export async function generateMetadata({
   params,
 }: {

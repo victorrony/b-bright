@@ -1,5 +1,7 @@
 import Image from "next/image";
 import CTASection from "@/components/sections/CTASection";
+
+export const revalidate = 300;
 import CoursesFilter from "@/components/sections/CoursesFilter";
 import { getCourses, getCourseImageUrl, getCoursesPage, getGlobal, getHomepage } from "@/lib/strapi";
 

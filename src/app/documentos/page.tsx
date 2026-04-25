@@ -1,8 +1,10 @@
 import type { Metadata } from "next";
 import Image from "next/image";
+import { FileText } from "lucide-react";
 import { getDocuments, getDocumentsPage, getCourseImageUrl } from "@/lib/strapi";
 import DocumentsFilter from "@/components/sections/DocumentsFilter";
 import SplitTitle from "@/components/ui/SplitTitle";
+import EmptyState from "@/components/ui/EmptyState";
 
 export const metadata: Metadata = {
   title: "Documentos e Transparência | Geração B-Bright",
@@ -57,10 +59,7 @@ export default async function DocumentosPage() {
         </div>
         <div className="max-w-4xl mx-auto">
           {documents.length === 0 ? (
-            <div className="bg-white rounded-2xl p-12 text-center text-gray-400 shadow-sm">
-              <p className="text-lg font-medium">Nenhum documento publicado ainda.</p>
-              <p className="text-sm mt-1">Volta mais tarde para consultar os documentos disponíveis.</p>
-            </div>
+            <EmptyState icon={FileText} title="Nenhum documento publicado ainda." description="Volta mais tarde para consultar os documentos disponíveis." />
           ) : (
             <DocumentsFilter documents={documents} />
           )}

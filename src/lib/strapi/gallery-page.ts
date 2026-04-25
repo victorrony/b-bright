@@ -4,7 +4,7 @@ export interface GalleryPageData {
   heroLabel: string;
   heroTitle: string;
   heroImage?: StrapiImage | StrapiImage[];
-  galeriaTitulo?: string;
+  galleryTitle?: string;
 }
 
 export async function getGalleryPage(): Promise<GalleryPageData> {

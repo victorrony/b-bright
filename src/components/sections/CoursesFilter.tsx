@@ -1,9 +1,10 @@
 "use client";
 
 import { useState, useMemo } from "react";
-import { Search } from "lucide-react";
+import { Search, BookOpen } from "lucide-react";
 import CourseCard from "@/components/ui/CourseCard";
 import Pagination from "@/components/ui/Pagination";
+import EmptyState from "@/components/ui/EmptyState";
 import type { StrapiCourse } from "@/lib/strapi";
 
 type StatusFilter = "todos" | "aberto" | "em_breve" | "encerrado";
@@ -65,6 +66,8 @@ export default function CoursesFilter({ courses, labelOrganizer, labelTrainer, l
   const totalPages = Math.ceil(filtered.length / PAGE_SIZE);
   const paginated = filtered.slice((page - 1) * PAGE_SIZE, page * PAGE_SIZE);
 
+  const displayed = paginated.sort((a, b) => (b.featured ? 1 : 0) - (a.featured ? 1 : 0));
+
   return (
     <>
       {/* Barra de filtros */}
@@ -88,8 +91,8 @@ export default function CoursesFilter({ courses, labelOrganizer, labelTrainer, l
               key={opt.value}
               onClick={() => { setStatus(opt.value); setPage(1); }}
               className={`px-4 py-2 rounded-full text-xs font-bold tracking-wider border transition-colors ${status === opt.value
-                  ? "bg-primary-dark text-white border-primary-dark"
-                  : "bg-white text-gray-600 border-gray-300 hover:border-primary-dark"
+                ? "bg-primary-dark text-white border-primary-dark"
+                : "bg-white text-gray-600 border-gray-300 hover:border-primary-dark"
                 }`}
             >
               {opt.label}
@@ -107,14 +110,11 @@ export default function CoursesFilter({ courses, labelOrganizer, labelTrainer, l
 
       {/* Resultados */}
       {filtered.length === 0 ? (
-        <div className="py-20 text-center text-gray-400">
-          <p className="text-lg font-medium">Nenhum curso encontrado.</p>
-          <p className="text-sm mt-1">Tenta ajustar a pesquisa ou os filtros.</p>
-        </div>
+        <EmptyState icon={BookOpen} title="Nenhum curso encontrado." description="Tenta ajustar a pesquisa ou os filtros." />
       ) : (
         <>
           <div className="flex flex-col gap-20">
-            {paginated.map((course, idx) => (
+            {displayed.map((course, idx) => (
               <CourseCard
                 key={course.documentId}
                 slug={course.slug}

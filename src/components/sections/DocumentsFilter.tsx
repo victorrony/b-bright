@@ -26,6 +26,7 @@ function Dropdown({ icon, value, options, onChange }: {
   );
 }
 import Pagination from "@/components/ui/Pagination";
+import EmptyState from "@/components/ui/EmptyState";
 import type { StrapiDocument, DocumentCategory } from "@/lib/strapi";
 import { CATEGORY_LABELS, getDocumentFileUrl } from "@/lib/strapi";
 
@@ -182,11 +183,7 @@ export default function DocumentsFilter({ documents }: Readonly<DocumentsFilterP
 
       {/* Lista */}
       {filtered.length === 0 ? (
-        <div className="py-20 text-center text-gray-400">
-          <FileText size={40} className="mx-auto mb-3 opacity-30" />
-          <p className="text-lg font-medium">Nenhum documento encontrado.</p>
-          <p className="text-sm mt-1">Tenta ajustar a pesquisa ou os filtros.</p>
-        </div>
+        <EmptyState icon={FileText} title="Nenhum documento encontrado." description="Tenta ajustar a pesquisa ou os filtros." />
       ) : (
         <>
           <div className="flex flex-col gap-3">

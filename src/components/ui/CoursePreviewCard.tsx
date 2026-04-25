@@ -22,7 +22,7 @@ interface CoursePreviewCardProps {
 export default function CoursePreviewCard({ slug, image, title, details, status, labelEnroll = "INSCREVER" }: Readonly<CoursePreviewCardProps>) {
   const st = status ? STATUS_LABELS[status] : null;
   return (
-    <div className="flex flex-row overflow-hidden w-full h-full max-w-134">
+    <div className="flex flex-row overflow-hidden w-full h-full max-w-124">
       <Image
         src={image}
         alt={title}

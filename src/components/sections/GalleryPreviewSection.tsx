@@ -1,8 +1,12 @@
 import Image from "next/image";
 import Link from "next/link";
+import { Album, ArrowRight, Play } from "lucide-react";
 import type { StrapiAlbum } from "@/lib/strapi";
 import { getAlbumImageUrl, ALBUM_CATEGORY_LABELS } from "@/lib/strapi";
 import SplitTitle from "../ui/SplitTitle";
+import { AlbumCard } from "./GalleryGrid";
+
+const VIDEO_EXTS = /\.(mp4|webm|ogg|mov)(\?.*)?$/i;
 
 interface GalleryPreviewSectionProps {
   albums: StrapiAlbum[];
@@ -31,40 +35,29 @@ export default function GalleryPreviewSection({ albums, label = "Galeria", title
 
         {/* Scroll horizontal de álbuns */}
         <div className="flex gap-5 overflow-x-auto pb-4 no-scrollbar" style={{ scrollbarWidth: "none" as const }}>
-          {recent.map((album) => {
+          {recent.slice(0, 3).map((album) => {
             const coverUrl = getAlbumImageUrl(album.cover);
+            const coverIsVideo = coverUrl ? VIDEO_EXTS.test(coverUrl) : false;
             const dateFormatted = new Date(album.eventDate).toLocaleDateString("pt-PT", {
               month: "long", year: "numeric",
             });
 
             return (
-              <Link
-                key={album.documentId}
-                href={`/galeria/${album.slug}`}
-                className="group relative shrink-0 w-72 h-64 overflow-hidden rounded-2xl bg-gray-200"
-              >
-                {coverUrl && (
-                  <Image
-                    src={coverUrl}
-                    alt={album.title}
-                    fill
-                    className="object-cover group-hover:scale-105 transition-transform duration-500"
-                    sizes="288px"
-                  />
-                )}
-                <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent" />
-                <div className="absolute bottom-0 left-0 right-0 p-4">
-                  <span className="text-xs font-bold text-white/80 uppercase tracking-wider">
-                    {ALBUM_CATEGORY_LABELS[album.category]} · {dateFormatted}
-                  </span>
-                  <h3 className="text-white font-proxima font-semibold text-base leading-tight mt-1 line-clamp-2">
-                    {album.title}
-                  </h3>
-                </div>
-              </Link>
+              <AlbumCard key={album.id} album={{ ...album, coverUrl }} />
             );
           })}
         </div>
+
+        {/* Botao ver mais */}
+        <div className="mt-5 flex justify-center">
+          <Link
+            href="/galeria"
+            className="inline-flex items-center gap-2 px-8 py-3.5 rounded-full bg-primary-dark text-white text-sm font-bold tracking-wider hover:opacity-90 transition-opacity"
+          >
+            {linkLabel} <ArrowRight size={16} />
+          </Link>
+        </div>
+
       </div>
     </section>
   );

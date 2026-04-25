@@ -2,7 +2,8 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import Image from "next/image";
 import { notFound } from "next/navigation";
-import { ArrowLeft, Calendar } from "lucide-react";
+import { ArrowLeft, Calendar, Images } from "lucide-react";
+import EmptyState from "@/components/ui/EmptyState";
 import { getAlbums, getAlbumBySlug, getAlbumImageUrl, getYoutubeEmbedUrl, getVimeoEmbedUrl, ALBUM_CATEGORY_LABELS } from "@/lib/strapi";
 import AlbumGallery from "@/components/sections/AlbumGallery";
 import ShareButtons from "@/components/ui/ShareButtons";
@@ -140,7 +141,7 @@ export default async function AlbumPage({ params }: { params: Promise<{ slug: st
           )}
 
           {photos.length === 0 && !youtubeEmbed && !vimeoEmbed && (
-            <p className="text-gray-400 text-center py-12">Nenhum conteúdo disponível neste álbum.</p>
+            <EmptyState icon={Images} title="Nenhum conteúdo disponível neste álbum." />
           )}
         </div>
       </section>

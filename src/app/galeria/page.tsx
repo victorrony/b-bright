@@ -1,8 +1,10 @@
 import type { Metadata } from "next";
 import Image from "next/image";
+import { Images } from "lucide-react";
 import { getAlbums, getAlbumImageUrl, getGalleryPage, getCourseImageUrl } from "@/lib/strapi";
 import GalleryGrid from "@/components/sections/GalleryGrid";
 import SplitTitle from "@/components/ui/SplitTitle";
+import EmptyState from "@/components/ui/EmptyState";
 
 export const metadata: Metadata = {
   title: "Galeria | Geração B-Bright",
@@ -14,7 +16,7 @@ export const revalidate = 300;
 export default async function GaleriaPage() {
   const [albums, gp] = await Promise.all([
     getAlbums().catch(() => []),
-    getGalleryPage().catch(() => ({ heroLabel: "Comunidade", heroTitle: "Galeria de Eventos", heroImage: undefined, galeriaTitulo: undefined })),
+    getGalleryPage().catch(() => ({ heroLabel: "Comunidade", heroTitle: "Galeria de Eventos", heroImage: undefined, galleryTitle: undefined })),
   ]);
 
   const heroImage = gp.heroImage
@@ -58,14 +60,11 @@ export default async function GaleriaPage() {
       <section className="py-16 px-6">
         {/* Cabeçalho */}
         <div className="flex flex-col sm:flex-row sm:items-end justify-center gap-4 mb-12">
-          <SplitTitle title={gp.galeriaTitulo ?? "Galeria"} direction="row" centered />
+          <SplitTitle title={gp.galleryTitle ?? "Galeria"} direction="row" centered />
         </div>
         <div className="max-w-6xl mx-auto">
           {albumsWithUrls.length === 0 ? (
-            <div className="bg-white rounded-2xl p-12 text-center text-gray-400 shadow-sm">
-              <p className="text-lg font-medium">Nenhum álbum publicado ainda.</p>
-              <p className="text-sm mt-1">Volta mais tarde para ver as fotos dos nossos eventos.</p>
-            </div>
+            <EmptyState icon={Images} title="Nenhum álbum publicado ainda." description="Volta mais tarde para ver as fotos dos nossos eventos." />
           ) : (
             <GalleryGrid albums={albumsWithUrls} />
           )}

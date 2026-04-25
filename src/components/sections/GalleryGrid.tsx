@@ -5,6 +5,7 @@ import Image from "next/image";
 import Pagination from "@/components/ui/Pagination";
 import Link from "next/link";
 import { Search, Images, Play } from "lucide-react";
+import EmptyState from "@/components/ui/EmptyState";
 import type { StrapiAlbum, AlbumCategory } from "@/lib/strapi";
 import { ALBUM_CATEGORY_LABELS, getAlbumImageUrl } from "@/lib/strapi";
 
@@ -29,7 +30,7 @@ function isVideoUrl(url: string) {
   return VIDEO_EXTS.test(url);
 }
 
-function AlbumCard({ album }: { album: AlbumWithCoverUrl }) {
+export function AlbumCard({ album }: { album: AlbumWithCoverUrl }) {
   const dateFormatted = new Date(album.eventDate).toLocaleDateString("pt-PT", {
     day: "2-digit", month: "2-digit", year: "numeric",
   });
@@ -217,10 +218,7 @@ export default function GalleryGrid({ albums }: Readonly<GalleryGridProps>) {
 
       {/* Grelha */}
       {filtered.length === 0 ? (
-        <div className="py-20 text-center text-gray-400">
-          <Images size={40} className="mx-auto mb-3 opacity-30" />
-          <p className="text-lg font-medium">Nenhum álbum encontrado.</p>
-        </div>
+        <EmptyState icon={Images} title="Nenhum álbum encontrado." description="Tenta ajustar a pesquisa ou os filtros." />
       ) : (
         <>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 gap-6">

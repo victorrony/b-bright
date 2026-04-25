@@ -10,6 +10,10 @@ export default async function CursosPage() {
     getGlobal(),
     getHomepage(),
   ]);
+
+  // Filtrar cursos encerrados
+  const activeCourses = courses.filter(c => c.courseStatus && c.courseStatus !== 'encerrado');
+
   const heroImage = cp.heroImage ? getCourseImageUrl(cp.heroImage) : null;
 
   return (
@@ -44,7 +48,7 @@ export default async function CursosPage() {
       <section className="w-full mx-auto bg-white py-20 px-6">
         <div className="max-w-6xl mx-auto">
           <CoursesFilter
-            courses={courses.map((c) => ({ ...c, imageUrl: getCourseImageUrl(c.image) }))}
+            courses={activeCourses.map((c) => ({ ...c, imageUrl: getCourseImageUrl(c.image) }))}
             labelOrganizer={global.courseLabelOrganizer ?? 'Organizado por'}
             labelTrainer={global.courseLabelTrainer ?? 'Formador'}
             labelEnroll={global.courseLabelEnroll ?? 'INSCREVER'}

@@ -33,17 +33,19 @@ export interface StrapiCourse {
   extraText?: string;
   details: CourseDetail[];
   image?: StrapiImage | StrapiImage[];
+  gallery?: StrapiImage[];
   formFields?: CourseFormField[];
   featured?: boolean;
   startDate?: string;
   duration?: string;
   spots?: number;
   courseStatus?: 'aberto' | 'encerrado' | 'em_breve';
+  price?: string;
 }
 
 export async function getCourses(): Promise<StrapiCourse[]> {
   const res = await fetchAPI<StrapiListResponse<StrapiCourse>>(
-    '/courses?populate[0]=image&populate[1]=credentials&populate[2]=details&populate[3]=formFields&sort=createdAt:asc'
+    '/courses?populate[0]=image&populate[1]=credentials&populate[2]=details&populate[3]=formFields&sort=createdAt:desc'
   );
   return res.data;
 }
@@ -54,6 +56,7 @@ export async function getCourseBySlug(slug: string): Promise<StrapiCourse | null
   params.append('populate[1]', 'credentials');
   params.append('populate[2]', 'details');
   params.append('populate[3]', 'formFields');
+  params.append('populate[4]', 'gallery');
   const res = await fetchAPI<StrapiListResponse<StrapiCourse>>(`/courses?${params}`);
   return res.data[0] ?? null;
 }

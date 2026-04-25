@@ -119,6 +119,8 @@ function validate(payload: RegistrationPayload): string | null {
     return "Nome completo é obrigatório (mínimo 2 caracteres).";
   if (!payload.email || !EMAIL_RE.test(payload.email))
     return "Introduza um endereço de email válido.";
+  if (!payload.phone || payload.phone.length < 7)
+    return "Número de telefone é obrigatório.";
   return null;
 }
 
@@ -157,6 +159,7 @@ export default function RegistrationForm({ courseDocumentId, formFields }: Reado
     const payload: RegistrationPayload = {
       name: (data.get("nome") as string).trim(),
       email: (data.get("email") as string).trim(),
+      phone: (data.get("telefone") as string)?.trim() || undefined,
       age: data.get("idade") ? Number(data.get("idade")) : undefined,
       sex: (data.get("sexo") as RegistrationPayload["sex"]) || undefined,
       occupation: (data.get("ocupacao") as RegistrationPayload["occupation"]) || undefined,
@@ -242,6 +245,22 @@ export default function RegistrationForm({ courseDocumentId, formFields }: Reado
               aria-required="true"
               aria-invalid={hasError || undefined}
               placeholder="O seu nome completo"
+              className="w-full border border-gray-300 rounded px-4 h-12 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+            />
+          </div>
+
+          {/* Telefone */}
+          <div>
+            <label htmlFor="telefone" className="block text-sm font-medium text-gray-700 mb-1">
+              Número de telefone
+            </label>
+            <input
+              id="telefone"
+              name="telefone"
+              type="tel"
+              required
+              aria-required="true"
+              placeholder="ex: 991 23 45"
               className="w-full border border-gray-300 rounded px-4 h-12 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
             />
           </div>

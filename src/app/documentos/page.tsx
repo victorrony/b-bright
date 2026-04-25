@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Image from "next/image";
 import { getDocuments, getDocumentsPage, getCourseImageUrl } from "@/lib/strapi";
 import DocumentsFilter from "@/components/sections/DocumentsFilter";
+import SplitTitle from "@/components/ui/SplitTitle";
 
 export const metadata: Metadata = {
   title: "Documentos e Transparência | Geração B-Bright",
@@ -14,7 +15,7 @@ export const revalidate = 300;
 export default async function DocumentosPage() {
   const [documents, dp] = await Promise.all([
     getDocuments().catch(() => []),
-    getDocumentsPage().catch(() => ({ heroLabel: "Transparência", heroTitle: "Documentos", heroImage: undefined })),
+    getDocumentsPage().catch(() => ({ heroLabel: "Transparência", heroTitle: "Documentos", heroImage: undefined, documentsTitle: undefined })),
   ]);
 
   const heroImage = dp.heroImage
@@ -51,6 +52,9 @@ export default async function DocumentosPage() {
 
       {/* Conteúdo */}
       <section className="py-16 px-6">
+        <div className="flex flex-col sm:flex-row sm:items-end m-auto lg:w-6/12 justify-center gap-4 mb-12">
+          <SplitTitle title={dp.documentsTitle ?? "Documentos"} direction="row" centered />
+        </div>
         <div className="max-w-4xl mx-auto">
           {documents.length === 0 ? (
             <div className="bg-white rounded-2xl p-12 text-center text-gray-400 shadow-sm">

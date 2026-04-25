@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useRef } from "react";
+import Link from "next/link";
 import { ArrowRight, CheckCircle, AlertCircle, Loader2, Camera, X } from "lucide-react";
 import { submitMember, type MemberPayload } from "@/lib/strapi";
 
@@ -311,7 +312,7 @@ export default function MemberForm() {
       )}
 
       {/* Submeter */}
-      <div className="pt-2">
+      <div className="pt-2 flex flex-col gap-3">
         <button
           type="submit"
           disabled={status === "loading"}
@@ -328,6 +329,12 @@ export default function MemberForm() {
             </>
           )}
         </button>
+        <p className="text-sm text-gray-400">
+          Já és membro?{" "}
+          <Link href="/membro" className="underline text-gray-600 hover:text-gray-800">
+            Consulta o teu registo aqui
+          </Link>
+        </p>
       </div>
     </form>
   );

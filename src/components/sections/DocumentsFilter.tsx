@@ -1,7 +1,30 @@
 "use client";
 
 import { useState, useMemo } from "react";
-import { Search, FileText, Download, Calendar } from "lucide-react";
+import { Search, FileText, Download, Calendar, LayoutList, ChevronDown, CalendarDays } from "lucide-react";
+
+function Dropdown({ icon, value, options, onChange }: {
+  icon: React.ReactNode;
+  value: string;
+  options: { value: string; label: string }[];
+  onChange: (v: string) => void;
+}) {
+  return (
+    <div className="relative">
+      <div className="pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-primary">{icon}</div>
+      <select
+        value={value}
+        onChange={(e) => onChange(e.target.value)}
+        className="appearance-none pl-9 pr-8 h-11 rounded-full border border-primary text-primary text-sm font-semibold bg-white focus:outline-none focus:ring-2 focus:ring-primary cursor-pointer"
+      >
+        {options.map((o) => (
+          <option key={o.value} value={o.value}>{o.label}</option>
+        ))}
+      </select>
+      <ChevronDown size={14} className="pointer-events-none absolute right-3 top-1/2 -translate-y-1/2 text-primary" />
+    </div>
+  );
+}
 import Pagination from "@/components/ui/Pagination";
 import type { StrapiDocument, DocumentCategory } from "@/lib/strapi";
 import { CATEGORY_LABELS, getDocumentFileUrl } from "@/lib/strapi";
@@ -27,7 +50,6 @@ function formatFileSize(bytes: number): string {
 }
 
 function DocumentCard({ doc }: { doc: StrapiDocument }) {
-  const year = new Date(doc.publishDate).getFullYear();
   const dateFormatted = new Date(doc.publishDate).toLocaleDateString("pt-PT", {
     day: "numeric", month: "long", year: "numeric",
   });
@@ -37,10 +59,15 @@ function DocumentCard({ doc }: { doc: StrapiDocument }) {
   const fileSizeLabel = doc.file?.size ? formatFileSize(doc.file.size * 1024) : "";
 
   return (
-    <div className="flex items-start gap-4 p-5 bg-white rounded-xl border border-gray-100 hover:shadow-sm transition-shadow">
+    <a
+      href={fileUrl}
+      target="_blank"
+      rel="noopener noreferrer"
+      className="flex items-start gap-4 p-5 bg-white rounded-xl border border-gray-100 hover:shadow-md transition-shadow cursor-pointer"
+    >
       {/* Ícone do tipo de ficheiro */}
       <div
-        className="shrink-0 w-12 h-14 rounded-lg flex flex-col items-center justify-center text-white text-[10px] font-bold tracking-wider gap-0.5"
+        className="shrink-0 w-16 h-20 rounded-lg flex flex-col items-center justify-center text-white text-[10px] font-bold tracking-wider gap-0.5"
         style={{ backgroundColor: "var(--color-primary)" }}
       >
         <FileText size={18} />
@@ -67,18 +94,15 @@ function DocumentCard({ doc }: { doc: StrapiDocument }) {
       </div>
 
       {/* Botão download */}
-      <a
-        href={fileUrl}
-        target="_blank"
-        rel="noopener noreferrer"
-        download
+      <div
+        onClick={(e) => { e.preventDefault(); window.open(fileUrl, "_blank"); }}
         className="shrink-0 inline-flex items-center gap-1.5 px-4 py-2 rounded-full text-xs font-bold tracking-wider text-white transition-opacity hover:opacity-80"
         style={{ backgroundColor: "var(--color-primary-dark)" }}
         aria-label={`Descarregar ${doc.title}`}
       >
         <Download size={13} /> Descarregar
-      </a>
-    </div>
+      </div>
+    </a>
   );
 }
 
@@ -117,33 +141,34 @@ export default function DocumentsFilter({ documents }: Readonly<DocumentsFilterP
     <>
       {/* Barra de filtros */}
 
-      <div className="flex flex-col mx-auto sm:flex-row gap-4 mb-12">
+      <div className="flex flex-col sm:flex-row items-center gap-3 mb-12">
         {/* Pesquisa */}
-        <div className="relative flex-1 max-w-sm">
+        <div className="relative flex-1">
           <Search size={16} className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400" />
           <input
             type="search"
             placeholder="Pesquisar documentos..."
             value={query}
             onChange={(e) => { setQuery(e.target.value); setPage(1); }}
-            className="w-full border border-gray-300 rounded-full pl-10 pr-4 h-11 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+            className="w-full border border-gray-300 rounded-full pl-10 pr-4 h-11 text-sm focus:outline-none focus:ring-2 focus:ring-primary"
           />
         </div>
 
-        {/* Filtro de estado */}
-        <div className="flex gap-2 flex-wrap">
-          {categoryOptions.map((opt) => (
-            <button
-              key={opt.value}
-              onClick={() => { setCategory(opt.value); setPage(1); }}
-              className={`px-4 py-2 rounded-full text-xs font-bold tracking-wider border transition-colors ${category === opt.value
-                  ? "bg-primary-dark text-white border-primary-dark"
-                  : "bg-white text-gray-600 border-gray-300 hover:border-primary-dark"
-                }`}
-            >
-              {opt.label}
-            </button>
-          ))}
+        {/* Dropdowns */}
+        <div className="flex gap-2 shrink-0">
+          <Dropdown
+            icon={<LayoutList size={15} />}
+            value={category}
+            options={categoryOptions}
+            onChange={(v) => { setCategory(v as CategoryFilter); setPage(1); }}
+          />
+          <Dropdown
+            icon={<CalendarDays size={15} />}
+            value={year}
+            options={[{ value: "todos", label: "Data" }, ...years.map((y) => ({ value: String(y), label: String(y) }))]}
+            onChange={(v) => { setYear(v); setPage(1); }}
+          />
+
         </div>
       </div>
 

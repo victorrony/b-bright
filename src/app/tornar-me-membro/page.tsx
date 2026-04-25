@@ -14,6 +14,7 @@ export default async function TornarMeMembroPage() {
     heroLabel: "Comunidade",
     heroTitle: "Torna-te Membro",
     heroImage: undefined,
+    heroSubtitle: undefined,
   }));
 
   const heroImage = mp.heroImage
@@ -24,8 +25,8 @@ export default async function TornarMeMembroPage() {
     <main className="min-h-screen bg-gray-50">
       {/* Hero */}
       <section
-        className="relative w-full overflow-hidden flex items-end"
-        style={{ minHeight: "400px" }}
+        className="relative w-full py-28 overflow-hidden flex items-center justify-center"
+      // style={{ minHeight: "400px" }}
       >
         {heroImage && (
           <Image
@@ -38,30 +39,31 @@ export default async function TornarMeMembroPage() {
           />
         )}
         <div className="absolute inset-0 bg-gradient-brand opacity-40" />
-        <div className="relative z-10 max-w-6xl mx-auto px-6 pb-16 pt-24 w-full">
-          <p className="text-white font-proxima font-normal text-[28px] leading-[100%] uppercase mb-3">
-            {mp.heroLabel}
-          </p>
-          <h1 className="text-white font-proxima font-normal text-[40px] leading-[100%] uppercase">
-            {mp.heroTitle}
-          </h1>
-        </div>
-      </section>
+        <div className="relative z-10 w-full  mx-auto px-6 flex flex-col md:flex-row gap-20 justify-center">
+          <div className="text-center max-w-xl lg:mt-[15%]">
+            <p className="text-white font-proxima font-normal text-[36px] leading-[100%] uppercase mb-4">
+              {mp.heroTitle}
+            </p>
+            {mp.heroSubtitle && (
+              <p className="text-white/80 font-proxima font-normal text-[16px] leading-[160%]">
+                {mp.heroSubtitle}
+              </p>
+            )}
+          </div>
 
-      {/* Formulário */}
-      <section className="py-16 px-6">
-        <div className="max-w-2xl mx-auto bg-white rounded-2xl shadow-sm p-8 md:p-12">
-          <h2
-            className="text-2xl font-bold uppercase mb-2"
-            style={{ color: "var(--color-primary)" }}
-          >
-            Registo de Membro
-          </h2>
-          <p className="text-gray-500 text-sm mb-8">
-            Preenche o formulário abaixo. Após recebermos o teu pedido, a nossa
-            equipa irá rever e enviar-te uma confirmação por email.
-          </p>
-          <MemberForm />
+          <div className="bg-white max-w-2xl rounded-2xl shadow-sm p-8 md:p-12">
+            <h2
+              className="text-2xl font-bold uppercase mb-2"
+              style={{ color: "var(--color-primary)" }}
+            >
+              Registo de Membro
+            </h2>
+            <p className="text-gray-500 text-sm mb-8">
+              Preenche o formulário abaixo. Após recebermos o teu pedido, a nossa
+              equipa irá rever e enviar-te uma confirmação por email.
+            </p>
+            <MemberForm />
+          </div>
         </div>
       </section>
     </main>

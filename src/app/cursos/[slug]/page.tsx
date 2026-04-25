@@ -2,11 +2,14 @@ import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
+import { Users, Calendar, Clock } from "lucide-react";
 import CTASection from "@/components/sections/CTASection";
 import RegistrationForm from "@/components/ui/RegistrationForm";
 import CoursePreviewCard from "@/components/ui/CoursePreviewCard";
+import ShareButtons from "@/components/ui/ShareButtons";
 import { getCourses, getCourseBySlug, getCourseImageUrl, getCoursesPage, getGlobal, getHomepage } from "@/lib/strapi";
 import SplitTitle from "@/components/ui/SplitTitle";
+import AlbumGallery from "@/components/sections/AlbumGallery";
 
 export async function generateMetadata({
   params,
@@ -92,6 +95,33 @@ export default async function CourseRegistrationPage({
                   <span>{c.label}</span>
                 </p>
               ))}
+
+              {/* Detalhes: data, duração, vagas */}
+              <div className="flex flex-wrap gap-4 mt-5">
+                {course.startDate && (
+                  <span className="flex items-center gap-1.5 text-white/80 text-sm">
+                    <Calendar size={14} className="shrink-0" />
+                    {new Date(course.startDate).toLocaleDateString("pt-PT", { day: "numeric", month: "long", year: "numeric" })}
+                  </span>
+                )}
+                {course.duration && (
+                  <span className="flex items-center gap-1.5 text-white/80 text-sm">
+                    <Clock size={14} className="shrink-0" />
+                    {course.duration}
+                  </span>
+                )}
+                {course.spots != null && (
+                  <span className={`flex items-center gap-1.5 text-sm font-semibold ${course.spots === 0 ? "text-red-300" : course.spots <= 5 ? "text-yellow-300" : "text-green-300"}`}>
+                    <Users size={14} className="shrink-0" />
+                    {course.spots === 0 ? "Sem vagas disponíveis" : `${course.spots} vagas disponíveis`}
+                  </span>
+                )}
+              </div>
+
+              {/* Partilha */}
+              <div className="mt-5">
+                <ShareButtons title={course.title} />
+              </div>
             </div>
 
             <div className="relative w-131.5">
@@ -101,6 +131,23 @@ export default async function CourseRegistrationPage({
         </div>
       </section>
 
+      {/* Galeria de imagens */}
+      {(course.gallery ?? []).length > 0 && (
+        <section className="w-full bg-gray-50 py-12 px-6">
+          <div className="max-w-5xl mx-auto">
+            <h2 className="text-lg font-bold uppercase tracking-wider text-gray-700 mb-6">
+              Galeria <span className="text-gray-400 font-normal">({course.gallery!.length})</span>
+            </h2>
+            <AlbumGallery
+              images={(course.gallery ?? []).map((img) => ({
+                url: getCourseImageUrl(img),
+                alt: img.alternativeText ?? course.title,
+              }))}
+            />
+          </div>
+        </section>
+      )}
+
       {/* Other courses */}
       <section className="w-full bg-white py-8 lg:py-20">
         <div className="max-w-272.5 mx-auto">
@@ -108,14 +155,18 @@ export default async function CourseRegistrationPage({
             <SplitTitle title={cp.otherTitle} subtitle={cp.otherSubtitle} centered />
           </div>
 
-          <div className="flex flex-row flex-wrap md:flex-nowrap w-ful mx-3.5 md:mx-4 gap-y-6 justify-between">
+          <div className="flex flex-row flex-wrap md:flex-nowrap w-full h-full mx-3.5 md:mx-4 gap-y-6 justify-between">
             {otherCourses.map((c) => (
               <CoursePreviewCard
                 key={c.documentId}
                 slug={c.slug}
                 image={getCourseImageUrl(c.image)}
                 title={c.title}
-                details={c.details ?? []}
+                details={[
+                  ...(c.startDate ? [{ label: "Início", value: new Date(c.startDate).toLocaleDateString("pt-PT", { day: "numeric", month: "long", year: "numeric" }) }] : []),
+                  ...(c.duration ? [{ label: "Duração", value: c.duration }] : []),
+                ]}
+                status={c.courseStatus}
                 labelEnroll={global.courseLabelEnroll ?? undefined}
               />
             ))}

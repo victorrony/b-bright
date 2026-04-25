@@ -42,7 +42,7 @@ export function getVimeoEmbedUrl(url: string): string | null {
 
 export async function getAlbums(): Promise<StrapiAlbum[]> {
   const res = await fetchAPI<StrapiListResponse<StrapiAlbum>>(
-    '/albums?populate[0]=cover&sort=eventDate:desc&pagination[pageSize]=100'
+    '/albums?populate[0]=cover&populate[1]=photos&sort=eventDate:desc&pagination[pageSize]=100'
   );
   return res.data;
 }

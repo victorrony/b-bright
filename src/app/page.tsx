@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { getHomepage, getCourses, getCourseImageUrl, getAlbums } from "@/lib/strapi";
 import HeroSection from "@/components/sections/HeroSection";
 import EmpoweringYouthSection from "@/components/sections/EmpoweringYouthSection";
@@ -56,11 +57,6 @@ export default async function HomePage() {
             title={[hp.resultsTitleLine1 ?? "", hp.resultsTitleLine2 ?? ""]}
             subtitle={hp.resultsSubtitle}
          />
-         <VisionSection 
-            title={hp.visionTitle} 
-            subtitle={hp.visionSubtitle} 
-            initiatives={hp.visionInitiatives ?? []} 
-         />         
          <CoursesSection
             courses={courses.map((c) => ({ ...c, imageUrl: getCourseImageUrl(c.image) }))}
             label={hp.coursesLabel}
@@ -73,6 +69,12 @@ export default async function HomePage() {
             title={hp.galleryTitle}
             linkLabel={hp.galleryLinkLabel}
          />
+         <VisionSection
+            title={hp.visionTitle}
+            subtitle={hp.visionSubtitle}
+            initiatives={hp.visionInitiatives ?? []}
+         />
+
          <CTASection
             heading1={hp.ctaHeading1}
             heading2={hp.ctaHeading2}

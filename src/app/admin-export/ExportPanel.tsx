@@ -109,22 +109,37 @@ export default function ExportPanel({ courses }: Readonly<ExportPanelProps>) {
           {registrationsExport.error && (
             <p className="text-sm text-red-600">{registrationsExport.error}</p>
           )}
-          <button
-            onClick={() => registrationsExport.doExport({
-              type: "registrations",
-              password,
-              ...(selectedCourse ? { courseId: selectedCourse } : {}),
-            })}
-            disabled={!password || registrationsExport.status === "loading"}
-            className={btnClass}
-            style={{ backgroundColor: "var(--color-primary-dark)" }}
-          >
-            {registrationsExport.status === "loading" ? (
-              <><Loader2 size={15} className="animate-spin" /> A gerar...</>
-            ) : (
-              <><Download size={15} /> Exportar Inscritos (.xlsx)</>
+          <div className="flex flex-wrap gap-3">
+            <button
+              onClick={() => registrationsExport.doExport({
+                type: "registrations",
+                password,
+                ...(selectedCourse ? { courseId: selectedCourse } : {}),
+              })}
+              disabled={!password || registrationsExport.status === "loading"}
+              className={btnClass}
+              style={{ backgroundColor: "var(--color-primary-dark)" }}
+            >
+              {registrationsExport.status === "loading" ? (
+                <><Loader2 size={15} className="animate-spin" /> A gerar...</>
+              ) : (
+                <><Download size={15} /> {selectedCourse ? "Exportar Curso (.xlsx)" : "Exportar Todos (.xlsx)"}</>
+              )}
+            </button>
+            {selectedCourse && (
+              <button
+                onClick={() => registrationsExport.doExport({
+                  type: "registrations",
+                  password,
+                })}
+                disabled={!password || registrationsExport.status === "loading"}
+                className={btnClass}
+                style={{ backgroundColor: "var(--color-primary)" }}
+              >
+                <><Download size={15} /> Exportar Todos os Cursos (.xlsx)</>
+              </button>
             )}
-          </button>
+          </div>
         </div>
       </div>
 
@@ -147,8 +162,8 @@ export default function ExportPanel({ courses }: Readonly<ExportPanelProps>) {
             >
               <option value="todos">Todos</option>
               <option value="pendente">Pendente</option>
-              <option value="ativo">Ativo</option>
-              <option value="inativo">Inativo</option>
+              <option value="aprovado">Aprovado</option>
+              <option value="rejeitado">Rejeitado</option>
             </select>
           </div>
           {membersExport.error && (

@@ -3,6 +3,7 @@ import { fetchAPI, type StrapiImage, type StrapiSingleResponse } from './client'
 export interface MemberPageData {
   heroLabel: string;
   heroTitle: string;
+  heroSubtitle?: string;
   heroImage?: StrapiImage | StrapiImage[];
 }
 

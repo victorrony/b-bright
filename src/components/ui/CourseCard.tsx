@@ -14,9 +14,9 @@ interface CourseCredential {
 type CourseStatus = 'aberto' | 'encerrado' | 'em_breve';
 
 const STATUS_CONFIG: Record<CourseStatus, { label: string; className: string }> = {
-  aberto:    { label: 'Inscrições abertas', className: 'bg-green-100 text-green-700 border-green-200' },
-  em_breve:  { label: 'Em breve',           className: 'bg-yellow-100 text-yellow-700 border-yellow-200' },
-  encerrado: { label: 'Encerrado',          className: 'bg-red-100 text-red-600 border-red-200' },
+  aberto: { label: 'Inscrições abertas', className: 'bg-green-100 text-green-700 border-green-200' },
+  em_breve: { label: 'Em breve', className: 'bg-yellow-100 text-yellow-700 border-yellow-200' },
+  encerrado: { label: 'Encerrado', className: 'bg-red-100 text-red-600 border-red-200' },
 };
 
 interface CourseCardProps {
@@ -30,6 +30,7 @@ interface CourseCardProps {
   extraText?: string;
   details: CourseDetail[];
   courseStatus?: CourseStatus;
+  price?: string;
   reverse?: boolean;
   labelOrganizer?: string;
   labelTrainer?: string;
@@ -47,6 +48,7 @@ export default function CourseCard({
   extraText,
   details,
   courseStatus,
+  price,
   reverse = false,
   labelOrganizer = 'Organizado por',
   labelTrainer = 'Formador',
@@ -108,6 +110,11 @@ export default function CourseCard({
               <span className="font-semibold">{d.label}:</span> {d.value}
             </p>
           ))}
+          {price && (
+            <p className="font-proxima font-normal text-base lg:text-[18px] leading-[160%] text-navy">
+              <span className="font-semibold">Preço:</span> {price}
+            </p>
+          )}
         </div>
         <Button variant="primary" href={`/cursos/${slug}`} arrow>
           {labelEnroll}

@@ -4,6 +4,7 @@ export interface DocumentsPageData {
   heroLabel: string;
   heroTitle: string;
   heroImage?: StrapiImage | StrapiImage[];
+  documentsTitle?: string;
 }
 
 export async function getDocumentsPage(): Promise<DocumentsPageData> {

@@ -21,7 +21,7 @@ export default function GalleryPreviewSection({ albums, label = "Galeria", title
 
   return (
     <section className="w-full py-20 px-6 bg-white">
-      <div className="max-w-6xl mx-auto">
+      <div className="max-w-272.5 mx-auto">
         {/* Cabeçalho */}
         <div className="flex flex-col sm:flex-row sm:items-end justify-center gap-4 mb-12">    
           <SplitTitle title={title} subtitle={label} direction="row" centered />
@@ -34,7 +34,7 @@ export default function GalleryPreviewSection({ albums, label = "Galeria", title
         </div>
 
         {/* Scroll horizontal de álbuns */}
-        <div className="flex gap-5 overflow-x-auto pb-4 no-scrollbar" style={{ scrollbarWidth: "none" as const }}>
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 overflow-x-auto pb-4 no-scrollbar" style={{ scrollbarWidth: "none" as const }}>
           {recent.slice(0, 3).map((album) => {
             const coverUrl = getAlbumImageUrl(album.cover);
             const coverIsVideo = coverUrl ? VIDEO_EXTS.test(coverUrl) : false;

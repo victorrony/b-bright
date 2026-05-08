@@ -40,10 +40,22 @@ export async function POST(req: NextRequest) {
   const strapiUrl = process.env.STRAPI_URL ?? 'http://localhost:1337';
   const token = process.env.STRAPI_API_TOKEN;
 
-  // Transforma o campo `course` de string (documentId) para o formato de
-  // relação do Strapi v5: { connect: [{ documentId: "..." }] }
-  // O frontend envia { data: { ...payload } } já com course transformado
-  // O controller do Strapi trata a transformação — passar o body tal como vem
+  // Transforma course: "documentId" → { connect: [{ documentId }] } para o Strapi v5
+  if (
+    body &&
+    typeof body === 'object' &&
+    'data' in body &&
+    body.data &&
+    typeof body.data === 'object' &&
+    'course' in body.data &&
+    typeof (body.data as Record<string, unknown>).course === 'string'
+  ) {
+    const courseId = (body.data as Record<string, unknown>).course as string;
+    (body as { data: Record<string, unknown> }).data.course = {
+      connect: [{ documentId: courseId }],
+    };
+  }
+
   const res = await fetch(`${strapiUrl}/api/registrations`, {
     method: 'POST',
     headers: {

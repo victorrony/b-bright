@@ -34,14 +34,14 @@ export default function CoursesSection({ courses, label = "Formação", title = 
 
   return (
     <section id="cursos" className="w-full py-20 px-6">
-      <div className="max-w-6xl mx-auto">
+      <div className="max-w-272.5 mx-auto">
         {/* Cabeçalho */}
         <div className="flex flex-col sm:flex-row sm:items-end justify-center gap-4 my-12">          
             <SplitTitle title={title} subtitle={label} direction="row" centered />     
         </div>
 
         {/* Scroll horizontal de cursos */}
-        <div className="flex w-full m-auto gap-6 lg:gap-8 overflow-x-auto pb-4 no-scrollbar" style={{ scrollbarWidth: "none", msOverflowStyle: "none" } as React.CSSProperties}>
+        <div className="grid grid-cols-1 md:grid-cols-2 md:flex-nowrap w-full m-auto overflow-x-auto pb-4 no-scrollbar" style={{ scrollbarWidth: "none", msOverflowStyle: "none" } as React.CSSProperties}>
              {displayed.slice(0, 2).map((course) => (
               <div key={course.documentId} className="shrink-0 my-10 m-auto">
                 <CoursePreviewCard
@@ -56,7 +56,7 @@ export default function CoursesSection({ courses, label = "Formação", title = 
         </div>
 
         {/* Botão ver todos */}
-        <div className="mt-5 flex justify-center">
+        <div className="flex justify-center">
           <Link
             href="/cursos"
             className="inline-flex items-center gap-2 px-8 py-3.5 rounded-full bg-primary-dark text-white text-sm font-bold tracking-wider hover:opacity-90 transition-opacity"

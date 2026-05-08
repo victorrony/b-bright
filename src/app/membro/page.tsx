@@ -19,13 +19,13 @@ export default async function MemberProfilePage() {
 
   return (
     <main className="min-h-screen bg-gray-50">
-      <section className="relative w-full overflow-hidden flex items-center justify-center py-28">
+      <section className="relative w-full max-h-screen overflow-hidden flex items-center justify-center py-28">
         {heroImage && (
           <Image
             src={heroImage}
             alt="Minha Área hero"
             fill
-            className="object-cover"
+            className="object-cover h-screen"
             sizes="100vw"
             priority
           />

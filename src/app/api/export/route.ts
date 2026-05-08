@@ -10,6 +10,7 @@ export async function GET(req: NextRequest) {
   const password = searchParams.get('password') ?? '';
   const courseId = searchParams.get('courseId') ?? '';
   const status = searchParams.get('status') ?? '';
+  const format = searchParams.get('format') ?? 'xlsx'; // 'xlsx' | 'csv'
 
   if (!ADMIN_PASSWORD || password !== ADMIN_PASSWORD) {
     return NextResponse.json({ error: 'Não autorizado.' }, { status: 401 });
@@ -25,11 +26,9 @@ export async function GET(req: NextRequest) {
   const params = new URLSearchParams();
   if (type === 'registrations' && courseId) params.set('courseId', courseId);
   if (type === 'members' && status) params.set('status', status);
+  if (format === 'csv') params.set('format', 'csv');
 
-  const endpoint = type === 'registrations'
-    ? `/api/registrations/export`
-    : `/api/members/export`;
-
+  const endpoint = type === 'registrations' ? '/api/registrations/export' : '/api/members/export';
   const query = params.toString();
   const res = await fetch(`${strapiUrl}${endpoint}${query ? `?${query}` : ''}`, {
     headers: { ...(token ? { Authorization: `Bearer ${token}` } : {}) },
@@ -40,12 +39,17 @@ export async function GET(req: NextRequest) {
   }
 
   const buffer = await res.arrayBuffer();
+  const isCsv = format === 'csv';
   const date = new Date().toISOString().slice(0, 10);
-  const filename = type === 'registrations' ? `inscritos_${date}.xlsx` : `membros_${date}.xlsx`;
+  const ext = isCsv ? 'csv' : 'xlsx';
+  const filename = type === 'registrations' ? `inscritos_${date}.${ext}` : `membros_${date}.${ext}`;
+  const contentType = isCsv
+    ? 'text/csv; charset=utf-8'
+    : 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet';
 
   return new NextResponse(buffer, {
     headers: {
-      'Content-Type': 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+      'Content-Type': contentType,
       'Content-Disposition': `attachment; filename="${filename}"`,
     },
   });

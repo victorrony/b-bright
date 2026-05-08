@@ -42,7 +42,7 @@ export default async function TornarMeMembroPage() {
         )}
         <div className="absolute inset-0 bg-gradient-brand opacity-40" />
         <div className="relative z-10 w-full  mx-auto px-6 flex flex-col md:flex-row gap-20 justify-center">
-          <div className="text-center max-w-xl lg:mt-[15%]">
+          <div className="text-center  max-w-xl md:w-[65%] md:mt-[15%]">
             <p className="text-white font-proxima font-normal text-[36px] leading-[100%] uppercase mb-4">
               {mp.heroTitle}
             </p>

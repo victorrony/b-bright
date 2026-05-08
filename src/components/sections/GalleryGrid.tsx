@@ -115,7 +115,7 @@ export function AlbumCard({ album }: { album: AlbumWithCoverUrl }) {
         </div>
 
         {/* Grelha 2x2 de miniaturas */}
-        <div className="grid grid-cols-2 gap-1.5 w-38 shrink-0">
+        <div className="grid grid-cols-2 gap-1.5 w-32 shrink-0">
           {gridSlots.map((slot, i) => {
             const isLast = i === gridSlots.length - 1;
             return (

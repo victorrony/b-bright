@@ -183,14 +183,14 @@ export async function POST(req: NextRequest) {
     await Promise.all([
       // Email de confirmação ao membro
       membroEmail && resend.emails.send({
-        from: 'Geração B-Bright <onboarding@resend.dev>',
+        from: 'Geração B-Bright <noreply@geracao-b-bright.cv>',
         to: membroEmail,
         subject: 'Pedido de adesão recebido — Geração B-Bright',
         html: emailConfirmacaoMembro(nome),
       }),
       // Notificação ao admin
       adminEmail && resend.emails.send({
-        from: 'Geração B-Bright <onboarding@resend.dev>',
+        from: 'Geração B-Bright <noreply@geracao-b-bright.cv>',
         to: adminEmail,
         subject: `Novo membro: ${nome}`,
         html: emailNotificacaoAdmin(dadosAdmin),

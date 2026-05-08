@@ -48,7 +48,7 @@ export default function Navbar({ navLinks, ctaLabel, ctaHref, logoUrl, siteName 
         </Link>
 
         {/* Desktop nav links */}
-        <ul className="hidden lg:flex items-center gap-16">
+        <ul className="hidden md:flex items-center gap-16">
           {navLinks.map((link) => (
             <li key={link.href}>
               <Link
@@ -63,7 +63,7 @@ export default function Navbar({ navLinks, ctaLabel, ctaHref, logoUrl, siteName 
         </ul>
 
         {/* CTA buttons */}
-        <div className="hidden lg:flex items-center gap-3">      
+        <div className="hidden md:flex items-center gap-3">      
           <Link
             href={ctaHref}
             className="px-8 py-3.5 rounded-full text-sm font-bold tracking-wider text-white transition-colors bg-primary-dark"
@@ -74,7 +74,7 @@ export default function Navbar({ navLinks, ctaLabel, ctaHref, logoUrl, siteName 
 
         {/* Mobile menu button */}
         <button
-          className="lg:hidden p-2"
+          className="md:hidden p-2"
           onClick={() => setMobileOpen(!mobileOpen)}
           aria-label="Toggle menu"
         >
@@ -84,7 +84,7 @@ export default function Navbar({ navLinks, ctaLabel, ctaHref, logoUrl, siteName 
 
       {/* Mobile nav */}
       {mobileOpen && (
-        <div className="lg:hidden bg-white border-t border-gray-100 px-6 py-4">
+        <div className="md:hidden bg-white border-t border-gray-100 px-6 py-4">
           <ul className="flex flex-col gap-4">
             {navLinks.map((link) => (
               <li key={link.href}>
@@ -97,33 +97,7 @@ export default function Navbar({ navLinks, ctaLabel, ctaHref, logoUrl, siteName 
                 </Link>
               </li>
             ))}
-            <li>
-              <Link
-                href="/galeria"
-                className="text-sm font-semibold tracking-wider text-gray-700 hover:text-blue-700"
-                onClick={() => setMobileOpen(false)}
-              >
-                GALERIA
-              </Link>
-            </li>
-            <li>
-              <Link
-                href="/documentos"
-                className="text-sm font-semibold tracking-wider text-gray-700 hover:text-blue-700"
-                onClick={() => setMobileOpen(false)}
-              >
-                DOCUMENTOS
-              </Link>
-            </li>
-            <li>
-              <Link
-                href="/tornar-me-membro"
-                className="inline-block px-5 py-2 rounded-full text-xs font-bold tracking-wider border-2 border-primary-dark text-primary-dark mt-2"
-                onClick={() => setMobileOpen(false)}
-              >
-                Tornar-me Membro
-              </Link>
-            </li>
+           
             <li>
               <Link
                 href={ctaHref}

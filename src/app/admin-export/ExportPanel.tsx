@@ -52,7 +52,9 @@ function useExport() {
 export default function ExportPanel({ courses }: Readonly<ExportPanelProps>) {
   const [password, setPassword] = useState("");
   const [selectedCourse, setSelectedCourse] = useState("");
+  const [registrationsFormat, setRegistrationsFormat] = useState("xlsx");
   const [memberStatus, setMemberStatus] = useState("todos");
+  const [membersFormat, setMembersFormat] = useState("xlsx");
 
   const registrationsExport = useExport();
   const membersExport = useExport();
@@ -90,21 +92,37 @@ export default function ExportPanel({ courses }: Readonly<ExportPanelProps>) {
           <h2 className="font-bold text-gray-700">Inscritos em Cursos</h2>
         </div>
         <div className="flex flex-col gap-4">
-          <div>
-            <label htmlFor="course" className="block text-sm text-gray-600 mb-1">
-              Filtrar por curso (opcional)
-            </label>
-            <select
-              id="course"
-              value={selectedCourse}
-              onChange={(e) => setSelectedCourse(e.target.value)}
-              className={inputClass}
-            >
-              <option value="">Todos os cursos</option>
-              {courses.map((c) => (
-                <option key={c.documentId} value={c.documentId}>{c.title}</option>
-              ))}
-            </select>
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+            <div>
+              <label htmlFor="course" className="block text-sm text-gray-600 mb-1">
+                Filtrar por curso (opcional)
+              </label>
+              <select
+                id="course"
+                value={selectedCourse}
+                onChange={(e) => setSelectedCourse(e.target.value)}
+                className={inputClass}
+              >
+                <option value="">Todos os cursos</option>
+                {courses.map((c) => (
+                  <option key={c.documentId} value={c.documentId}>{c.title}</option>
+                ))}
+              </select>
+            </div>
+            <div>
+              <label htmlFor="registrationsFormat" className="block text-sm text-gray-600 mb-1">
+                Formato
+              </label>
+              <select
+                id="registrationsFormat"
+                value={registrationsFormat}
+                onChange={(e) => setRegistrationsFormat(e.target.value)}
+                className={inputClass}
+              >
+                <option value="xlsx">Excel (.xlsx)</option>
+                <option value="csv">CSV (.csv)</option>
+              </select>
+            </div>
           </div>
           {registrationsExport.error && (
             <p className="text-sm text-red-600">{registrationsExport.error}</p>
@@ -114,6 +132,7 @@ export default function ExportPanel({ courses }: Readonly<ExportPanelProps>) {
               onClick={() => registrationsExport.doExport({
                 type: "registrations",
                 password,
+                format: registrationsFormat,
                 ...(selectedCourse ? { courseId: selectedCourse } : {}),
               })}
               disabled={!password || registrationsExport.status === "loading"}
@@ -123,22 +142,9 @@ export default function ExportPanel({ courses }: Readonly<ExportPanelProps>) {
               {registrationsExport.status === "loading" ? (
                 <><Loader2 size={15} className="animate-spin" /> A gerar...</>
               ) : (
-                <><Download size={15} /> {selectedCourse ? "Exportar Curso (.xlsx)" : "Exportar Todos (.xlsx)"}</>
+                <><Download size={15} /> {selectedCourse ? `Exportar Curso (.${registrationsFormat})` : `Exportar Todos (.${registrationsFormat})`}</>
               )}
             </button>
-            {selectedCourse && (
-              <button
-                onClick={() => registrationsExport.doExport({
-                  type: "registrations",
-                  password,
-                })}
-                disabled={!password || registrationsExport.status === "loading"}
-                className={btnClass}
-                style={{ backgroundColor: "var(--color-primary)" }}
-              >
-                <><Download size={15} /> Exportar Todos os Cursos (.xlsx)</>
-              </button>
-            )}
           </div>
         </div>
       </div>
@@ -150,21 +156,37 @@ export default function ExportPanel({ courses }: Readonly<ExportPanelProps>) {
           <h2 className="font-bold text-gray-700">Membros da Comunidade</h2>
         </div>
         <div className="flex flex-col gap-4">
-          <div>
-            <label htmlFor="memberStatus" className="block text-sm text-gray-600 mb-1">
-              Filtrar por estado
-            </label>
-            <select
-              id="memberStatus"
-              value={memberStatus}
-              onChange={(e) => setMemberStatus(e.target.value)}
-              className={inputClass}
-            >
-              <option value="todos">Todos</option>
-              <option value="pendente">Pendente</option>
-              <option value="aprovado">Aprovado</option>
-              <option value="rejeitado">Rejeitado</option>
-            </select>
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+            <div>
+              <label htmlFor="memberStatus" className="block text-sm text-gray-600 mb-1">
+                Filtrar por estado
+              </label>
+              <select
+                id="memberStatus"
+                value={memberStatus}
+                onChange={(e) => setMemberStatus(e.target.value)}
+                className={inputClass}
+              >
+                <option value="todos">Todos</option>
+                <option value="pendente">Pendente</option>
+                <option value="aprovado">Aprovado</option>
+                <option value="rejeitado">Rejeitado</option>
+              </select>
+            </div>
+            <div>
+              <label htmlFor="membersFormat" className="block text-sm text-gray-600 mb-1">
+                Formato
+              </label>
+              <select
+                id="membersFormat"
+                value={membersFormat}
+                onChange={(e) => setMembersFormat(e.target.value)}
+                className={inputClass}
+              >
+                <option value="xlsx">Excel (.xlsx)</option>
+                <option value="csv">CSV (.csv)</option>
+              </select>
+            </div>
           </div>
           {membersExport.error && (
             <p className="text-sm text-red-600">{membersExport.error}</p>
@@ -173,6 +195,7 @@ export default function ExportPanel({ courses }: Readonly<ExportPanelProps>) {
             onClick={() => membersExport.doExport({
               type: "members",
               password,
+              format: membersFormat,
               status: memberStatus,
             })}
             disabled={!password || membersExport.status === "loading"}
@@ -182,7 +205,7 @@ export default function ExportPanel({ courses }: Readonly<ExportPanelProps>) {
             {membersExport.status === "loading" ? (
               <><Loader2 size={15} className="animate-spin" /> A gerar...</>
             ) : (
-              <><Download size={15} /> Exportar Membros (.xlsx)</>
+              <><Download size={15} /> Exportar Membros (.{membersFormat})</>
             )}
           </button>
         </div>

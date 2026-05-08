@@ -64,40 +64,43 @@ function DocumentCard({ doc }: { doc: StrapiDocument }) {
       href={fileUrl}
       target="_blank"
       rel="noopener noreferrer"
-      className="flex items-start gap-4 p-5 bg-white rounded-xl border border-gray-100 hover:shadow-md transition-shadow cursor-pointer"
+      className="flex flex-col sm:flex-row sm:items-center gap-3 sm:gap-4 p-4 sm:p-5 bg-white rounded-xl border border-gray-100 hover:shadow-md transition-shadow cursor-pointer"
     >
-      {/* Ícone do tipo de ficheiro */}
-      <div
-        className="shrink-0 w-16 h-20 rounded-lg flex flex-col items-center justify-center text-white text-[10px] font-bold tracking-wider gap-0.5"
-        style={{ backgroundColor: "var(--color-primary)" }}
-      >
-        <FileText size={18} />
-        <span>{extLabel}</span>
-      </div>
+      {/* Linha superior: ícone + conteúdo */}
+      <div className="flex items-start gap-3 sm:gap-4 flex-1 min-w-0">
+        {/* Ícone do tipo de ficheiro */}
+        <div
+          className="shrink-0 w-14 h-20 sm:w-16 sm:h-20 rounded-lg flex flex-col items-center justify-center text-white text-[10px] font-bold tracking-wider gap-0.5"
+          style={{ backgroundColor: "var(--color-primary)" }}
+        >
+          <FileText size={18} />
+          <span>{extLabel}</span>
+        </div>
 
-      {/* Conteúdo */}
-      <div className="flex-1 min-w-0">
-        <p className="text-xs font-semibold tracking-wider uppercase text-primary mb-1">
-          {CATEGORY_LABELS[doc.category]}
-        </p>
-        <h3 className="font-semibold text-gray-800 text-sm leading-snug mb-1 truncate">
-          {doc.title}
-        </h3>
-        {doc.description && (
-          <p className="text-xs text-gray-500 line-clamp-2 mb-2">{doc.description}</p>
-        )}
-        <div className="flex items-center gap-3 text-xs text-gray-400">
-          <span className="flex items-center gap-1">
-            <Calendar size={11} /> {dateFormatted}
-          </span>
-          {fileSizeLabel && <span>{fileSizeLabel}</span>}
+        {/* Conteúdo */}
+        <div className="flex-1 min-w-0">
+          <p className="text-xs font-semibold tracking-wider uppercase text-primary mb-1">
+            {CATEGORY_LABELS[doc.category]}
+          </p>
+          <h3 className="font-semibold text-gray-800 text-sm leading-snug mb-1">
+            {doc.title}
+          </h3>
+          {doc.description && (
+            <p className="text-xs text-gray-500 line-clamp-2 mb-2">{doc.description}</p>
+          )}
+          <div className="flex items-center gap-3 text-xs text-gray-400">
+            <span className="flex items-center gap-1">
+              <Calendar size={11} /> {dateFormatted}
+            </span>
+            {fileSizeLabel && <span>{fileSizeLabel}</span>}
+          </div>
         </div>
       </div>
 
       {/* Botão download */}
       <div
         onClick={(e) => { e.preventDefault(); window.open(fileUrl, "_blank"); }}
-        className="shrink-0 inline-flex items-center gap-1.5 px-4 py-2 rounded-full text-xs font-bold tracking-wider text-white transition-opacity hover:opacity-80"
+        className="shrink-0 inline-flex items-center justify-center gap-1.5 px-4 py-2.5 rounded-full text-xs font-bold tracking-wider text-white transition-opacity hover:opacity-80 w-32 m-auto sm:w-auto"
         style={{ backgroundColor: "var(--color-primary-dark)" }}
         aria-label={`Descarregar ${doc.title}`}
       >
@@ -144,7 +147,7 @@ export default function DocumentsFilter({ documents }: Readonly<DocumentsFilterP
 
       <div className="flex flex-col sm:flex-row items-center gap-3 mb-12">
         {/* Pesquisa */}
-        <div className="relative flex-1">
+        <div className="relative flex-1 w-full">
           <Search size={16} className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400" />
           <input
             type="search"

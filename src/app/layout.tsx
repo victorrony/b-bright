@@ -3,6 +3,7 @@ import { DM_Sans } from "next/font/google";
 import "./globals.css";
 import Navbar from "@/components/layout/Navbar";
 import Footer from "@/components/layout/Footer";
+import SubFooter from "@/components/layout/SubFooter";
 import { getGlobal, getCourseImageUrl } from "@/lib/strapi";
 
 const dmSans = DM_Sans({
@@ -73,6 +74,7 @@ export default async function RootLayout({
           siteName={global.siteName}
           copyrightText={global.copyrightText}
         />
+        <SubFooter />
       </body>
     </html>
   );
